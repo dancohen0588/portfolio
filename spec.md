@@ -317,8 +317,8 @@ export const metadata = {
 
 **Auteur** :
 - Avatar : cercle gradient violet→rose, initiale "M"
-- Nom : "Marie D."
-- Rôle : "Responsable Marketing · Monoprix"
+- Nom : "Jeremie Z."
+- Rôle : "Organisateur du Tournoi des Frérots"
 
 ---
 
