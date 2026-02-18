@@ -1,6 +1,6 @@
 'use client';
 
-import { useReducedMotion, motion } from 'framer-motion';
+import { useReducedMotion, motion, easeInOut } from 'framer-motion';
 
 const fadeContainer = {
   hidden: { opacity: 0, y: 24 },
@@ -33,7 +33,7 @@ export function Hero() {
     ? {}
     : {
         animate: { y: [0, -20, 0], scale: [1, 1.05, 1] },
-        transition: { duration: 8, repeat: Infinity, ease: 'easeInOut' },
+        transition: { duration: 8, repeat: Infinity, ease: easeInOut },
       };
 
   const dotAnimationProps = shouldReduceMotion
@@ -228,4 +228,3 @@ export function Hero() {
     </section>
   );
 }
-
