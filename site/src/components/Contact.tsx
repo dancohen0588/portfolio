@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion, useReducedMotion, easeOut } from 'framer-motion';
 
 type FormData = {
   prenom: string;
@@ -16,7 +16,7 @@ const containerVariants = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.5, ease: 'easeOut', staggerChildren: 0.08 },
+    transition: { duration: 0.5, ease: easeOut, staggerChildren: 0.08 },
   },
 };
 

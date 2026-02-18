@@ -1,6 +1,6 @@
 'use client';
 
-import { useReducedMotion, motion, easeInOut } from 'framer-motion';
+import { useReducedMotion, motion, easeInOut, easeOut } from 'framer-motion';
 
 const fadeContainer = {
   hidden: { opacity: 0, y: 24 },
@@ -9,7 +9,7 @@ const fadeContainer = {
     y: 0,
     transition: {
       duration: 0.5,
-      ease: 'easeOut',
+      ease: easeOut,
       staggerChildren: 0.1,
     },
   },

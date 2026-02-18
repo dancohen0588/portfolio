@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion, useReducedMotion, easeOut } from 'framer-motion';
 
 export function Temoignage() {
   const shouldReduceMotion = useReducedMotion();
@@ -11,7 +11,7 @@ export function Temoignage() {
         initial: { opacity: 0, y: 24 },
         whileInView: { opacity: 1, y: 0 },
         viewport: { once: true },
-        transition: { duration: 0.5, ease: 'easeOut' },
+        transition: { duration: 0.5, ease: easeOut },
       };
 
   return (

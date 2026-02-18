@@ -1,13 +1,13 @@
 'use client';
 
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion, useReducedMotion, easeOut } from 'framer-motion';
 
 const containerVariants = {
   hidden: { opacity: 0, y: 24 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.5, ease: 'easeOut', staggerChildren: 0.08 },
+    transition: { duration: 0.5, ease: easeOut, staggerChildren: 0.08 },
   },
 };
 

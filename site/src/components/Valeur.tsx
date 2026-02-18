@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion, useReducedMotion, easeOut } from 'framer-motion';
 
 const containerVariants = {
   hidden: { opacity: 0, y: 24 },
@@ -9,7 +9,7 @@ const containerVariants = {
     y: 0,
     transition: {
       duration: 0.5,
-      ease: 'easeOut',
+      ease: easeOut,
       staggerChildren: 0.1,
     },
   },
@@ -138,4 +138,3 @@ export function Valeur() {
     </section>
   );
 }
-
