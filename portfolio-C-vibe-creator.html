@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dan Cohen — Expert Vibe Coding</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,700;12..96,800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<!-- Cabinet Grotesk via Fontshare -->
+<link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@800,700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:      #FAFAFA;
+    --bg2:     #F4F4F5;
+    --dark:    #18181B;
+    --mid:     #3F3F46;
+    --muted:   #71717A;
+    --border:  #E4E4E7;
+    --violet:  #7C3AED;
+    --violet-l:#F5F3FF;
+    --pink:    #DB2777;
+    --cyan:    #06B6D4;
+    --cyan-l:  #ECFEFF;
+    --white:   #FFFFFF;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--dark);
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ─────────────────────────────────────── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 56px; height: 64px;
+    background: rgba(250,250,250,0.88);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Cabinet Grotesk', 'Bricolage Grotesque', sans-serif;
+    font-size: 20px; font-weight: 800; letter-spacing: -0.03em;
+  }
+  .nav-logo .v { color: var(--violet); }
+  .nav-logo .p { color: var(--pink); }
+  .nav-links { display: flex; gap: 36px; }
+  .nav-links a {
+    font-size: 14px; font-weight: 500; color: var(--muted);
+    text-decoration: none; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--violet); }
+  .nav-cta {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 14px; font-weight: 700;
+    color: var(--white);
+    background: linear-gradient(135deg, var(--violet), var(--pink));
+    border: none; padding: 10px 24px; border-radius: 100px; cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(124,58,237,0.35); }
+
+  /* ── SECTIONS ────────────────────────────────── */
+  section { padding: 120px 56px; }
+  .container { max-width: 1100px; margin: 0 auto; }
+
+  /* ── HERO ────────────────────────────────────── */
+  #hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding-top: 140px; padding-bottom: 80px;
+    position: relative; overflow: hidden;
+  }
+  /* Gradient background blob */
+  .hero-blob {
+    position: absolute; top: -200px; right: -100px;
+    width: 700px; height: 700px; border-radius: 50%;
+    background: radial-gradient(ellipse at center, rgba(124,58,237,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-blob-2 {
+    position: absolute; bottom: -100px; left: -150px;
+    width: 500px; height: 500px; border-radius: 50%;
+    background: radial-gradient(ellipse at center, rgba(219,39,119,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-inner { max-width: 1100px; margin: 0 auto; position: relative; }
+
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--violet-l); border: 1px solid rgba(124,58,237,0.2);
+    border-radius: 100px; padding: 6px 16px;
+    font-size: 12px; font-weight: 700; color: var(--violet);
+    letter-spacing: 0.06em; text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+  .hero-tag::before { content: ''; width: 6px; height: 6px; background: var(--violet); border-radius: 50%; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
+
+  h1 {
+    font-family: 'Cabinet Grotesk', 'Bricolage Grotesque', sans-serif;
+    font-size: clamp(48px, 8vw, 96px); font-weight: 800;
+    line-height: 0.95; letter-spacing: -0.04em;
+    color: var(--dark); margin-bottom: 32px;
+    max-width: 800px;
+  }
+  h1 .grad {
+    background: linear-gradient(135deg, var(--violet), var(--pink));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  h1 .cyan { color: var(--cyan); -webkit-text-fill-color: var(--cyan); }
+
+  .hero-sub {
+    font-size: 18px; color: var(--muted); max-width: 500px;
+    margin-bottom: 48px; line-height: 1.7;
+  }
+  .hero-ctas { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+  .btn-primary {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 15px; font-weight: 700;
+    color: var(--white);
+    background: linear-gradient(135deg, var(--violet), var(--pink));
+    padding: 15px 36px; border: none; border-radius: 100px; cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.2s;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 36px rgba(124,58,237,0.3); }
+  .btn-ghost {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 15px; font-weight: 600;
+    color: var(--mid); background: var(--white);
+    padding: 15px 36px; border: 2px solid var(--border); border-radius: 100px; cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-ghost:hover { border-color: var(--violet); color: var(--violet); }
+
+  /* Flying numbers */
+  .hero-numbers {
+    display: flex; gap: 32px; flex-wrap: wrap; margin-top: 72px;
+  }
+  .hero-num {
+    display: flex; flex-direction: column;
+  }
+  .hero-num-val {
+    font-family: 'Cabinet Grotesk', 'Bricolage Grotesque', sans-serif;
+    font-size: 48px; font-weight: 800; line-height: 1; letter-spacing: -0.04em;
+    background: linear-gradient(135deg, var(--violet), var(--pink));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-num-label { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+  /* Logos */
+  .logos-row {
+    margin-top: 56px; display: flex; gap: 20px; flex-wrap: wrap; align-items: center;
+  }
+  .logos-row-label { font-size: 12px; color: var(--muted); font-weight: 500; margin-right: 8px; }
+  .logo-chip {
+    font-family: 'Fira Code', monospace; font-size: 11px;
+    color: var(--muted); background: var(--white);
+    border: 1px solid var(--border); padding: 6px 14px; border-radius: 100px;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── SECTION LABEL ───────────────────────────── */
+  .section-label {
+    font-family: 'Fira Code', monospace; font-size: 11px;
+    color: var(--violet); letter-spacing: 0.14em;
+    text-transform: uppercase; margin-bottom: 10px;
+  }
+  h2 {
+    font-family: 'Cabinet Grotesk', 'Bricolage Grotesque', sans-serif;
+    font-size: clamp(30px, 4.5vw, 52px); font-weight: 800;
+    letter-spacing: -0.04em; color: var(--dark);
+    margin-bottom: 16px; line-height: 1.0;
+  }
+  h2 .grad {
+    background: linear-gradient(135deg, var(--violet), var(--pink));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .section-sub { font-size: 17px; color: var(--muted); max-width: 480px; margin-bottom: 60px; }
+
+  /* ── VALEUR ──────────────────────────────────── */
+  #valeur { background: var(--white); }
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .card {
+    background: var(--bg); border: 1.5px solid var(--border); border-radius: 20px;
+    padding: 36px 28px;
+    transition: border-color 0.25s, transform 0.2s, box-shadow 0.2s;
+  }
+  .card:hover { border-color: var(--violet); transform: translateY(-6px); box-shadow: 0 20px 60px rgba(124,58,237,0.1); }
+  .card-icon {
+    width: 52px; height: 52px; border-radius: 14px;
+    background: linear-gradient(135deg, var(--violet-l), rgba(219,39,119,0.06));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px; margin-bottom: 20px;
+  }
+  .card-title {
+    font-family: 'Cabinet Grotesk', 'Bricolage Grotesque', sans-serif;
+    font-size: 19px; font-weight: 800; color: var(--dark);
+    margin-bottom: 8px; letter-spacing: -0.02em;
+  }
+  .card-metric {
+    font-family: 'Fira Code', monospace; font-size: 11px;
+    color: var(--violet); margin-bottom: 14px; letter-spacing: 0.04em;
+  }
+  .card p { font-size: 14px; color: var(--muted); line-height: 1.65; }
+
+  /* ── PROJETS ─────────────────────────────────── */
+  #projets { background: var(--bg2); }
+  .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .project {
+    background: var(--white); border: 1.5px solid var(--border); border-radius: 20px;
+    padding: 32px 28px; display: flex; flex-direction: column; gap: 16px;
+    transition: border-color 0.25s, transform 0.2s, box-shadow 0.2s;
+  }
+  .project:hover { border-color: var(--violet); transform: translateY(-6px); box-shadow: 0 20px 60px rgba(124,58,237,0.1); }
+  .project-num {
+    font-family: 'Fira Code', monospace; font-size: 11px; color: var(--muted);
+    letter-spacing: 0.12em;
+  }
+  .project-emoji { font-size: 36px; margin: 4px 0; }
+  .project-title {
+    font-family: 'Cabinet Grotesk', 'Bricolage Grotesque', sans-serif;
+    font-size: 20px; font-weight: 800; color: var(--dark);
+    letter-spacing: -0.02em; line-height: 1.2;
+  }
+  .project-tagline {
+    font-family: 'Fira Code', monospace; font-size: 11px; color: var(--violet);
+    letter-spacing: 0.04em;
+  }
+  .project-desc { font-size: 14px; color: var(--muted); line-height: 1.65; flex: 1; }
+  .project-stack {
+    font-family: 'Fira Code', monospace; font-size: 11px; color: #A1A1AA;
+    letter-spacing: 0.04em; padding-top: 12px; border-top: 1px solid var(--border);
+  }
+  .project-result {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: linear-gradient(135deg, var(--violet-l), rgba(219,39,119,0.06));
+    border: 1px solid rgba(124,58,237,0.2);
+    color: var(--violet); font-size: 13px; font-weight: 700;
+    padding: 8px 14px; border-radius: 100px;
+  }
+  .project-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 13px; font-weight: 700; color: var(--cyan);
+    text-decoration: none; transition: gap 0.2s;
+  }
+  .project-link:hover { gap: 10px; }
+
+  /* ── PROCESS ─────────────────────────────────── */
+  #process {
+    background: linear-gradient(135deg, #2E0087, #7C3AED, #DB2777);
+    position: relative; overflow: hidden;
+  }
+  #process::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  #process .section-label { color: rgba(255,255,255,0.5); }
+  #process h2 { color: var(--white); }
+  #process h2 .grad { background: none; -webkit-text-fill-color: #ffffff; }
+  #process .section-sub { color: rgba(255,255,255,0.55); }
+  .steps { display: grid; grid-template-columns: repeat(4,1fr); gap: 0; position: relative; z-index:1; }
+  .step {
+    padding: 36px 28px;
+    border-right: 1px solid rgba(255,255,255,0.1);
+  }
+  .step:last-child { border-right: none; }
+  .step-num {
+    font-family: 'Fira Code', monospace; font-size: 11px;
+    color: rgba(255,255,255,0.4); margin-bottom: 20px; letter-spacing: 0.1em;
+  }
+  .step-title {
+    font-family: 'Cabinet Grotesk', 'Bricolage Grotesque', sans-serif;
+    font-size: 20px; font-weight: 800; color: var(--white);
+    margin-bottom: 6px; letter-spacing: -0.02em;
+  }
+  .step-time {
+    font-family: 'Fira Code', monospace; font-size: 11px;
+    color: rgba(6,182,212,0.8); margin-bottom: 14px;
+  }
+  .step p { font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.65; }
+
+  /* ── TÉMOIGNAGE ──────────────────────────────── */
+  #testimonial { background: var(--dark); padding: 100px 56px; }
+  .testi-inner { max-width: 700px; margin: 0 auto; text-align: center; }
+  .testi-tag {
+    display: inline-block; background: rgba(6,182,212,0.15); color: var(--cyan);
+    font-family: 'Fira Code', monospace; font-size: 11px; letter-spacing: 0.1em;
+    padding: 6px 16px; border-radius: 100px; margin-bottom: 32px;
+    border: 1px solid rgba(6,182,212,0.2);
+  }
+  blockquote {
+    font-family: 'Cabinet Grotesk', 'Bricolage Grotesque', sans-serif;
+    font-size: clamp(20px, 3vw, 30px); font-weight: 700;
+    color: var(--white); line-height: 1.3; margin-bottom: 32px;
+    letter-spacing: -0.02em;
+  }
+  .testi-author {
+    display: flex; align-items: center; justify-content: center; gap: 14px;
+  }
+  .testi-avatar {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--violet), var(--pink));
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Cabinet Grotesk', sans-serif; font-size: 18px; font-weight: 800; color: white;
+  }
+  .testi-name { font-weight: 700; color: var(--white); font-size: 14px; }
+  .testi-role { font-size: 13px; color: rgba(255,255,255,0.4); text-align:left; }
+
+  /* ── ABOUT ───────────────────────────────────── */
+  #about { background: var(--bg); }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+  .about-text { font-size: 16px; color: var(--mid); line-height: 1.8; }
+  .about-text strong { color: var(--dark); }
+  .about-text p { margin-bottom: 20px; }
+  .skills-cloud { display: flex; flex-wrap: wrap; gap: 10px; }
+  .skill-chip {
+    font-family: 'Fira Code', monospace; font-size: 12px;
+    padding: 8px 16px; border-radius: 100px;
+    border: 1.5px solid; font-weight: 500;
+    transition: transform 0.15s;
+  }
+  .skill-chip:hover { transform: scale(1.05); }
+  .chip-v { color: var(--violet); border-color: rgba(124,58,237,0.3); background: var(--violet-l); }
+  .chip-p { color: var(--pink); border-color: rgba(219,39,119,0.25); background: rgba(219,39,119,0.05); }
+  .chip-c { color: var(--cyan); border-color: rgba(6,182,212,0.3); background: var(--cyan-l); }
+  .chip-d { color: var(--muted); border-color: var(--border); background: var(--white); }
+
+  /* ── CONTACT ─────────────────────────────────── */
+  #contact { background: var(--white); }
+  .contact-inner { max-width: 640px; margin: 0 auto; text-align: center; }
+  .contact-inner h2 { margin-bottom: 16px; }
+  .contact-inner .sub { color: var(--muted); font-size: 17px; margin-bottom: 48px; }
+  form { display: flex; flex-direction: column; gap: 14px; text-align: left; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  input, textarea {
+    background: var(--bg); border: 1.5px solid var(--border); border-radius: 12px;
+    color: var(--dark); font-family: 'Bricolage Grotesque', sans-serif; font-size: 14px;
+    padding: 14px 18px; outline: none; width: 100%;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  input:focus, textarea:focus { border-color: var(--violet); box-shadow: 0 0 0 3px rgba(124,58,237,0.1); }
+  input::placeholder, textarea::placeholder { color: #A1A1AA; }
+  textarea { resize: vertical; min-height: 120px; }
+  .contact-footer-note {
+    font-size: 13px; color: var(--muted); text-align: center; margin-top: 16px;
+  }
+
+  /* ── FOOTER ──────────────────────────────────── */
+  footer {
+    background: var(--dark); text-align: center; padding: 32px 56px;
+    font-size: 13px; color: rgba(255,255,255,0.35);
+  }
+  footer strong { color: rgba(255,255,255,0.65); }
+  .footer-gradient {
+    display: inline;
+    background: linear-gradient(135deg, var(--violet), var(--pink));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text; font-weight: 700;
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    section { padding: 80px 20px; }
+    h1 { font-size: 44px; }
+    .cards, .projects-grid, .steps { grid-template-columns: 1fr; }
+    .about-grid { grid-template-columns: 1fr; gap: 40px; }
+    .form-row { grid-template-columns: 1fr; }
+    .hero-numbers { flex-wrap: wrap; gap: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo"><span class="v">Dan</span><span class="p">.</span>Cohen</div>
+  <div class="nav-links">
+    <a href="#valeur">Valeur</a>
+    <a href="#projets">Projets</a>
+    <a href="#process">Process</a>
+    <a href="#about">À propos</a>
+  </div>
+  <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Discutons ✦</button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-blob"></div>
+  <div class="hero-blob-2"></div>
+  <div class="hero-inner">
+    <div class="hero-tag">Expert Vibe Coding &amp; Développement IA</div>
+    <h1>Je <span class="grad">vibe code</span><br>votre prochain<br>outil. <span class="cyan">En jours.</span></h1>
+    <p class="hero-sub">Sites web, dashboards, apps mobiles sur mesure. Ingénieur + 15 ans Product chez Monoprix, TF1, Bouygues — livré 5× plus vite avec les meilleurs outils IA.</p>
+    <div class="hero-ctas">
+      <button class="btn-primary" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Discutons de votre projet ✦</button>
+      <button class="btn-ghost" onclick="document.getElementById('projets').scrollIntoView({behavior:'smooth'})">Voir mes projets ↓</button>
+    </div>
+    <div class="hero-numbers">
+      <div class="hero-num">
+        <div class="hero-num-val">5×</div>
+        <div class="hero-num-label">plus rapide qu'un dev classique</div>
+      </div>
+      <div class="hero-num">
+        <div class="hero-num-val">15</div>
+        <div class="hero-num-label">ans en Product Management</div>
+      </div>
+      <div class="hero-num">
+        <div class="hero-num-val">3j</div>
+        <div class="hero-num-label">délai moyen de livraison</div>
+      </div>
+    </div>
+    <div class="logos-row">
+      <span class="logos-row-label">Clients &amp; missions :</span>
+      <span class="logo-chip">Monoprix</span>
+      <span class="logo-chip">Bouygues Telecom</span>
+      <span class="logo-chip">TF1</span>
+      <span class="logo-chip">Sarenza</span>
+    </div>
+  </div>
+</section>
+
+<!-- VALEUR -->
+<section id="valeur">
+  <div class="container">
+    <div class="section-label">// pourquoi moi</div>
+    <h2>Un dev IA,<br>pas juste <span class="grad">un dev</span></h2>
+    <p class="section-sub">Trois avantages concrets qui font la différence pour vos projets.</p>
+    <div class="cards">
+      <div class="card">
+        <div class="card-icon">⚡</div>
+        <div class="card-title">Livraison express</div>
+        <div class="card-metric">→ 5× plus rapide</div>
+        <p>J'utilise les meilleurs outils IA du marché — Cursor, Codex, Claude — pour coder en jours ce qu'un dev classique prend des semaines à livrer.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🎯</div>
+        <div class="card-title">Compréhension métier</div>
+        <div class="card-metric">→ 15 ans Product</div>
+        <p>PM chez Monoprix, TF1, Bouygues — je transforme des besoins complexes en produits qui marchent, sans réunion inutile ni spécifications interminables.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔒</div>
+        <div class="card-title">Rigueur ingénieur</div>
+        <div class="card-metric">→ ISEP · IA Sherbrooke</div>
+        <p>Formation ingénieur + spécialisation IA : chaque ligne est validée pour la sécurité, la performance et la maintenabilité à long terme.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJETS -->
+<section id="projets">
+  <div class="container">
+    <div class="section-label">// projets récents</div>
+    <h2>Trois outils,<br><span class="grad">trois délais tenus</span></h2>
+    <p class="section-sub" style="margin-bottom:48px">Des livrables réels, pour de vraies organisations.</p>
+    <div class="projects-grid">
+
+      <div class="project">
+        <div class="project-num">01 / padel</div>
+        <div class="project-emoji">🎾</div>
+        <div class="project-title">Le Tournoi des Frérots</div>
+        <div class="project-tagline">→ livrée en 5 jours</div>
+        <p class="project-desc">30 équipes à gérer par WhatsApp. J'ai construit une plateforme complète : inscriptions, tirage au sort automatique, résultats en temps réel.</p>
+        <div class="project-stack">VSCode · Codex · Next.js · PostgreSQL · Vercel</div>
+        <div class="project-result">✦ 50+ équipes · 0 gestion manuelle</div>
+        <a class="project-link" href="#">Voir le projet →</a>
+      </div>
+
+      <div class="project">
+        <div class="project-num">02 / entreprise</div>
+        <div class="project-emoji">⚽</div>
+        <div class="project-title">Monop'Foot</div>
+        <div class="project-tagline">→ livrée en 4 jours</div>
+        <p class="project-desc">Le club de foot interne Monoprix sans outil digital. App complète : planification, classements, notifications — remplace les feuilles Excel.</p>
+        <div class="project-stack">Cursor · Claude Opus 4.5 · Next.js · Supabase</div>
+        <div class="project-result">✦ 52 équipes · 0 feuille Excel</div>
+        <a class="project-link" href="#">Voir le projet →</a>
+      </div>
+
+      <div class="project">
+        <div class="project-num">03 / associatif</div>
+        <div class="project-emoji">🃏</div>
+        <div class="project-title">Club de Belote de Suresnes</div>
+        <div class="project-tagline">→ livrée en 4 jours</div>
+        <p class="project-desc">Association locale sans présence digitale. Site vitrine + espace membres + calendrier. Autonomie complète pour le bureau, 0€/mois.</p>
+        <div class="project-stack">Bolt.new · Next.js · Neon · Resend · Vercel</div>
+        <div class="project-result">✦ 47 membres · 0€/mois</div>
+        <a class="project-link" href="#">Voir le projet →</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="container">
+    <div class="section-label">// ma méthode</div>
+    <h2>4 étapes, <span class="grad">0 surprise</span></h2>
+    <p class="section-sub" style="margin-bottom:48px; color:rgba(255,255,255,0.5)">Une méthode éprouvée pour livrer vite et bien.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">STEP 01 /</div>
+        <div class="step-title">Brief</div>
+        <div class="step-time">Jour 0 · 1h</div>
+        <p>Un appel pour comprendre votre besoin, vos contraintes et votre délai. Pas de jargon technique.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">STEP 02 /</div>
+        <div class="step-title">Prototype</div>
+        <div class="step-time">J+1 à J+2</div>
+        <p>Un premier prototype cliquable pour valider les parcours avant de coder la solution finale.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">STEP 03 /</div>
+        <div class="step-title">Build</div>
+        <div class="step-time">J+3 à J+7</div>
+        <p>Construction complète, feature par feature. Partage d'avancement quotidien via message.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">STEP 04 /</div>
+        <div class="step-title">Livraison</div>
+        <div class="step-time">J+5 à J+10</div>
+        <p>Déploiement en ligne, formation rapide, et 30 jours de support inclus après la mise en prod.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TÉMOIGNAGE -->
+<section id="testimonial">
+  <div class="container">
+    <div class="testi-inner">
+      <div class="testi-tag">// testimonial</div>
+      <blockquote>"Dan a livré notre outil en 4 jours. Ce qui m'a frappé, c'est qu'il a compris notre besoin métier immédiatement — sans qu'on ait besoin de tout expliquer."</blockquote>
+      <div class="testi-author">
+        <div class="testi-avatar">M</div>
+        <div>
+          <div class="testi-name">Marie D.</div>
+          <div class="testi-role">Responsable Marketing · Monoprix</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="section-label">// à propos</div>
+    <h2>Ingénieur + PM<br>+ <span class="grad">Vibe Coder</span></h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p><strong>Ingénieur de formation (ISEP, spécialisation IA)</strong>, je passe ma carrière à transformer des idées complexes en produits digitaux qui fonctionnent.</p>
+        <p>Après <strong>15 ans à piloter des apps mobiles</strong> pour Monoprix, TF1 et Bouygues, j'ai adopté les meilleurs outils d'IA générative pour livrer des solutions sur mesure 5× plus vite — sans sacrifier la qualité.</p>
+        <p>Le vibe coding n'est pas un raccourci. C'est une méthode. Et ma formation technique garantit que ce qui est livré est solide, sécurisé et maintenable.</p>
+      </div>
+      <div>
+        <div class="skills-cloud">
+          <span class="skill-chip chip-v">Cursor</span>
+          <span class="skill-chip chip-v">OpenAI Codex</span>
+          <span class="skill-chip chip-v">Claude</span>
+          <span class="skill-chip chip-p">Lovable</span>
+          <span class="skill-chip chip-p">Bolt.new</span>
+          <span class="skill-chip chip-p">v0.dev</span>
+          <span class="skill-chip chip-c">Next.js</span>
+          <span class="skill-chip chip-c">React</span>
+          <span class="skill-chip chip-c">Tailwind</span>
+          <span class="skill-chip chip-d">Supabase</span>
+          <span class="skill-chip chip-d">PostgreSQL</span>
+          <span class="skill-chip chip-d">Vercel</span>
+          <span class="skill-chip chip-d">Figma</span>
+          <span class="skill-chip chip-d">Framer Motion</span>
+          <span class="skill-chip chip-d">n8n</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-inner">
+      <div class="section-label">// contact</div>
+      <h2>Parlons de votre<br><span class="grad">prochain outil ✦</span></h2>
+      <p class="sub">Premier appel de 30 min gratuit — je vous dis si et comment je peux vous aider.</p>
+      <form onsubmit="event.preventDefault()">
+        <div class="form-row">
+          <input type="text" placeholder="Votre prénom">
+          <input type="text" placeholder="Votre société">
+        </div>
+        <input type="email" placeholder="Votre email">
+        <textarea placeholder="Décrivez votre projet en quelques lignes..."></textarea>
+        <button class="btn-primary" type="submit" style="align-self:center; margin-top:8px">Envoyer le message ✦</button>
+      </form>
+      <p class="contact-footer-note">⚡ Réponse sous 24h · Suresnes, Île-de-France</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <strong>Dan Cohen</strong> · <span class="footer-gradient">Expert Vibe Coding</span> · Suresnes, France
+</footer>
+
+</body>
+</html>
