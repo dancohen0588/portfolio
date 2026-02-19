@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
     }
 
     const { data, error } = await resend.emails.send({
-      from: 'Portfolio <onboarding@resend.dev>',
+      from: 'Dan Cohen <contact@dancohen.dev>',
       to: process.env.CONTACT_EMAIL ?? 'dan.cohen0588@gmail.com',
       replyTo: email,
       subject: `[Portfolio] Nouveau message de ${prenom}${societe ? ` — ${societe}` : ''}`,

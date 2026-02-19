@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio — Modale Projet</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,700;12..96,800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@800,700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #FAFAFA;
+      --bg2:     #F4F4F5;
+      --dark:    #18181B;
+      --mid:     #3F3F46;
+      --muted:   #71717A;
+      --border:  #E4E4E7;
+      --violet:  #7C3AED;
+      --violet-l:#F5F3FF;
+      --pink:    #DB2777;
+      --cyan:    #06B6D4;
+      --cyan-l:  #ECFEFF;
+      --white:   #FFFFFF;
+    }
+
+    body {
+      background: var(--bg2);
+      color: var(--dark);
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 120px 56px; }
+    .section-label {
+      font-family: 'Fira Code', monospace; font-size: 11px;
+      color: var(--violet); letter-spacing: 0.14em; text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    h2 {
+      font-family: 'Cabinet Grotesk', 'Bricolage Grotesque', sans-serif;
+      font-size: clamp(30px, 4.5vw, 52px); font-weight: 800;
+      letter-spacing: -0.04em; color: var(--dark);
+      margin-bottom: 16px; line-height: 1.0;
+    }
+    h2 .grad {
+      background: linear-gradient(135deg, var(--violet), var(--pink));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .section-sub { font-size: 17px; color: var(--muted); max-width: 520px; margin-bottom: 48px; }
+
+    /* Projet card */
+    .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .project {
+      background: var(--white); border: 1.5px solid var(--border); border-radius: 20px;
+      padding: 32px 28px; display: flex; flex-direction: column; gap: 16px;
+      transition: border-color 0.25s, transform 0.2s, box-shadow 0.2s;
+    }
+    .project:hover { border-color: var(--violet); transform: translateY(-6px); box-shadow: 0 20px 60px rgba(124,58,237,0.1); }
+    .project-num { font-family: 'Fira Code', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.12em; }
+    .project-emoji { font-size: 36px; margin: 4px 0; }
+    .project-title {
+      font-family: 'Cabinet Grotesk', 'Bricolage Grotesque', sans-serif;
+      font-size: 20px; font-weight: 800; color: var(--dark); letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+    .project-tagline { font-family: 'Fira Code', monospace; font-size: 11px; color: var(--violet); letter-spacing: 0.04em; }
+    .project-desc { font-size: 14px; color: var(--muted); line-height: 1.65; flex: 1; }
+    .project-stack { font-family: 'Fira Code', monospace; font-size: 11px; color: #A1A1AA; letter-spacing: 0.04em; padding-top: 12px; border-top: 1px solid var(--border); }
+    .project-result {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: linear-gradient(135deg, var(--violet-l), rgba(219,39,119,0.06));
+      border: 1px solid rgba(124,58,237,0.2); color: var(--violet);
+      font-size: 13px; font-weight: 700; padding: 8px 14px; border-radius: 100px;
+      width: fit-content;
+    }
+    .project-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 13px; font-weight: 700; color: var(--cyan);
+      text-decoration: none; transition: gap 0.2s;
+    }
+    .project-link:hover { gap: 10px; }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(24,24,27,0.55);
+      display: none; align-items: flex-start; justify-content: center;
+      padding: 80px 20px; z-index: 999;
+      backdrop-filter: blur(6px);
+    }
+    .modal-overlay.is-open { display: flex; }
+    .modal {
+      width: min(1040px, 100%);
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 24px; box-shadow: 0 40px 120px rgba(24,24,27,0.25);
+      overflow: hidden;
+      max-height: calc(100vh - 120px);
+      display: flex;
+      flex-direction: column;
+    }
+    .modal-header {
+      padding: 28px 32px; display: flex; align-items: center; justify-content: space-between;
+      background: linear-gradient(135deg, rgba(124,58,237,0.07), rgba(219,39,119,0.06));
+      border-bottom: 1px solid var(--border);
+    }
+    .modal-title {
+      font-family: 'Cabinet Grotesk', 'Bricolage Grotesque', sans-serif;
+      font-size: 28px; font-weight: 800; letter-spacing: -0.03em;
+      color: var(--dark);
+    }
+    .modal-tag {
+      font-family: 'Fira Code', monospace; font-size: 11px; color: var(--violet);
+      letter-spacing: 0.08em; text-transform: uppercase;
+      margin-top: 6px;
+    }
+    .modal-close {
+      border: 1px solid var(--border); background: var(--white); color: var(--mid);
+      border-radius: 999px; padding: 8px 14px; font-weight: 700; cursor: pointer;
+    }
+    .modal-body { padding: 32px; display: grid; gap: 28px; overflow-y: auto; }
+    .modal-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 28px; }
+    .modal-section h3 {
+      font-family: 'Cabinet Grotesk', 'Bricolage Grotesque', sans-serif;
+      font-size: 18px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 10px;
+    }
+    .modal-section p { color: var(--muted); font-size: 14px; line-height: 1.7; }
+    .meta-list { display: grid; gap: 10px; font-size: 13px; color: var(--mid); }
+    .meta-item { display: flex; justify-content: space-between; gap: 12px; }
+    .meta-item span { color: var(--muted); }
+    .pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--violet-l); color: var(--violet);
+      border: 1px solid rgba(124,58,237,0.2); padding: 6px 12px; border-radius: 999px;
+      font-size: 12px; font-weight: 700; width: fit-content;
+    }
+    .stack {
+      font-family: 'Fira Code', monospace; font-size: 11px; color: #A1A1AA;
+      border-top: 1px solid var(--border); padding-top: 12px; margin-top: 10px;
+      letter-spacing: 0.04em;
+    }
+
+    .testimonials { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .testimonial {
+      border: 1px solid var(--border); border-radius: 16px; padding: 18px; background: var(--bg);
+    }
+    .testimonial p { font-size: 13px; color: var(--mid); line-height: 1.6; }
+    .testimonial .author { margin-top: 10px; font-weight: 700; font-size: 12px; color: var(--dark); }
+    .testimonial .role { font-size: 11px; color: var(--muted); }
+
+    .media-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .media-item {
+      border: 1px dashed var(--border); border-radius: 14px; background: var(--bg);
+      height: 120px; display: flex; align-items: center; justify-content: center;
+      font-size: 12px; color: var(--muted);
+    }
+    .video-box {
+      border: 1px solid var(--border); border-radius: 16px; background: var(--dark);
+      height: 220px; display: flex; align-items: center; justify-content: center;
+      color: rgba(255,255,255,0.6); font-size: 12px;
+    }
+
+    @media (max-width: 920px) {
+      .projects-grid { grid-template-columns: 1fr; }
+      .modal-grid { grid-template-columns: 1fr; }
+      .testimonials { grid-template-columns: 1fr; }
+      .media-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* Variant blocks */
+    .variant-block { margin-top: 80px; }
+    .variant-title {
+      font-family: 'Cabinet Grotesk', 'Bricolage Grotesque', sans-serif;
+      font-size: 24px; font-weight: 800; letter-spacing: -0.02em;
+      margin-bottom: 10px;
+    }
+    .variant-sub { color: var(--muted); font-size: 15px; margin-bottom: 20px; }
+    .variant-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: linear-gradient(135deg, var(--violet), var(--pink));
+      color: var(--white); border: none; border-radius: 999px;
+      padding: 10px 18px; font-weight: 700; cursor: pointer;
+      box-shadow: 0 10px 24px rgba(124,58,237,0.2);
+    }
+
+    /* Modal Variant A — Media Focus */
+    .modal-a .modal-header { background: var(--white); }
+    .modal-a .modal-title { font-size: 30px; }
+    .modal-a .modal-body { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 28px; }
+    .modal-a .media-hero {
+      border: 1px solid var(--border); border-radius: 20px; overflow: hidden;
+      background: linear-gradient(135deg, rgba(124,58,237,0.08), rgba(219,39,119,0.05));
+      min-height: 260px; display: flex; align-items: center; justify-content: center;
+      color: var(--muted); font-size: 12px;
+    }
+    .modal-a .mini-gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 14px; }
+    .modal-a .mini-shot { border: 1px dashed var(--border); border-radius: 12px; height: 80px; background: var(--bg); display: flex; align-items: center; justify-content: center; font-size: 11px; color: var(--muted); }
+    .modal-a .info-card {
+      border: 1px solid var(--border); border-radius: 16px; padding: 18px;
+      background: var(--bg);
+    }
+    .modal-a .info-card h4 { font-size: 14px; font-weight: 800; margin-bottom: 8px; }
+    .modal-a .info-card p { font-size: 13px; color: var(--mid); }
+
+    /* Modal Variant B — Metrics First */
+    .modal-b .modal-header { background: linear-gradient(135deg, rgba(124,58,237,0.08), rgba(219,39,119,0.06)); }
+    .modal-b .metrics-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .modal-b .metric-card {
+      border: 1px solid var(--border); border-radius: 16px; padding: 16px;
+      background: var(--white);
+    }
+    .modal-b .metric-val {
+      font-family: 'Cabinet Grotesk', 'Bricolage Grotesque', sans-serif;
+      font-size: 26px; font-weight: 800;
+      background: linear-gradient(135deg, var(--violet), var(--pink));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .modal-b .metric-label { font-size: 12px; color: var(--muted); margin-top: 6px; }
+    .modal-b .split { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+
+    /* Modal Variant C — Process Focus */
+    .modal-c .modal-header { background: var(--white); }
+    .modal-c .timeline { display: grid; gap: 12px; }
+    .modal-c .timeline-item {
+      display: grid; grid-template-columns: 80px 1fr; gap: 14px; align-items: start;
+      border: 1px solid var(--border); border-radius: 14px; padding: 14px;
+      background: var(--bg);
+    }
+    .modal-c .timeline-step {
+      font-family: 'Fira Code', monospace; font-size: 11px; color: var(--violet);
+      letter-spacing: 0.08em; text-transform: uppercase;
+    }
+    .modal-c .timeline-title { font-weight: 800; font-size: 14px; }
+    .modal-c .timeline-desc { font-size: 13px; color: var(--mid); }
+    .modal-c .impact-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .modal-c .impact-chip {
+      border: 1px solid rgba(6,182,212,0.3); background: var(--cyan-l); color: var(--cyan);
+      border-radius: 999px; padding: 8px 14px; font-size: 12px; font-weight: 700;
+      width: fit-content;
+    }
+
+    @media (max-width: 920px) {
+      .modal-a .modal-body { grid-template-columns: 1fr; }
+      .modal-b .metrics-row { grid-template-columns: 1fr; }
+      .modal-b .split { grid-template-columns: 1fr; }
+      .modal-c .impact-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <section class="container">
+    <div class="section-label">// projets récents</div>
+    <h2>Trois outils,<br><span class="grad">trois délais tenus</span></h2>
+    <p class="section-sub">Démo du bouton « Voir le projet » qui ouvre une modale détaillée.</p>
+
+    <div class="projects-grid">
+      <div class="project">
+        <div class="project-num">01 / padel</div>
+        <div class="project-emoji">🎾</div>
+        <div class="project-title">Le Tournoi des Frérots</div>
+        <div class="project-tagline">→ livrée en 5 jours</div>
+        <p class="project-desc">30 équipes à gérer par WhatsApp. Plateforme complète : inscriptions, tirage au sort automatique, résultats en temps réel.</p>
+        <div class="project-stack">VSCode · Codex · Next.js · PostgreSQL · Vercel</div>
+        <div class="project-result">✦ 50+ équipes · 0 gestion manuelle</div>
+        <a class="project-link" href="#" data-open-modal>Voir le projet →</a>
+      </div>
+    </div>
+
+    <div class="variant-block">
+      <div class="section-label">// variante A</div>
+      <div class="variant-title">Modale media-first</div>
+      <p class="variant-sub">Hero visuel + galerie, puis résumé et détails à droite.</p>
+      <button class="variant-btn" data-open-modal data-target="#projectModalA">Ouvrir la modale A ✦</button>
+    </div>
+
+    <div class="variant-block">
+      <div class="section-label">// variante B</div>
+      <div class="variant-title">Modale metrics-first</div>
+      <p class="variant-sub">Les résultats chiffrés en tête pour une lecture ultra rapide.</p>
+      <button class="variant-btn" data-open-modal data-target="#projectModalB">Ouvrir la modale B ✦</button>
+    </div>
+
+    <div class="variant-block">
+      <div class="section-label">// variante C</div>
+      <div class="variant-title">Modale process-first</div>
+      <p class="variant-sub">Timeline claire des étapes, puis impact et stack.</p>
+      <button class="variant-btn" data-open-modal data-target="#projectModalC">Ouvrir la modale C ✦</button>
+    </div>
+  </section>
+
+  <div class="modal-overlay" id="projectModal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-header">
+        <div>
+          <div class="modal-title" id="modalTitle">Le Tournoi des Frérots</div>
+          <div class="modal-tag">Cas client · Projet livré en 5 jours</div>
+        </div>
+        <button class="modal-close" data-close-modal>Fermer</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="modal-grid">
+          <div class="modal-section">
+            <h3>Résumé</h3>
+            <p>Une plateforme complète de gestion de tournoi, pensée pour éliminer le WhatsApp + Excel. Objectif : inscriptions fluides, tirage au sort automatique, classement live.</p>
+
+            <div class="pill" style="margin-top: 14px;">✦ Résultat : +50 équipes</div>
+            <div class="stack">Stack · Next.js · PostgreSQL · Vercel · Resend</div>
+          </div>
+          <div class="modal-section">
+            <h3>Objectifs</h3>
+            <div class="meta-list">
+              <div class="meta-item"><strong>1.</strong><span>Centraliser les inscriptions</span></div>
+              <div class="meta-item"><strong>2.</strong><span>Automatiser le tirage</span></div>
+              <div class="meta-item"><strong>3.</strong><span>Afficher les résultats en live</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-section">
+          <h3>Résultats chiffrés</h3>
+          <div class="meta-list">
+            <div class="meta-item"><strong>+50 équipes</strong><span>gérées sans friction</span></div>
+            <div class="meta-item"><strong>0 Excel</strong><span>process entièrement digital</span></div>
+            <div class="meta-item"><strong>5 jours</strong><span>de la demande à la livraison</span></div>
+          </div>
+        </div>
+
+        <div class="modal-section">
+          <h3>Testimonials</h3>
+          <div class="testimonials">
+            <div class="testimonial">
+              <p>« On a doublé le nombre d’équipes en une saison. Tout est clair et automatisé. »</p>
+              <div class="author">Jeremie Z.</div>
+              <div class="role">Organisateur</div>
+            </div>
+            <div class="testimonial">
+              <p>« Le classement live a changé notre manière de gérer le tournoi. »</p>
+              <div class="author">Marie D.</div>
+              <div class="role">Responsable com</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-section">
+          <h3>Screenshots</h3>
+          <div class="media-grid">
+            <div class="media-item">Screenshot 01</div>
+            <div class="media-item">Screenshot 02</div>
+            <div class="media-item">Screenshot 03</div>
+            <div class="media-item">Screenshot 04</div>
+          </div>
+        </div>
+
+        <div class="modal-section">
+          <h3>Vidéo</h3>
+          <div class="video-box">Video placeholder (1280×720)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Variant A Modal -->
+  <div class="modal-overlay" id="projectModalA" aria-hidden="true">
+    <div class="modal modal-a" role="dialog" aria-modal="true" aria-labelledby="modalTitleA">
+      <div class="modal-header">
+        <div>
+          <div class="modal-title" id="modalTitleA">Monop'Foot</div>
+          <div class="modal-tag">Cas client · Livré en 4 jours</div>
+        </div>
+        <button class="modal-close" data-close-modal>Fermer</button>
+      </div>
+      <div class="modal-body">
+        <div>
+          <div class="media-hero">Hero video / screenshot (1280×720)</div>
+          <div class="mini-gallery">
+            <div class="mini-shot">Shot 01</div>
+            <div class="mini-shot">Shot 02</div>
+            <div class="mini-shot">Shot 03</div>
+          </div>
+        </div>
+        <div class="modal-section">
+          <h3>Résumé</h3>
+          <p>App interne Monoprix pour gérer les équipes, les matchs et les classements — fin des feuilles Excel.</p>
+          <div class="pill" style="margin-top: 14px;">✦ Résultat : 52 équipes</div>
+          <div class="stack">Stack · Next.js · Supabase · Vercel · Resend</div>
+
+          <div class="info-card" style="margin-top: 16px;">
+            <h4>Objectif principal</h4>
+            <p>Centraliser planning + notifications en un seul outil, utilisable sur mobile.</p>
+          </div>
+          <div class="info-card" style="margin-top: 12px;">
+            <h4>Impact</h4>
+            <p>0 feuille Excel · notifications instantanées · classement live.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Variant B Modal -->
+  <div class="modal-overlay" id="projectModalB" aria-hidden="true">
+    <div class="modal modal-b" role="dialog" aria-modal="true" aria-labelledby="modalTitleB">
+      <div class="modal-header">
+        <div>
+          <div class="modal-title" id="modalTitleB">Le Tournoi des Frérots</div>
+          <div class="modal-tag">Cas client · Livré en 5 jours</div>
+        </div>
+        <button class="modal-close" data-close-modal>Fermer</button>
+      </div>
+      <div class="modal-body">
+        <div class="metrics-row">
+          <div class="metric-card">
+            <div class="metric-val">+50</div>
+            <div class="metric-label">équipes onboardées</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-val">0</div>
+            <div class="metric-label">gestion manuelle</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-val">5j</div>
+            <div class="metric-label">de la demande à la mise en ligne</div>
+          </div>
+        </div>
+
+        <div class="split">
+          <div class="modal-section">
+            <h3>Contexte</h3>
+            <p>Tournoi géré sur WhatsApp, inscriptions dispersées, tirage au sort manuel.</p>
+            <div class="stack">Stack · Next.js · PostgreSQL · Vercel</div>
+          </div>
+          <div class="modal-section">
+            <h3>Livrables</h3>
+            <div class="meta-list">
+              <div class="meta-item"><strong>1.</strong><span>Inscription & paiement</span></div>
+              <div class="meta-item"><strong>2.</strong><span>Tirage au sort automatique</span></div>
+              <div class="meta-item"><strong>3.</strong><span>Classement live</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-section">
+          <h3>Preuve sociale</h3>
+          <div class="testimonials">
+            <div class="testimonial">
+              <p>« On a doublé le nombre d’équipes en une saison. »</p>
+              <div class="author">Jeremie Z.</div>
+              <div class="role">Organisateur</div>
+            </div>
+            <div class="testimonial">
+              <p>« Résultats en temps réel, zéro friction côté équipes. »</p>
+              <div class="author">Marie D.</div>
+              <div class="role">Responsable com</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Variant C Modal -->
+  <div class="modal-overlay" id="projectModalC" aria-hidden="true">
+    <div class="modal modal-c" role="dialog" aria-modal="true" aria-labelledby="modalTitleC">
+      <div class="modal-header">
+        <div>
+          <div class="modal-title" id="modalTitleC">Club de Belote de Suresnes</div>
+          <div class="modal-tag">Cas associatif · Livré en 4 jours</div>
+        </div>
+        <button class="modal-close" data-close-modal>Fermer</button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-section">
+          <h3>Timeline</h3>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-step">Step 01</div>
+              <div>
+                <div class="timeline-title">Audit & besoins</div>
+                <div class="timeline-desc">Cadrage rapide du site vitrine + espace membres.</div>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-step">Step 02</div>
+              <div>
+                <div class="timeline-title">Prototype</div>
+                <div class="timeline-desc">Maquettes cliquables, validation par le bureau.</div>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-step">Step 03</div>
+              <div>
+                <div class="timeline-title">Build & contenu</div>
+                <div class="timeline-desc">Espace membres, calendrier, pages infos.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-section">
+          <h3>Impact</h3>
+          <div class="impact-row">
+            <div class="impact-chip">✦ 47 membres actifs</div>
+            <div class="impact-chip">✦ 0€/mois de coût</div>
+          </div>
+          <div class="stack" style="margin-top: 14px;">Stack · Next.js · Neon · Resend · Vercel</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const openButtons = document.querySelectorAll('[data-open-modal]');
+    const closeButtons = document.querySelectorAll('[data-close-modal]');
+
+    openButtons.forEach((button) => {
+      button.addEventListener('click', (event) => {
+        event.preventDefault();
+        const target = button.getAttribute('data-target');
+        const modal = document.querySelector(target || '#projectModal');
+        if (!modal) return;
+        modal.classList.add('is-open');
+        modal.setAttribute('aria-hidden', 'false');
+      });
+    });
+
+    closeButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const modal = button.closest('.modal-overlay');
+        if (!modal) return;
+        modal.classList.remove('is-open');
+        modal.setAttribute('aria-hidden', 'true');
+      });
+    });
+
+    document.querySelectorAll('.modal-overlay').forEach((overlay) => {
+      overlay.addEventListener('click', (event) => {
+        if (event.target === overlay) {
+          overlay.classList.remove('is-open');
+          overlay.setAttribute('aria-hidden', 'true');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
