@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Proposition 3 — Narrative · Dan Cohen</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,700;12..96,800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@800,700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #FAFAFA;
+      --bg2:      #F4F4F5;
+      --dark:     #18181B;
+      --mid:      #3F3F46;
+      --muted:    #71717A;
+      --border:   #E4E4E7;
+      --violet:   #7C3AED;
+      --violet-l: #F5F3FF;
+      --pink:     #DB2777;
+      --pink-l:   #FDF2F8;
+      --cyan:     #06B6D4;
+      --cyan-l:   #ECFEFF;
+      --white:    #FFFFFF;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--dark);
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── PROPOSAL BANNER ─────────────────────────── */
+    .prop-banner {
+      background: var(--dark);
+      padding: 14px 56px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      border-bottom: 2px solid var(--cyan);
+    }
+    .prop-badge {
+      background: linear-gradient(135deg, var(--violet), var(--pink));
+      color: white;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-family: 'Fira Code', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+    .prop-name {
+      color: white;
+      font-family: 'Cabinet Grotesk', 'Bricolage Grotesque', sans-serif;
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .prop-desc {
+      color: rgba(255,255,255,0.38);
+      font-family: 'Fira Code', monospace;
+      font-size: 11px;
+      letter-spacing: 0.06em;
+    }
+
+    /* ── NAV ─────────────────────────────────────── */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 56px;
+      height: 64px;
+      background: rgba(250,250,250,0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Cabinet Grotesk', 'Bricolage Grotesque', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+    .nav-logo .v { color: var(--violet); }
+    .nav-logo .p { color: var(--pink); }
+    .nav-links { display: flex; gap: 36px; }
+    .nav-links a { font-size: 14px; font-weight: 500; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--violet); }
+    .nav-cta {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 14px; font-weight: 700;
+      color: var(--white);
+      background: linear-gradient(135deg, var(--violet), var(--pink));
+      border: none; padding: 10px 24px; border-radius: 100px; cursor: pointer;
+    }
+
+    /* ── PROJECTS SECTION ────────────────────────── */
+    .projects-section { padding: 80px 56px 120px; background: var(--bg2); }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      font-family: 'Fira Code', monospace;
+      font-size: 11px;
+      color: var(--violet);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    h2 {
+      font-family: 'Cabinet Grotesk', 'Bricolage Grotesque', sans-serif;
+      font-size: clamp(30px, 4.5vw, 52px);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      color: var(--dark);
+      margin-bottom: 16px;
+      line-height: 1.0;
+    }
+    .grad {
+      background: linear-gradient(135deg, var(--violet), var(--pink));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .section-sub { font-size: 17px; color: var(--muted); max-width: 520px; margin-bottom: 48px; }
+    .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .project {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      padding: 32px 28px;
+      display: flex; flex-direction: column; gap: 16px;
+      transition: border-color 0.25s, transform 0.2s, box-shadow 0.2s;
+    }
+    .project:hover { border-color: var(--violet); transform: translateY(-6px); box-shadow: 0 20px 60px rgba(124,58,237,0.1); }
+    .project-num { font-family: 'Fira Code', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.12em; }
+    .project-emoji { font-size: 36px; margin: 4px 0; }
+    .project-title { font-family: 'Cabinet Grotesk', 'Bricolage Grotesque', sans-serif; font-size: 20px; font-weight: 800; color: var(--dark); letter-spacing: -0.02em; line-height: 1.2; }
+    .project-tagline { font-family: 'Fira Code', monospace; font-size: 11px; color: var(--violet); letter-spacing: 0.04em; }
+    .project-desc { font-size: 14px; color: var(--muted); line-height: 1.65; flex: 1; }
+    .project-stack { font-family: 'Fira Code', monospace; font-size: 11px; color: #A1A1AA; letter-spacing: 0.04em; padding-top: 12px; border-top: 1px solid var(--border); }
+    .project-result {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: linear-gradient(135deg, var(--violet-l), rgba(219,39,119,0.06));
+      border: 1px solid rgba(124,58,237,0.2); color: var(--violet);
+      font-size: 13px; font-weight: 700; padding: 8px 14px; border-radius: 100px; width: fit-content;
+    }
+    .project-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 13px; font-weight: 700; color: var(--cyan);
+      text-decoration: none; transition: gap 0.2s; cursor: pointer;
+      background: none; border: none; font-family: 'Bricolage Grotesque', sans-serif;
+    }
+    .project-link:hover { gap: 10px; }
+
+    /* ── MODAL OVERLAY ───────────────────────────── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(24,24,27,0.6);
+      display: none;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 40px 20px;
+      z-index: 999;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      overflow-y: auto;
+    }
+    .modal-overlay.open { display: flex; }
+
+    /* ── MODAL: NARRATIVE ────────────────────────── */
+    .modal {
+      width: min(760px, 100%);
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      box-shadow: 0 40px 120px rgba(24,24,27,0.25), 0 0 0 1px rgba(124,58,237,0.04);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      margin: auto;
+    }
+
+    /* Sticky header */
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 28px;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      gap: 12px;
+    }
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+    .header-emoji { font-size: 24px; line-height: 1; flex-shrink: 0; }
+    .modal-title {
+      font-family: 'Cabinet Grotesk', 'Bricolage Grotesque', sans-serif;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--dark);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .btn-close {
+      width: 34px; height: 34px;
+      border-radius: 999px;
+      border: 1.5px solid var(--border);
+      background: var(--white);
+      color: var(--mid);
+      font-size: 14px; font-weight: 700;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: border-color 0.2s, background 0.2s;
+      flex-shrink: 0;
+    }
+    .btn-close:hover { border-color: var(--violet); background: var(--violet-l); color: var(--violet); }
+
+    /* Article body */
+    .modal-body { padding: 0; }
+
+    /* Hero intro block */
+    .hero-block {
+      padding: 32px 36px 0;
+    }
+    .badge-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      font-family: 'Fira Code', monospace;
+      letter-spacing: 0.08em;
+    }
+    .badge-type {
+      background: var(--violet-l);
+      color: var(--violet);
+      border: 1px solid rgba(124,58,237,0.2);
+    }
+    .badge-days {
+      background: linear-gradient(135deg, var(--violet), var(--pink));
+      color: white;
+    }
+    .hero-title {
+      font-family: 'Cabinet Grotesk', 'Bricolage Grotesque', sans-serif;
+      font-size: 40px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+      color: var(--dark);
+      margin-bottom: 16px;
+    }
+    .hero-title .grad {
+      background: linear-gradient(135deg, var(--violet), var(--pink));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-lead {
+      font-size: 16px;
+      color: var(--mid);
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+    .btn-site {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, var(--violet), var(--pink));
+      color: var(--white);
+      border: none;
+      border-radius: 999px;
+      padding: 11px 22px;
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.15s, box-shadow 0.15s;
+      margin-bottom: 32px;
+    }
+    .btn-site:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(124,58,237,0.35); }
+
+    /* Section divider */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 0 36px;
+    }
+
+    /* Article sections */
+    .article-section {
+      padding: 28px 36px;
+    }
+    .article-label {
+      font-family: 'Fira Code', monospace;
+      font-size: 10px;
+      color: var(--violet);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .article-heading {
+      font-family: 'Cabinet Grotesk', 'Bricolage Grotesque', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--dark);
+      margin-bottom: 12px;
+    }
+    .article-text {
+      font-size: 15px;
+      color: var(--mid);
+      line-height: 1.75;
+    }
+
+    /* GIF / Vidéo block — full width */
+    .gif-block {
+      margin: 0;
+      position: relative;
+      background: linear-gradient(-45deg, #0D0820, #1A0A3C, #0D0820, #2C0B22, #0D0820);
+      background-size: 400% 400%;
+      animation: gif-anim 5s ease infinite;
+      height: 280px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 20px 28px;
+    }
+    @keyframes gif-anim {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .gif-scanlines {
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.05) 2px, rgba(0,0,0,0.05) 4px);
+      pointer-events: none;
+    }
+    .gif-bar {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .gif-label {
+      font-family: 'Fira Code', monospace;
+      font-size: 11px;
+      color: rgba(255,255,255,0.5);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: 0.06em;
+    }
+    .gif-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: #EF4444;
+      box-shadow: 0 0 6px rgba(239,68,68,0.8);
+      animation: blink 1.2s ease-in-out infinite;
+    }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
+    .gif-duration {
+      font-family: 'Fira Code', monospace;
+      font-size: 10px;
+      color: rgba(255,255,255,0.3);
+      letter-spacing: 0.06em;
+    }
+    .gif-caption-below {
+      padding: 10px 36px;
+      font-family: 'Fira Code', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* Screenshots grid */
+    .shots-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .shot {
+      border-radius: 14px;
+      height: 120px;
+      display: flex;
+      align-items: flex-end;
+      padding: 10px 12px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,0.06);
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .shot:hover { transform: scale(1.02); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+    .shot-1 { background: linear-gradient(155deg, #F5F3FF 0%, #C4B5FD 100%); }
+    .shot-2 { background: linear-gradient(155deg, #FDF2F8 0%, #F9A8D4 100%); }
+    .shot-3 { background: linear-gradient(155deg, #ECFEFF 0%, #67E8F9 100%); }
+    .shot-4 { background: linear-gradient(155deg, #FEFCE8 0%, #FDE68A 100%); }
+    .shot::before {
+      content: '';
+      position: absolute;
+      top: 10px; left: 12px;
+      width: 48%; height: 7px;
+      background: rgba(0,0,0,0.1); border-radius: 4px;
+    }
+    .shot::after {
+      content: '';
+      position: absolute;
+      top: 23px; left: 12px;
+      width: 30%; height: 5px;
+      background: rgba(0,0,0,0.07); border-radius: 3px;
+    }
+    .shot-num {
+      font-family: 'Fira Code', monospace;
+      font-size: 9px;
+      color: rgba(0,0,0,0.3);
+      letter-spacing: 0.1em;
+      position: relative;
+    }
+
+    /* Pills inline */
+    .pills-row { display: flex; flex-wrap: wrap; gap: 8px; }
+    .pill-v {
+      display: inline-flex; align-items: center;
+      background: var(--violet-l); color: var(--violet);
+      border: 1px solid rgba(124,58,237,0.2);
+      padding: 6px 13px; border-radius: 999px;
+      font-family: 'Fira Code', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.04em;
+    }
+    .pill-p {
+      display: inline-flex; align-items: center;
+      background: var(--pink-l); color: var(--pink);
+      border: 1px solid rgba(219,39,119,0.2);
+      padding: 6px 13px; border-radius: 999px;
+      font-family: 'Fira Code', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.04em;
+    }
+
+    /* Metrics row */
+    .metrics-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+    }
+    .metric-item {
+      padding: 20px 24px;
+      background: var(--bg);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    .metric-item:nth-child(2) { background: var(--white); border-left: 1px solid var(--border); border-right: 1px solid var(--border); }
+    .metric-val {
+      font-family: 'Cabinet Grotesk', 'Bricolage Grotesque', sans-serif;
+      font-size: 40px;
+      font-weight: 800;
+      letter-spacing: -0.05em;
+      line-height: 1;
+      background: linear-gradient(135deg, var(--violet), var(--pink));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .metric-label { font-size: 12px; color: var(--muted); }
+
+    /* Quote block */
+    .quote-block {
+      background: linear-gradient(135deg, rgba(124,58,237,0.04), rgba(219,39,119,0.03));
+      border: 1px solid rgba(124,58,237,0.12);
+      border-radius: 18px;
+      padding: 24px 28px;
+    }
+    .quote-mark {
+      font-size: 40px;
+      line-height: 1;
+      color: var(--violet);
+      opacity: 0.25;
+      font-family: 'Cabinet Grotesk', sans-serif;
+      font-weight: 800;
+      margin-bottom: -8px;
+    }
+    .quote-text {
+      font-size: 15px;
+      color: var(--mid);
+      line-height: 1.7;
+      font-style: italic;
+      margin-bottom: 14px;
+    }
+    .quote-author {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .quote-avatar {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--violet), var(--pink));
+      display: flex; align-items: center; justify-content: center;
+      color: white;
+      font-size: 11px;
+      font-weight: 800;
+      font-family: 'Cabinet Grotesk', sans-serif;
+      flex-shrink: 0;
+    }
+    .quote-name { font-size: 13px; font-weight: 700; color: var(--dark); }
+    .quote-role { font-size: 11px; color: var(--muted); }
+
+    @media (max-width: 700px) {
+      .metrics-row { grid-template-columns: 1fr; }
+      .shots-grid { grid-template-columns: 1fr; }
+      .projects-grid { grid-template-columns: 1fr; }
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      .projects-section, .prop-banner { padding-left: 20px; padding-right: 20px; }
+      .hero-block, .article-section { padding-left: 20px; padding-right: 20px; }
+      .hero-title { font-size: 28px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PROPOSAL BANNER -->
+  <div class="prop-banner">
+    <span class="prop-badge">Prop. 03</span>
+    <span class="prop-name">Narrative</span>
+    <span class="prop-desc">// Colonne unique · Récit · Style case study · Scroll long</span>
+  </div>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo"><span class="v">Dan</span><span class="p">.</span>Cohen</div>
+    <div class="nav-links">
+      <a href="#">Valeur</a>
+      <a href="#">Projets</a>
+      <a href="#">Process</a>
+      <a href="#">About</a>
+    </div>
+    <button class="nav-cta">Discutons de votre projet ✦</button>
+  </nav>
+
+  <!-- PROJECTS SECTION -->
+  <section class="projects-section">
+    <div class="container">
+      <div class="section-label">// projets récents</div>
+      <h2>Trois outils,<br><span class="grad">trois délais tenus</span></h2>
+      <p class="section-sub">Des livrables réels, pour de vraies organisations.</p>
+
+      <div class="projects-grid">
+        <div class="project">
+          <div class="project-num">01 / padel</div>
+          <div class="project-emoji">🎾</div>
+          <div class="project-title">Le Tournoi des Frérots</div>
+          <div class="project-tagline">→ livrée en 5 jours</div>
+          <p class="project-desc">30 équipes à gérer par WhatsApp. J'ai construit une plateforme complète : inscriptions, tirage au sort automatique, résultats en temps réel.</p>
+          <div class="project-stack">VSCode · Codex · Next.js · PostgreSQL · Vercel</div>
+          <div class="project-result">✦ 50+ équipes · 0 gestion manuelle</div>
+          <button class="project-link" onclick="openModal('p1')">Voir le projet →</button>
+        </div>
+        <div class="project">
+          <div class="project-num">02 / entreprise</div>
+          <div class="project-emoji">⚽</div>
+          <div class="project-title">Monop'Foot</div>
+          <div class="project-tagline">→ livrée en 4 jours</div>
+          <p class="project-desc">Le club de foot interne Monoprix sans outil digital. App complète : planification, classements, notifications — remplace les feuilles Excel.</p>
+          <div class="project-stack">Cursor · Claude Opus 4.5 · Next.js · Supabase</div>
+          <div class="project-result">✦ 52 équipes · 0 feuille Excel</div>
+          <button class="project-link" onclick="openModal('p2')">Voir le projet →</button>
+        </div>
+        <div class="project">
+          <div class="project-num">03 / associatif</div>
+          <div class="project-emoji">🃏</div>
+          <div class="project-title">Club de Belote de Suresnes</div>
+          <div class="project-tagline">→ livrée en 4 jours</div>
+          <p class="project-desc">Association locale sans présence digitale. Site vitrine + espace membres + calendrier. Autonomie complète pour le bureau, 0€/mois.</p>
+          <div class="project-stack">Bolt.new · Next.js · Neon · Resend · Vercel</div>
+          <div class="project-result">✦ 47 membres · 0€/mois</div>
+          <button class="project-link" onclick="openModal('p3')">Voir le projet →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODAL NARRATIVE -->
+  <div class="modal-overlay" id="modal-overlay" onclick="handleOverlayClick(event)">
+    <div class="modal">
+
+      <!-- Sticky header -->
+      <div class="modal-header">
+        <div class="header-left">
+          <div class="header-emoji" id="m-emoji"></div>
+          <div class="modal-title" id="m-title"></div>
+        </div>
+        <button class="btn-close" onclick="closeModal()">✕</button>
+      </div>
+
+      <!-- Article body -->
+      <div class="modal-body">
+
+        <!-- HERO: Intro -->
+        <div class="hero-block">
+          <div class="badge-row">
+            <span class="badge badge-type" id="m-badge-type"></span>
+            <span class="badge badge-days" id="m-badge-days"></span>
+          </div>
+          <div class="hero-title" id="m-hero-title"></div>
+          <p class="hero-lead" id="m-lead"></p>
+          <a class="btn-site" id="m-site" href="#" target="_blank">Voir le site en ligne ↗</a>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- SECTION: Contexte -->
+        <div class="article-section">
+          <div class="article-label">// 01 — Le contexte</div>
+          <div class="article-heading" id="m-context-title"></div>
+          <p class="article-text" id="m-context"></p>
+        </div>
+
+        <!-- GIF / VIDEO block (full width, no padding) -->
+        <div class="gif-block">
+          <div class="gif-scanlines"></div>
+          <div class="gif-bar">
+            <div class="gif-label">
+              <span class="gif-dot"></span>
+              GIF démo · Parcours utilisateur complet
+            </div>
+            <span class="gif-duration">~15 secondes</span>
+          </div>
+        </div>
+        <div class="gif-caption-below">
+          ↑ Démonstration d'un parcours type — inscription, tirage au sort, résultats en temps réel
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- SECTION: La solution -->
+        <div class="article-section">
+          <div class="article-label">// 02 — La solution</div>
+          <div class="article-heading" id="m-solution-title"></div>
+          <p class="article-text" id="m-solution"></p>
+
+          <!-- Screenshots 2x2 -->
+          <div class="shots-grid" style="margin-top: 20px;">
+            <div class="shot shot-1"><span class="shot-num">Screen 01</span></div>
+            <div class="shot shot-2"><span class="shot-num">Screen 02</span></div>
+            <div class="shot shot-3"><span class="shot-num">Screen 03</span></div>
+            <div class="shot shot-4"><span class="shot-num">Screen 04</span></div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- SECTION: Stack & Outils -->
+        <div class="article-section">
+          <div class="article-label">// 03 — Stack & Outils</div>
+
+          <div style="margin-bottom: 16px;">
+            <div style="font-size: 12px; font-family: 'Fira Code', monospace; color: var(--violet); letter-spacing: 0.1em; margin-bottom: 10px;">STACK TECHNIQUE</div>
+            <div class="pills-row" id="m-stack"></div>
+          </div>
+
+          <div>
+            <div style="font-size: 12px; font-family: 'Fira Code', monospace; color: var(--pink); letter-spacing: 0.1em; margin-bottom: 10px;">OUTILS IA</div>
+            <div class="pills-row" id="m-tools"></div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- SECTION: Résultats -->
+        <div class="article-section">
+          <div class="article-label">// 04 — Les résultats</div>
+          <div class="metrics-row" id="m-metrics"></div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- SECTION: Témoignage -->
+        <div class="article-section" style="padding-bottom: 36px;">
+          <div class="article-label">// 05 — Témoignage</div>
+          <div class="quote-block">
+            <div class="quote-mark">"</div>
+            <p class="quote-text" id="m-quote"></p>
+            <div class="quote-author">
+              <div class="quote-avatar" id="m-avatar"></div>
+              <div>
+                <div class="quote-name" id="m-author-name"></div>
+                <div class="quote-role" id="m-author-role"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- end modal-body -->
+    </div>
+  </div>
+
+  <script>
+    const projects = {
+      p1: {
+        emoji: '🎾',
+        title: 'Le Tournoi des Frérots',
+        badgeType: '01 / Padel',
+        badgeDays: 'Livré en 5 jours',
+        heroTitle: 'De WhatsApp à une\nplateforme complète.',
+        lead: "30 équipes dispersées sur WhatsApp, des inscriptions à gérer manuellement, des tirages au sort fastidieux. J'ai transformé ce chaos en une plateforme fluide en 5 jours.",
+        contextTitle: 'Un tournoi sans outil',
+        context: "L'organisation se faisait entièrement sur WhatsApp : confirmations d'inscription manuelles, tirage au sort sur tableur, résultats partagés en photos. Ça fonctionnait — mais c'était chronophage et source d'erreurs.",
+        solutionTitle: "Une app de A à Z",
+        solution: "J'ai livré une plateforme complète : page d'inscription publique, tirage au sort automatique avec gestion des têtes de série, tableau de bord admin, affichage des résultats en temps réel. Accessible depuis n'importe quel smartphone.",
+        stack: ['Next.js', 'PostgreSQL', 'Vercel', 'Resend', 'TypeScript'],
+        tools: ['VSCode', 'OpenAI Codex'],
+        metrics: [{ val: '50+', label: 'équipes onboardées' }, { val: '0', label: 'gestion manuelle' }, { val: '5j', label: 'de livraison' }],
+        quote: "« On a doublé le nombre d'équipes en une saison. Tout est clair et automatisé. Finies les prises de tête sur WhatsApp. »",
+        authorName: 'Jeremie Z.',
+        authorRole: 'Organisateur · Le Tournoi des Frérots',
+        avatarInitials: 'JZ',
+        site: '#'
+      },
+      p2: {
+        emoji: '⚽',
+        title: "Monop'Foot",
+        badgeType: '02 / Entreprise',
+        badgeDays: 'Livré en 4 jours',
+        heroTitle: "L'Excel des RH\nremplacé en 4 jours.",
+        lead: "Le club de foot interne Monoprix géré sur des feuilles Excel partagées. 52 équipes, des scores impossibles à suivre, des notifications inexistantes. J'ai livré l'outil qu'il leur manquait.",
+        contextTitle: 'Le chaos des tableurs',
+        context: "Un fichier Excel partagé entre plusieurs organisateurs, des scores saisis à la main, des classements recalculés manuellement après chaque journée. Le risque d'erreur était permanent.",
+        solutionTitle: 'Une app sport complète',
+        solution: "Application complète de gestion du championnat : création et gestion des équipes, planification du calendrier, saisie des scores, classements automatiques et notifications email aux capitaines. Zéro Excel.",
+        stack: ['Next.js', 'Supabase', 'Vercel', 'TypeScript'],
+        tools: ['Cursor', 'Claude Opus 4.5'],
+        metrics: [{ val: '52', label: 'équipes gérées' }, { val: '0', label: 'feuille Excel' }, { val: '4j', label: 'de livraison' }],
+        quote: "« Résultats en temps réel, zéro friction côté équipes. Les capitaines adorent les notifications automatiques. »",
+        authorName: 'Marie D.',
+        authorRole: 'Responsable com · Monoprix',
+        avatarInitials: 'MD',
+        site: '#'
+      },
+      p3: {
+        emoji: '🃏',
+        title: 'Club de Belote de Suresnes',
+        badgeType: '03 / Associatif',
+        badgeDays: 'Livré en 4 jours',
+        heroTitle: "Une asso locale\ndans le digital en 4 jours.",
+        lead: "Une association active de 47 membres, un groupe Facebook comme seule présence en ligne. J'ai livré un site complet et une autonomie totale pour le bureau — à 0€/mois.",
+        contextTitle: 'Zéro présence digitale',
+        context: "Les événements s'organisaient sur Facebook, les adhésions se faisaient par courrier, le calendrier n'existait pas en ligne. Les nouveaux membres avaient du mal à trouver l'association.",
+        solutionTitle: 'Site vitrine + espace membres',
+        solution: "Site vitrine responsive, espace membres sécurisé, calendrier des événements mis à jour par le bureau, formulaire d'adhésion en ligne avec confirmation automatique. Hébergé sur Vercel, 0€/mois de coût d'infrastructure.",
+        stack: ['Next.js', 'Neon', 'Resend', 'Vercel'],
+        tools: ['Bolt.new'],
+        metrics: [{ val: '47', label: 'membres actifs' }, { val: '0€', label: 'coût mensuel' }, { val: '4j', label: 'de livraison' }],
+        quote: "« Le bureau est maintenant complètement autonome pour publier les événements. Nos nouveaux membres nous trouvent facilement. »",
+        authorName: 'André M.',
+        authorRole: 'Président · Club de Belote de Suresnes',
+        avatarInitials: 'AM',
+        site: '#'
+      }
+    };
+
+    function openModal(id) {
+      const p = projects[id];
+
+      document.getElementById('m-emoji').textContent = p.emoji;
+      document.getElementById('m-title').textContent = p.title;
+      document.getElementById('m-badge-type').textContent = p.badgeType;
+      document.getElementById('m-badge-days').textContent = p.badgeDays;
+      document.getElementById('m-hero-title').innerHTML = p.heroTitle.replace('\n', '<br>');
+      document.getElementById('m-lead').textContent = p.lead;
+      document.getElementById('m-site').href = p.site;
+      document.getElementById('m-context-title').textContent = p.contextTitle;
+      document.getElementById('m-context').textContent = p.context;
+      document.getElementById('m-solution-title').textContent = p.solutionTitle;
+      document.getElementById('m-solution').textContent = p.solution;
+      document.getElementById('m-quote').textContent = p.quote;
+      document.getElementById('m-author-name').textContent = p.authorName;
+      document.getElementById('m-author-role').textContent = p.authorRole;
+      document.getElementById('m-avatar').textContent = p.avatarInitials;
+
+      document.getElementById('m-stack').innerHTML = p.stack.map(s => `<span class="pill-v">${s}</span>`).join('');
+      document.getElementById('m-tools').innerHTML = p.tools.map(t => `<span class="pill-p">${t}</span>`).join('');
+
+      document.getElementById('m-metrics').innerHTML = p.metrics.map((m, i) =>
+        `<div class="metric-item"><div class="metric-val">${m.val}</div><div class="metric-label">${m.label}</div></div>`
+      ).join('');
+
+      document.getElementById('modal-overlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      document.getElementById('modal-overlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function handleOverlayClick(e) {
+      if (e.target === e.currentTarget) closeModal();
+    }
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeModal();
+    });
+  </script>
+</body>
+</html>

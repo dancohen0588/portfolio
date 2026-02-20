@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Proposition 2 — Dashboard · Dan Cohen</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,700;12..96,800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@800,700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #FAFAFA;
+      --bg2:      #F4F4F5;
+      --dark:     #18181B;
+      --mid:      #3F3F46;
+      --muted:    #71717A;
+      --border:   #E4E4E7;
+      --violet:   #7C3AED;
+      --violet-l: #F5F3FF;
+      --pink:     #DB2777;
+      --pink-l:   #FDF2F8;
+      --cyan:     #06B6D4;
+      --cyan-l:   #ECFEFF;
+      --white:    #FFFFFF;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--dark);
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── PROPOSAL BANNER ─────────────────────────── */
+    .prop-banner {
+      background: var(--dark);
+      padding: 14px 56px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      border-bottom: 2px solid var(--pink);
+    }
+    .prop-badge {
+      background: linear-gradient(135deg, var(--violet), var(--pink));
+      color: white;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-family: 'Fira Code', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+    .prop-name {
+      color: white;
+      font-family: 'Cabinet Grotesk', 'Bricolage Grotesque', sans-serif;
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .prop-desc {
+      color: rgba(255,255,255,0.38);
+      font-family: 'Fira Code', monospace;
+      font-size: 11px;
+      letter-spacing: 0.06em;
+    }
+
+    /* ── NAV ─────────────────────────────────────── */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 56px;
+      height: 64px;
+      background: rgba(250,250,250,0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Cabinet Grotesk', 'Bricolage Grotesque', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+    .nav-logo .v { color: var(--violet); }
+    .nav-logo .p { color: var(--pink); }
+    .nav-links { display: flex; gap: 36px; }
+    .nav-links a { font-size: 14px; font-weight: 500; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--violet); }
+    .nav-cta {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 14px; font-weight: 700;
+      color: var(--white);
+      background: linear-gradient(135deg, var(--violet), var(--pink));
+      border: none; padding: 10px 24px; border-radius: 100px; cursor: pointer;
+    }
+
+    /* ── PROJECTS SECTION ────────────────────────── */
+    .projects-section { padding: 80px 56px 120px; background: var(--bg2); }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      font-family: 'Fira Code', monospace;
+      font-size: 11px;
+      color: var(--violet);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    h2 {
+      font-family: 'Cabinet Grotesk', 'Bricolage Grotesque', sans-serif;
+      font-size: clamp(30px, 4.5vw, 52px);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      color: var(--dark);
+      margin-bottom: 16px;
+      line-height: 1.0;
+    }
+    .grad {
+      background: linear-gradient(135deg, var(--violet), var(--pink));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .section-sub { font-size: 17px; color: var(--muted); max-width: 520px; margin-bottom: 48px; }
+    .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .project {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      padding: 32px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      transition: border-color 0.25s, transform 0.2s, box-shadow 0.2s;
+    }
+    .project:hover { border-color: var(--violet); transform: translateY(-6px); box-shadow: 0 20px 60px rgba(124,58,237,0.1); }
+    .project-num { font-family: 'Fira Code', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.12em; }
+    .project-emoji { font-size: 36px; margin: 4px 0; }
+    .project-title {
+      font-family: 'Cabinet Grotesk', 'Bricolage Grotesque', sans-serif;
+      font-size: 20px; font-weight: 800; color: var(--dark); letter-spacing: -0.02em; line-height: 1.2;
+    }
+    .project-tagline { font-family: 'Fira Code', monospace; font-size: 11px; color: var(--violet); letter-spacing: 0.04em; }
+    .project-desc { font-size: 14px; color: var(--muted); line-height: 1.65; flex: 1; }
+    .project-stack { font-family: 'Fira Code', monospace; font-size: 11px; color: #A1A1AA; letter-spacing: 0.04em; padding-top: 12px; border-top: 1px solid var(--border); }
+    .project-result {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: linear-gradient(135deg, var(--violet-l), rgba(219,39,119,0.06));
+      border: 1px solid rgba(124,58,237,0.2); color: var(--violet);
+      font-size: 13px; font-weight: 700; padding: 8px 14px; border-radius: 100px; width: fit-content;
+    }
+    .project-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 13px; font-weight: 700; color: var(--cyan);
+      text-decoration: none; transition: gap 0.2s; cursor: pointer;
+      background: none; border: none; font-family: 'Bricolage Grotesque', sans-serif;
+    }
+    .project-link:hover { gap: 10px; }
+
+    /* ── MODAL OVERLAY ───────────────────────────── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(24,24,27,0.6);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 20px;
+      z-index: 999;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    .modal-overlay.open { display: flex; }
+
+    /* ── MODAL: DASHBOARD ────────────────────────── */
+    .modal {
+      width: min(920px, 100%);
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      box-shadow: 0 40px 120px rgba(24,24,27,0.25), 0 0 0 1px rgba(124,58,237,0.04);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      max-height: calc(100vh - 64px);
+    }
+
+    /* Header: clean, minimal */
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 28px;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+      gap: 16px;
+    }
+    .header-left { display: flex; align-items: center; gap: 14px; min-width: 0; }
+    .header-emoji { font-size: 32px; line-height: 1; flex-shrink: 0; }
+    .header-info { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+    .modal-title {
+      font-family: 'Cabinet Grotesk', 'Bricolage Grotesque', sans-serif;
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--dark);
+    }
+    .modal-tag {
+      font-family: 'Fira Code', monospace;
+      font-size: 11px;
+      color: var(--violet);
+      letter-spacing: 0.08em;
+    }
+    .header-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+    .btn-close {
+      width: 34px; height: 34px;
+      border-radius: 999px;
+      border: 1.5px solid var(--border);
+      background: var(--white);
+      color: var(--mid);
+      font-size: 14px; font-weight: 700;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .btn-close:hover { border-color: var(--violet); background: var(--violet-l); color: var(--violet); }
+
+    /* Tabs */
+    .tab-nav {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      padding: 0 28px;
+      flex-shrink: 0;
+      background: var(--bg);
+      gap: 4px;
+    }
+    .tab-btn {
+      padding: 13px 18px;
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      transition: color 0.2s, border-color 0.2s;
+      margin-bottom: -1px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .tab-btn:hover { color: var(--dark); }
+    .tab-btn.active { color: var(--violet); border-bottom-color: var(--violet); font-weight: 700; }
+    .tab-icon { font-size: 14px; }
+
+    /* Tab panels */
+    .tab-panels { flex: 1; overflow: hidden; min-height: 0; }
+    .tab-panel { display: none; padding: 28px; overflow-y: auto; height: 100%; }
+    .tab-panel.active { display: block; }
+
+    /* ── TAB 1: RÉSUMÉ ───────────────────────────── */
+    /* Metric cards */
+    .metrics-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 24px; }
+    .metric-card {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px 20px;
+      background: var(--white);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .metric-val {
+      font-family: 'Cabinet Grotesk', 'Bricolage Grotesque', sans-serif;
+      font-size: 36px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      background: linear-gradient(135deg, var(--violet), var(--pink));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .metric-label { font-size: 13px; color: var(--muted); }
+
+    /* Description block */
+    .resume-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+    .block-title {
+      font-family: 'Cabinet Grotesk', 'Bricolage Grotesque', sans-serif;
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--dark);
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+    .block-text { font-size: 14px; color: var(--mid); line-height: 1.7; }
+    .deliverable-list { display: grid; gap: 8px; margin-top: 6px; }
+    .deliverable {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--mid);
+    }
+    .deliverable-dot {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--violet-l), rgba(219,39,119,0.1));
+      border: 1px solid rgba(124,58,237,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .deliverable-dot span {
+      font-family: 'Fira Code', monospace;
+      font-size: 9px;
+      color: var(--violet);
+      font-weight: 700;
+    }
+
+    /* Site CTA in resume tab */
+    .resume-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+    }
+    .quote-inline {
+      font-size: 13px;
+      color: var(--muted);
+      font-style: italic;
+      max-width: 400px;
+      line-height: 1.6;
+    }
+    .quote-author { font-size: 11px; color: var(--muted); margin-top: 4px; font-style: normal; font-weight: 700; }
+    .btn-site-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1.5px solid var(--violet);
+      color: var(--violet);
+      background: transparent;
+      border-radius: 999px;
+      padding: 9px 20px;
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
+    .btn-site-outline:hover { background: var(--violet); color: white; }
+
+    /* ── TAB 2: MÉDIAS ───────────────────────────── */
+    .gif-block {
+      border-radius: 18px;
+      overflow: hidden;
+      position: relative;
+      background: linear-gradient(-45deg, #0D0820, #1A0A3C, #0D0820, #2C0B22, #0D0820);
+      background-size: 400% 400%;
+      animation: gif-anim 5s ease infinite;
+      height: 260px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 20px 24px;
+      margin-bottom: 20px;
+    }
+    @keyframes gif-anim {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .gif-scanlines {
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.06) 2px, rgba(0,0,0,0.06) 4px);
+      pointer-events: none;
+    }
+    .gif-bar {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .gif-label {
+      font-family: 'Fira Code', monospace;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.55);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .gif-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: #EF4444;
+      box-shadow: 0 0 6px rgba(239,68,68,0.8);
+      animation: blink 1.2s ease-in-out infinite;
+    }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
+    .gif-caption {
+      font-family: 'Fira Code', monospace;
+      font-size: 10px;
+      color: rgba(255,255,255,0.3);
+      letter-spacing: 0.06em;
+    }
+
+    .media-section-label {
+      font-family: 'Fira Code', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .media-section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    .shots-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    .shot-card {
+      border-radius: 14px;
+      height: 130px;
+      display: flex;
+      align-items: flex-end;
+      padding: 12px 14px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,0.06);
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .shot-card:hover { transform: scale(1.02); box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
+    .shot-card-1 { background: linear-gradient(155deg, #F5F3FF 0%, #C4B5FD 100%); }
+    .shot-card-2 { background: linear-gradient(155deg, #FDF2F8 0%, #F9A8D4 100%); }
+    .shot-card-3 { background: linear-gradient(155deg, #ECFEFF 0%, #67E8F9 100%); }
+    .shot-card-4 { background: linear-gradient(155deg, #F9FAFB 0%, #D1D5DB 100%); }
+    .shot-card::before {
+      content: '';
+      position: absolute;
+      top: 12px; left: 14px;
+      width: 50%; height: 8px;
+      background: rgba(0,0,0,0.1);
+      border-radius: 4px;
+    }
+    .shot-card::after {
+      content: '';
+      position: absolute;
+      top: 26px; left: 14px;
+      width: 32%; height: 6px;
+      background: rgba(0,0,0,0.07);
+      border-radius: 3px;
+    }
+    .shot-num {
+      font-family: 'Fira Code', monospace;
+      font-size: 9px;
+      color: rgba(0,0,0,0.3);
+      letter-spacing: 0.1em;
+      position: relative;
+    }
+
+    /* ── TAB 3: STACK & OUTILS ───────────────────── */
+    .stack-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+    .stack-block {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 22px;
+      background: var(--bg);
+    }
+    .stack-block-title {
+      font-family: 'Cabinet Grotesk', 'Bricolage Grotesque', sans-serif;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .stack-icon {
+      width: 28px; height: 28px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px;
+    }
+    .stack-icon.violet { background: var(--violet-l); }
+    .stack-icon.pink   { background: var(--pink-l); }
+    .pills-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+    .pill-v {
+      display: inline-flex; align-items: center;
+      background: var(--violet-l); color: var(--violet);
+      border: 1px solid rgba(124,58,237,0.2);
+      padding: 6px 13px; border-radius: 999px;
+      font-family: 'Fira Code', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.04em;
+    }
+    .pill-p {
+      display: inline-flex; align-items: center;
+      background: var(--pink-l); color: var(--pink);
+      border: 1px solid rgba(219,39,119,0.2);
+      padding: 6px 13px; border-radius: 999px;
+      font-family: 'Fira Code', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.04em;
+    }
+
+    /* Meta info table */
+    .meta-table {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 20px;
+      font-size: 13px;
+      border-bottom: 1px solid var(--border);
+    }
+    .meta-row:last-child { border-bottom: none; }
+    .meta-row:nth-child(odd) { background: var(--bg); }
+    .meta-key { color: var(--muted); }
+    .meta-val { font-weight: 700; color: var(--dark); }
+
+    /* Delivery badge */
+    .delivery-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, var(--violet-l), rgba(219,39,119,0.06));
+      border: 1px solid rgba(124,58,237,0.2);
+      color: var(--violet);
+      font-size: 13px;
+      font-weight: 700;
+      padding: 10px 18px;
+      border-radius: 100px;
+      margin-top: 16px;
+    }
+
+    @media (max-width: 800px) {
+      .metrics-row { grid-template-columns: 1fr; }
+      .resume-grid { grid-template-columns: 1fr; }
+      .stack-grid { grid-template-columns: 1fr; }
+      .shots-grid { grid-template-columns: 1fr; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .resume-footer { flex-direction: column; align-items: flex-start; gap: 16px; }
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      .projects-section, .prop-banner { padding-left: 20px; padding-right: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PROPOSAL BANNER -->
+  <div class="prop-banner">
+    <span class="prop-badge">Prop. 02</span>
+    <span class="prop-name">Dashboard</span>
+    <span class="prop-desc">// Onglets · Métriques en tête · Vue analytique</span>
+  </div>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo"><span class="v">Dan</span><span class="p">.</span>Cohen</div>
+    <div class="nav-links">
+      <a href="#">Valeur</a>
+      <a href="#">Projets</a>
+      <a href="#">Process</a>
+      <a href="#">About</a>
+    </div>
+    <button class="nav-cta">Discutons de votre projet ✦</button>
+  </nav>
+
+  <!-- PROJECTS SECTION -->
+  <section class="projects-section">
+    <div class="container">
+      <div class="section-label">// projets récents</div>
+      <h2>Trois outils,<br><span class="grad">trois délais tenus</span></h2>
+      <p class="section-sub">Des livrables réels, pour de vraies organisations.</p>
+
+      <div class="projects-grid">
+        <div class="project">
+          <div class="project-num">01 / padel</div>
+          <div class="project-emoji">🎾</div>
+          <div class="project-title">Le Tournoi des Frérots</div>
+          <div class="project-tagline">→ livrée en 5 jours</div>
+          <p class="project-desc">30 équipes à gérer par WhatsApp. J'ai construit une plateforme complète : inscriptions, tirage au sort automatique, résultats en temps réel.</p>
+          <div class="project-stack">VSCode · Codex · Next.js · PostgreSQL · Vercel</div>
+          <div class="project-result">✦ 50+ équipes · 0 gestion manuelle</div>
+          <button class="project-link" onclick="openModal('p1')">Voir le projet →</button>
+        </div>
+        <div class="project">
+          <div class="project-num">02 / entreprise</div>
+          <div class="project-emoji">⚽</div>
+          <div class="project-title">Monop'Foot</div>
+          <div class="project-tagline">→ livrée en 4 jours</div>
+          <p class="project-desc">Le club de foot interne Monoprix sans outil digital. App complète : planification, classements, notifications — remplace les feuilles Excel.</p>
+          <div class="project-stack">Cursor · Claude Opus 4.5 · Next.js · Supabase</div>
+          <div class="project-result">✦ 52 équipes · 0 feuille Excel</div>
+          <button class="project-link" onclick="openModal('p2')">Voir le projet →</button>
+        </div>
+        <div class="project">
+          <div class="project-num">03 / associatif</div>
+          <div class="project-emoji">🃏</div>
+          <div class="project-title">Club de Belote de Suresnes</div>
+          <div class="project-tagline">→ livrée en 4 jours</div>
+          <p class="project-desc">Association locale sans présence digitale. Site vitrine + espace membres + calendrier. Autonomie complète pour le bureau, 0€/mois.</p>
+          <div class="project-stack">Bolt.new · Next.js · Neon · Resend · Vercel</div>
+          <div class="project-result">✦ 47 membres · 0€/mois</div>
+          <button class="project-link" onclick="openModal('p3')">Voir le projet →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODAL DASHBOARD -->
+  <div class="modal-overlay" id="modal" onclick="handleOverlayClick(event)">
+    <div class="modal">
+      <!-- Header -->
+      <div class="modal-header">
+        <div class="header-left">
+          <div class="header-emoji" id="m-emoji"></div>
+          <div class="header-info">
+            <div class="modal-title" id="m-title"></div>
+            <div class="modal-tag" id="m-tag"></div>
+          </div>
+        </div>
+        <div class="header-right">
+          <button class="btn-close" onclick="closeModal()">✕</button>
+        </div>
+      </div>
+
+      <!-- Tabs nav -->
+      <div class="tab-nav">
+        <button class="tab-btn active" onclick="switchTab('resume', this)">
+          <span class="tab-icon">📊</span> Résumé
+        </button>
+        <button class="tab-btn" onclick="switchTab('medias', this)">
+          <span class="tab-icon">🎬</span> Médias
+        </button>
+        <button class="tab-btn" onclick="switchTab('stack', this)">
+          <span class="tab-icon">⚙️</span> Stack & Outils
+        </button>
+      </div>
+
+      <!-- Tab panels -->
+      <div class="tab-panels">
+
+        <!-- TAB 1: RÉSUMÉ -->
+        <div class="tab-panel active" id="tab-resume">
+          <!-- Metrics -->
+          <div class="metrics-row" id="m-metrics"></div>
+
+          <!-- Description + Deliverables -->
+          <div class="resume-grid">
+            <div>
+              <div class="block-title">Le projet</div>
+              <p class="block-text" id="m-desc"></p>
+            </div>
+            <div>
+              <div class="block-title">Livrables clés</div>
+              <div class="deliverable-list" id="m-deliverables"></div>
+            </div>
+          </div>
+
+          <!-- Footer: quote + CTA -->
+          <div class="resume-footer">
+            <div>
+              <p class="quote-inline" id="m-quote"></p>
+              <div class="quote-author" id="m-quote-author"></div>
+            </div>
+            <a class="btn-site-outline" id="m-site" href="#" target="_blank">Voir le site ↗</a>
+          </div>
+        </div>
+
+        <!-- TAB 2: MÉDIAS -->
+        <div class="tab-panel" id="tab-medias">
+          <div class="gif-block">
+            <div class="gif-scanlines"></div>
+            <div class="gif-bar">
+              <div class="gif-label">
+                <span class="gif-dot"></span>
+                GIF démo · Parcours utilisateur
+              </div>
+              <span class="gif-caption">~15 secondes</span>
+            </div>
+          </div>
+          <div class="media-section-label">Captures d'écran</div>
+          <div class="shots-grid">
+            <div class="shot-card shot-card-1"><span class="shot-num">Screen 01</span></div>
+            <div class="shot-card shot-card-2"><span class="shot-num">Screen 02</span></div>
+            <div class="shot-card shot-card-3"><span class="shot-num">Screen 03</span></div>
+            <div class="shot-card shot-card-4"><span class="shot-num">Screen 04</span></div>
+          </div>
+        </div>
+
+        <!-- TAB 3: STACK & OUTILS -->
+        <div class="tab-panel" id="tab-stack">
+          <div class="stack-grid">
+            <div class="stack-block">
+              <div class="stack-block-title">
+                <span class="stack-icon violet">🏗️</span>
+                Stack technique
+              </div>
+              <div class="pills-grid" id="m-stack"></div>
+            </div>
+            <div class="stack-block">
+              <div class="stack-block-title">
+                <span class="stack-icon pink">🤖</span>
+                Outils IA
+              </div>
+              <div class="pills-grid" id="m-tools"></div>
+            </div>
+          </div>
+
+          <div class="meta-table" id="m-meta"></div>
+          <div class="delivery-badge" id="m-result"></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const projects = {
+      p1: {
+        emoji: '🎾',
+        title: 'Le Tournoi des Frérots',
+        tag: '01 / padel · Livré en 5 jours',
+        desc: "30 équipes à gérer par WhatsApp et sans outil dédié. J'ai livré une plateforme complète en 5 jours : inscription des équipes, tirage au sort automatique, gestion des scores et classement en temps réel.",
+        metrics: [{ val: '50+', label: 'équipes onboardées' }, { val: '0', label: 'gestion manuelle' }, { val: '5j', label: 'de livraison' }],
+        deliverables: ['Inscriptions & gestion des équipes', 'Tirage au sort automatique', 'Classement live & résultats', 'Notifications par email'],
+        stack: ['Next.js', 'PostgreSQL', 'Vercel', 'Resend', 'TypeScript'],
+        tools: ['VSCode', 'OpenAI Codex'],
+        result: '✦ 50+ équipes · 0 gestion manuelle',
+        quote: '« On a doublé le nombre d\'équipes en une saison. Tout est clair et automatisé. »',
+        quoteAuthor: 'Jeremie Z. · Organisateur',
+        meta: { 'Délai': '5 jours', 'Type de projet': 'Loisirs / Padel', 'Statut': 'En production' },
+        site: '#'
+      },
+      p2: {
+        emoji: '⚽',
+        title: "Monop'Foot",
+        tag: '02 / entreprise · Livré en 4 jours',
+        desc: "Le club de foot interne Monoprix géré sur feuilles Excel. J'ai livré une app complète en 4 jours : planification des matchs, gestion des équipes, classements automatiques et notifications par email.",
+        metrics: [{ val: '52', label: 'équipes gérées' }, { val: '0', label: 'feuille Excel' }, { val: '4j', label: 'de livraison' }],
+        deliverables: ['Gestion des équipes & joueurs', 'Planification des matchs', 'Classements automatiques', 'Notifications email temps réel'],
+        stack: ['Next.js', 'Supabase', 'Vercel', 'TypeScript'],
+        tools: ['Cursor', 'Claude Opus 4.5'],
+        result: '✦ 52 équipes · 0 feuille Excel',
+        quote: '« Résultats en temps réel, zéro friction côté équipes. »',
+        quoteAuthor: 'Marie D. · Responsable com · Monoprix',
+        meta: { 'Délai': '4 jours', 'Type de projet': 'Entreprise / Sport', 'Client': 'Monoprix' },
+        site: '#'
+      },
+      p3: {
+        emoji: '🃏',
+        title: 'Club de Belote de Suresnes',
+        tag: '03 / associatif · Livré en 4 jours',
+        desc: "Une association locale sans aucune présence digitale. J'ai livré un site vitrine avec espace membres, calendrier des événements et système d'adhésion en ligne en 4 jours.",
+        metrics: [{ val: '47', label: 'membres actifs' }, { val: '0€', label: 'coût mensuel' }, { val: '4j', label: 'de livraison' }],
+        deliverables: ['Site vitrine responsive', 'Espace membres connecté', 'Calendrier des événements', 'Système d\'adhésion en ligne'],
+        stack: ['Next.js', 'Neon', 'Resend', 'Vercel'],
+        tools: ['Bolt.new'],
+        result: '✦ 47 membres · 0€/mois',
+        quote: '« Le bureau est maintenant 100% autonome pour gérer les événements. »',
+        quoteAuthor: 'André M. · Président · Club de Belote',
+        meta: { 'Délai': '4 jours', 'Type de projet': 'Associatif', 'Statut': 'En production' },
+        site: '#'
+      }
+    };
+
+    let currentTab = 'resume';
+
+    function openModal(id) {
+      const p = projects[id];
+
+      document.getElementById('m-emoji').textContent = p.emoji;
+      document.getElementById('m-title').textContent = p.title;
+      document.getElementById('m-tag').textContent = p.tag;
+      document.getElementById('m-desc').textContent = p.desc;
+      document.getElementById('m-result').textContent = p.result;
+      document.getElementById('m-quote').textContent = p.quote;
+      document.getElementById('m-quote-author').textContent = p.quoteAuthor;
+      document.getElementById('m-site').href = p.site;
+
+      // Metrics
+      document.getElementById('m-metrics').innerHTML = p.metrics.map(m =>
+        `<div class="metric-card"><div class="metric-val">${m.val}</div><div class="metric-label">${m.label}</div></div>`
+      ).join('');
+
+      // Deliverables
+      document.getElementById('m-deliverables').innerHTML = p.deliverables.map((d, i) =>
+        `<div class="deliverable"><div class="deliverable-dot"><span>0${i+1}</span></div><span>${d}</span></div>`
+      ).join('');
+
+      // Stack & tools
+      document.getElementById('m-stack').innerHTML = p.stack.map(s => `<span class="pill-v">${s}</span>`).join('');
+      document.getElementById('m-tools').innerHTML = p.tools.map(t => `<span class="pill-p">${t}</span>`).join('');
+
+      // Meta
+      document.getElementById('m-meta').innerHTML = Object.entries(p.meta).map(([k, v]) =>
+        `<div class="meta-row"><span class="meta-key">${k}</span><span class="meta-val">${v}</span></div>`
+      ).join('');
+
+      // Reset to first tab
+      switchTab('resume', document.querySelector('.tab-btn'));
+
+      document.getElementById('modal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      document.getElementById('modal').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function handleOverlayClick(e) {
+      if (e.target === e.currentTarget) closeModal();
+    }
+
+    function switchTab(tab, btn) {
+      // Hide all panels, deactivate all buttons
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+
+      document.getElementById('tab-' + tab).classList.add('active');
+      if (btn) btn.classList.add('active');
+      currentTab = tab;
+    }
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeModal();
+    });
+  </script>
+</body>
+</html>
