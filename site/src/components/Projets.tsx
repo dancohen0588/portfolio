@@ -40,7 +40,7 @@ const projects: (ProjectForModal & {
     modal: {
       badgeType: '01 / Padel',
       badgeDays: 'Livré en 5 jours',
-      siteHref: '#',
+      siteHref: 'https://padel-two-theta.vercel.app/',
       heroTitleLine1: 'Une plateforme complète',
       heroTitleLine2: 'pour un tournoi pro.',
       lead: "30 équipes organisées sur WhatsApp, inscriptions manuelles, tirages au sort en tableur. En 5 jours, j'ai livré un outil qui automatise l'intégralité du cycle de gestion d'un tournoi de padel.",
@@ -84,7 +84,7 @@ const projects: (ProjectForModal & {
     modal: {
       badgeType: '02 / Entreprise',
       badgeDays: 'Livré en 4 jours',
-      siteHref: '#',
+      siteHref: 'https://monopfoot-front.onrender.com/',
       heroTitleLine1: '52 équipes Monoprix,',
       heroTitleLine2: 'zéro feuille Excel.',
       lead: "Le club de foot interne Monoprix géré sur tableurs partagés. En 4 jours, j'ai livré une app complète, alignée avec la marque d'entreprise, qui automatise tout — de la convocation à l'affichage des classements.",
@@ -128,7 +128,7 @@ const projects: (ProjectForModal & {
     modal: {
       badgeType: '03 / Associatif',
       badgeDays: 'Livré en 4 jours',
-      siteHref: '#',
+      siteHref: 'https://belote-front.onrender.com/',
       heroTitleLine1: 'La belote entre amis,',
       heroTitleLine2: 'structurée et compétitive.',
       lead: "47 membres sans aucune infrastructure digitale pour gérer leurs soirées belote. En 4 jours, j'ai livré une app complète avec gestion de parties, calculs automatisés et statistiques en temps réel.",
