@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 
@@ -40,6 +40,12 @@ interface ProjectModalProps {
 
 export function ProjectModal({ project, onClose }: ProjectModalProps) {
   const shouldReduceMotion = useReducedMotion();
+  const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
+
+  // Reset lightbox when project changes
+  useEffect(() => {
+    setLightboxSrc(null);
+  }, [project]);
 
   // Lock body scroll while modal is open
   useEffect(() => {
@@ -51,14 +57,17 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
     };
   }, [project]);
 
-  // Close on Escape
+  // Close lightbox first on Escape, then modal
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
+      if (e.key === 'Escape') {
+        if (lightboxSrc) setLightboxSrc(null);
+        else onClose();
+      }
     };
     document.addEventListener('keydown', handleKey);
     return () => document.removeEventListener('keydown', handleKey);
-  }, [onClose]);
+  }, [onClose, lightboxSrc]);
 
   const overlayAnim = shouldReduceMotion
     ? {}
@@ -73,6 +82,7 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
       };
 
   return (
+    <>
     <AnimatePresence>
       {project && (
         <motion.div
@@ -245,18 +255,21 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
               {project.modal.screenshots.length > 0 && (
                 <div className="mt-5 grid grid-cols-2 gap-3">
                   {project.modal.screenshots.slice(0, 4).map((src, i) => (
-                    <div
+                    <button
                       key={i}
-                      className="relative aspect-video overflow-hidden rounded-[14px] border border-black/[0.06] bg-[var(--bg2)]"
+                      onClick={() => setLightboxSrc(src)}
+                      className="group relative aspect-video overflow-hidden rounded-[14px] border border-black/[0.06] bg-[var(--bg2)] cursor-zoom-in"
+                      aria-label={`Agrandir la capture d'écran ${i + 1}`}
                     >
                       <Image
                         src={src}
                         alt={`Capture d'écran ${i + 1}`}
                         fill
-                        className="object-cover"
+                        className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
                         sizes="(max-width: 760px) 45vw, 350px"
                       />
-                    </div>
+                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-200" />
+                    </button>
                   ))}
                 </div>
               )}
@@ -399,5 +412,46 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
         </motion.div>
       )}
     </AnimatePresence>
+
+    {/* ── LIGHTBOX ──────────────────────────────────────────── */}
+    <AnimatePresence>
+      {lightboxSrc && (
+        <motion.div
+          className="fixed inset-0 z-[9999] flex items-center justify-center p-6"
+          style={{ background: 'rgba(0,0,0,0.88)', backdropFilter: 'blur(6px)' }}
+          onClick={() => setLightboxSrc(null)}
+          initial={shouldReduceMotion ? {} : { opacity: 0 }}
+          animate={shouldReduceMotion ? {} : { opacity: 1 }}
+          exit={shouldReduceMotion ? {} : { opacity: 0 }}
+          transition={{ duration: 0.2 }}
+        >
+          {/* Croix fermeture */}
+          <button
+            onClick={() => setLightboxSrc(null)}
+            aria-label="Fermer l'image"
+            className="absolute top-5 right-5 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white text-lg font-bold hover:bg-white/20 transition-colors"
+          >
+            ✕
+          </button>
+
+          {/* Image agrandie */}
+          <motion.div
+            onClick={(e) => e.stopPropagation()}
+            initial={shouldReduceMotion ? {} : { scale: 0.92, opacity: 0 }}
+            animate={shouldReduceMotion ? {} : { scale: 1, opacity: 1 }}
+            exit={shouldReduceMotion ? {} : { scale: 0.92, opacity: 0 }}
+            transition={{ duration: 0.25, ease: [0.25, 0.46, 0.45, 0.94] }}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={lightboxSrc}
+              alt="Capture d'écran agrandie"
+              className="max-h-[90vh] max-w-[90vw] rounded-[14px] object-contain shadow-2xl"
+            />
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+    </>
   );
 }
