@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion, useReducedMotion, easeOut } from 'framer-motion';
-import { ProjectModal, type ProjectForModal } from './ProjectModal';
+import { ProjectModal, type ProjectForModal, type ProjectModalData } from './ProjectModal';
 
 const containerVariants = {
   hidden: { opacity: 0, y: 24 },
@@ -22,13 +22,19 @@ const itemVariants = {
   visible: { opacity: 1, y: 0 },
 };
 
-const projects: (ProjectForModal & {
+type Project = {
   num: string;
+  emoji?: string;
+  logoText?: string;
+  title: string;
   tagline: string;
   desc: string;
   stack: string;
   result: string;
-})[] = [
+  modal?: ProjectModalData;
+};
+
+const projects: Project[] = [
   {
     num: '01 / padel',
     emoji: '🎾',
@@ -74,7 +80,52 @@ const projects: (ProjectForModal & {
     },
   },
   {
-    num: '02 / entreprise',
+    num: '02 / fintech',
+    logoText: 'pretx',
+    title: 'Pretx',
+    tagline: '→ CPO & Associé',
+    desc: "Co-pilotage de la stratégie produit d'une fintech spécialisée dans le regroupement de crédits. Vision produit, roadmap, priorisation et pilotage agile des cycles de développement.",
+    stack: 'Product Strategy · Roadmap · Agile · Figma',
+    result: '✦ CPO · Actionnaire · 2025 — présent',
+    modal: {
+      badgeType: '02 / Fintech',
+      badgeDays: 'CPO & Associé',
+      siteHref: 'https://pretx.fr',
+      heroTitleLine1: 'La fintech qui simplifie',
+      heroTitleLine2: 'le regroupement de crédits.',
+      lead: "Co-pilotage de la stratégie produit de Pretx, une fintech spécialisée dans le regroupement de crédits et l'accompagnement budgétaire des particuliers. Vision produit, roadmap, priorisation et pilotage agile des cycles de développement.",
+      contextTitle: 'Un marché complexe, une vision produit claire',
+      context:
+        "Le regroupement de crédits est un marché historiquement opaque et peu digitalisé. Pretx ambitionne de simplifier et moderniser l'expérience client grâce à une approche produit centrée sur l'accompagnement et la transparence.",
+      video: '/media/pretx/demo.mp4',
+      videoCaption: '↑ Aperçu de la plateforme Pretx',
+      solutionTitle: 'Vision produit & stratégie',
+      solution:
+        "En tant que CPO et actionnaire, je co-pilote la stratégie produit de Pretx : définition de la vision, construction de la roadmap, priorisation des fonctionnalités et pilotage des cycles de développement en méthode agile.\n\nRôle exclusivement produit et stratégique — non impliqué dans le développement technique ou IA.",
+      screenshots: [
+        '/media/pretx/screen-01.png',
+        '/media/pretx/screen-02.png',
+        '/media/pretx/screen-03.png',
+        '/media/pretx/screen-04.png',
+        '/media/pretx/screen-05.png',
+        '/media/pretx/screen-06.png',
+      ],
+      stackFull: ['Product Strategy', 'Roadmap', 'Agile', 'Figma'],
+      tools: ['Figma', 'Notion', 'Linear'],
+      metrics: [
+        { val: 'CPO', label: 'rôle' },
+        { val: '2025', label: 'depuis' },
+        { val: 'Actionnaire', label: 'statut' },
+      ],
+      quote:
+        "« J'ai fait une demande de rachat de crédit à Pretx — vraiment rien à dire. La personne en charge de mon dossier a été très réactive, à l'écoute, de bon conseil et surtout toujours disponible quand j'avais une question. Un grand merci. »",
+      authorName: 'Nicole',
+      authorRole: 'Cliente Pretx · Trustpilot',
+      avatarInitials: 'N',
+    },
+  },
+  {
+    num: '03 / entreprise',
     emoji: '⚽',
     title: "Monop'Foot",
     tagline: '→ livrée en 4 jours',
@@ -82,7 +133,7 @@ const projects: (ProjectForModal & {
     stack: 'Cursor · Claude Opus 4.5 · Next.js · Supabase',
     result: '✦ 52 équipes · 0 feuille Excel',
     modal: {
-      badgeType: '02 / Entreprise',
+      badgeType: '03 / Entreprise',
       badgeDays: 'Livré en 4 jours',
       siteHref: 'https://monopfoot-front.onrender.com/',
       heroTitleLine1: '52 équipes Monoprix,',
@@ -118,7 +169,7 @@ const projects: (ProjectForModal & {
     },
   },
   {
-    num: '03 / associatif',
+    num: '04 / associatif',
     emoji: '🃏',
     title: 'Club de Belote de Suresnes',
     tagline: '→ livrée en 4 jours',
@@ -126,7 +177,7 @@ const projects: (ProjectForModal & {
     stack: 'Bolt.new · Next.js · Supabase · Render',
     result: '✦ 47 membres · 0€/mois',
     modal: {
-      badgeType: '03 / Associatif',
+      badgeType: '04 / Associatif',
       badgeDays: 'Livré en 4 jours',
       siteHref: 'https://belote-front.onrender.com/',
       heroTitleLine1: 'La belote entre amis,',
@@ -190,7 +241,7 @@ export function Projets() {
             className="mt-2 font-cabinet text-[30px] font-extrabold leading-tight tracking-[-0.04em] text-[var(--dark-text)] md:text-[40px] lg:text-[52px]"
             {...itemProps}
           >
-            Trois outils,
+            Des outils,
             <br />
             <span
               style={{
@@ -200,7 +251,7 @@ export function Projets() {
                 backgroundClip: 'text',
               }}
             >
-              trois délais tenus
+              des délais tenus
             </span>
           </motion.h2>
 
@@ -212,7 +263,7 @@ export function Projets() {
             Des livrables réels, pour de vraies organisations.
           </motion.p>
 
-          <motion.div className="grid gap-5 md:grid-cols-3" {...itemProps}>
+          <motion.div className="grid gap-5 md:grid-cols-2" {...itemProps}>
             {projects.map((project) => (
               <motion.div
                 key={project.num}
@@ -233,7 +284,18 @@ export function Projets() {
                   {project.num}
                 </div>
 
-                <div className="text-[36px] leading-none">{project.emoji}</div>
+                {project.logoText ? (
+                  <div
+                    className="flex h-[40px] w-fit items-center justify-center rounded-[10px] px-4"
+                    style={{ background: '#0F1C3F' }}
+                  >
+                    <span className="font-cabinet text-[17px] font-extrabold tracking-tight text-white">
+                      {project.logoText}
+                    </span>
+                  </div>
+                ) : (
+                  <div className="text-[36px] leading-none">{project.emoji}</div>
+                )}
 
                 <div className="font-cabinet text-[20px] font-extrabold leading-snug tracking-[-0.02em] text-[var(--dark-text)]">
                   {project.title}
@@ -264,13 +326,21 @@ export function Projets() {
                   {project.result}
                 </div>
 
-                <button
-                  onClick={() => setSelectedProject(project)}
-                  className="inline-flex cursor-pointer items-center gap-1.5 border-none bg-transparent p-0 font-bricolage text-[13px] font-bold transition-[gap] duration-200 hover:gap-2.5"
-                  style={{ color: 'var(--cyan)' }}
-                >
-                  Voir le projet →
-                </button>
+                {project.modal && (
+                  <button
+                    onClick={() =>
+                      setSelectedProject({
+                        emoji: project.emoji ?? '',
+                        title: project.title,
+                        modal: project.modal!,
+                      })
+                    }
+                    className="inline-flex cursor-pointer items-center gap-1.5 border-none bg-transparent p-0 font-bricolage text-[13px] font-bold transition-[gap] duration-200 hover:gap-2.5"
+                    style={{ color: 'var(--cyan)' }}
+                  >
+                    Voir le projet →
+                  </button>
+                )}
               </motion.div>
             ))}
           </motion.div>

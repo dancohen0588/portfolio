@@ -16,22 +16,32 @@ const itemVariants = {
   visible: { opacity: 1, y: 0 },
 };
 
-const skills = [
-  { label: 'Cursor', variant: 'violet' },
-  { label: 'OpenAI Codex', variant: 'violet' },
-  { label: 'Claude', variant: 'violet' },
-  { label: 'Lovable', variant: 'pink' },
-  { label: 'Bolt.new', variant: 'pink' },
-  { label: 'v0.dev', variant: 'pink' },
-  { label: 'Next.js', variant: 'cyan' },
-  { label: 'React', variant: 'cyan' },
-  { label: 'Tailwind', variant: 'cyan' },
-  { label: 'Supabase', variant: 'neutral' },
-  { label: 'PostgreSQL', variant: 'neutral' },
-  { label: 'Vercel', variant: 'neutral' },
-  { label: 'Figma', variant: 'neutral' },
-  { label: 'Framer Motion', variant: 'neutral' },
-  { label: 'n8n', variant: 'neutral' },
+const skillGroups = [
+  {
+    label: 'IA & Vibe Coding',
+    skills: [
+      { label: 'Cursor', variant: 'violet' },
+      { label: 'OpenAI Codex', variant: 'violet' },
+      { label: 'Claude', variant: 'violet' },
+      { label: 'Lovable', variant: 'pink' },
+      { label: 'Bolt.new', variant: 'pink' },
+      { label: 'v0.dev', variant: 'pink' },
+    ],
+  },
+  {
+    label: 'Stack & Deploy',
+    skills: [
+      { label: 'Next.js', variant: 'cyan' },
+      { label: 'React', variant: 'cyan' },
+      { label: 'Tailwind', variant: 'cyan' },
+      { label: 'Supabase', variant: 'neutral' },
+      { label: 'PostgreSQL', variant: 'neutral' },
+      { label: 'Vercel', variant: 'neutral' },
+      { label: 'Figma', variant: 'neutral' },
+      { label: 'Framer Motion', variant: 'neutral' },
+      { label: 'n8n', variant: 'neutral' },
+    ],
+  },
 ] as const;
 
 const chipStyles: Record<string, React.CSSProperties> = {
@@ -101,7 +111,7 @@ export function About() {
           </span>
         </motion.h2>
 
-        <div className="mt-12 grid grid-cols-1 gap-10 md:grid-cols-2 md:items-start md:gap-20">
+        <div className="mt-12 grid grid-cols-1 gap-10 md:grid-cols-[3fr_2fr] md:items-start md:gap-16">
           {/* Bio */}
           <motion.div
             className="font-bricolage text-[16px] leading-[1.8] text-[var(--mid)]"
@@ -127,18 +137,45 @@ export function About() {
               Le vibe coding n&rsquo;est pas un raccourci. C&rsquo;est une méthode. Et ma formation
               technique garantit que ce qui est livré est solide, sécurisé et maintenable.
             </p>
+            <p className="mb-5">
+              Parallèlement, je suis CPO et actionnaire chez{' '}
+              <strong className="text-[var(--dark-text)]">Pretx</strong>, une fintech que je
+              co-pilote sur le volet stratégie produit — un rôle purement produit, distinct de mon
+              activité de développement.
+            </p>
+            <a
+              href="/Dan-COHEN-CV-2026.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-2 inline-flex items-center gap-2 rounded-[100px] px-6 py-3 font-mono-custom text-[13px] font-semibold tracking-[0.04em] text-white transition-opacity duration-150 hover:opacity-90"
+              style={{ background: 'linear-gradient(135deg, #7C3AED, #DB2777)' }}
+            >
+              Voir mon CV
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2 12L12 2M12 2H6M12 2V8" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </a>
           </motion.div>
 
-          {/* Skills cloud */}
-          <motion.div className="flex flex-wrap items-start gap-2.5" {...itemProps}>
-            {skills.map((skill) => (
-              <span
-                key={skill.label}
-                className="cursor-default whitespace-nowrap rounded-[100px] border px-4 py-2 font-mono-custom text-[12px] font-medium transition-transform duration-150 hover:scale-105"
-                style={chipStyles[skill.variant]}
-              >
-                {skill.label}
-              </span>
+          {/* Skills groupés */}
+          <motion.div className="flex flex-col gap-6" {...itemProps}>
+            {skillGroups.map((group) => (
+              <div key={group.label}>
+                <div className="mb-3 font-mono-custom text-[10px] uppercase tracking-[0.14em] text-[var(--muted)]">
+                  {group.label}
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {group.skills.map((skill) => (
+                    <span
+                      key={skill.label}
+                      className="cursor-default whitespace-nowrap rounded-[100px] border px-4 py-2 font-mono-custom text-[12px] font-medium transition-transform duration-150 hover:scale-105"
+                      style={chipStyles[skill.variant]}
+                    >
+                      {skill.label}
+                    </span>
+                  ))}
+                </div>
+              </div>
             ))}
           </motion.div>
         </div>
