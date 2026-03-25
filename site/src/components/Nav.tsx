@@ -3,10 +3,10 @@
 import Link from 'next/link';
 
 const links = [
-  { href: '#valeur', label: 'Valeur' },
-  { href: '#projets', label: 'Projets' },
-  { href: '#process', label: 'Process' },
-  { href: '#about', label: 'À propos' },
+  { href: '/#valeur', label: 'Valeur' },
+  { href: '/#projets', label: 'Projets' },
+  { href: '/#process', label: 'Process' },
+  { href: '/#about', label: 'À propos' },
 ];
 
 export function Nav() {
@@ -14,7 +14,7 @@ export function Nav() {
     <nav className="fixed inset-x-0 top-0 z-50 h-16 border-b border-[var(--border)] bg-[rgba(250,250,250,0.88)] backdrop-blur-[16px]">
       <div className="mx-auto grid h-full w-full max-w-[1100px] grid-cols-[1fr_auto_1fr] items-center px-5 md:px-14">
         <Link
-          href="#hero"
+          href="/"
           className="font-cabinet text-[20px] font-extrabold tracking-[-0.03em] text-[var(--dark-text)]"
         >
           <span className="text-[#7C3AED]">Dan</span>

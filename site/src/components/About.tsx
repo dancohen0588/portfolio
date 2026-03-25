@@ -1,6 +1,7 @@
 'use client';
 
 import { motion, useReducedMotion, easeOut } from 'framer-motion';
+import Link from 'next/link';
 
 const containerVariants = {
   hidden: { opacity: 0, y: 24 },
@@ -143,18 +144,27 @@ export function About() {
               co-pilote sur le volet stratégie produit — un rôle purement produit, distinct de mon
               activité de développement.
             </p>
-            <a
-              href="/Dan-COHEN-CV-2026.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-2 inline-flex items-center gap-2 rounded-[100px] px-6 py-3 font-mono-custom text-[13px] font-semibold tracking-[0.04em] text-white transition-opacity duration-150 hover:opacity-90"
-              style={{ background: 'linear-gradient(135deg, #7C3AED, #DB2777)' }}
-            >
-              Voir mon CV
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M2 12L12 2M12 2H6M12 2V8" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </a>
+            <div className="mt-2 flex flex-wrap gap-3">
+              <a
+                href="/Dan-COHEN-CV-2026.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-[100px] px-6 py-3 font-mono-custom text-[13px] font-semibold tracking-[0.04em] text-white transition-opacity duration-150 hover:opacity-90"
+                style={{ background: 'linear-gradient(135deg, #7C3AED, #DB2777)' }}
+              >
+                Voir mon CV
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M2 12L12 2M12 2H6M12 2V8" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </a>
+              <Link
+                href="/experiences"
+                className="inline-flex items-center gap-2 rounded-[100px] border px-6 py-3 font-mono-custom text-[13px] font-semibold tracking-[0.04em] transition-colors duration-150 hover:border-[var(--violet)] hover:text-[var(--violet)]"
+                style={{ borderColor: '#E4E4E7', color: '#18181B' }}
+              >
+                Mes expériences →
+              </Link>
+            </div>
           </motion.div>
 
           {/* Skills groupés */}
