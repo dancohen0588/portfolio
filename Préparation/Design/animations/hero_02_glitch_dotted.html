@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dan Cohen — Glitch + Dotted Surface</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=Fira+Code:wght@400&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #fafafa;
+    min-height: 100vh;
+    overflow: hidden;
+    font-family: 'Bricolage Grotesque', sans-serif;
+  }
+
+  /* ======= DOTTED SURFACE CANVAS ======= */
+  #dotCanvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* Radial gradient mask that fades dots in center (where text lives) */
+  #dotCanvas::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  /* The soft radial vignette overlay — fades dots toward top-center */
+  .dot-vignette {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: radial-gradient(
+      ellipse 55% 45% at 35% 42%,
+      rgba(250,250,250,0.82) 0%,
+      rgba(250,250,250,0.45) 40%,
+      rgba(250,250,250,0.1) 65%,
+      transparent 100%
+    );
+  }
+
+  /* Subtle right-side gradient blob (matching dancohen.fr) */
+  .bg-blob {
+    position: fixed;
+    top: -20%;
+    right: -15%;
+    width: 60%;
+    height: 100%;
+    background: radial-gradient(ellipse at center,
+      rgba(196, 181, 253, 0.22) 0%,
+      rgba(167, 139, 250, 0.1) 35%,
+      transparent 65%
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* ======= HERO CONTENT ======= */
+  .hero-wrapper {
+    position: relative;
+    z-index: 10;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 0 8vw;
+  }
+
+  .hero {
+    max-width: 900px;
+  }
+
+  /* Badge */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    color: #7C3AED;
+    border: 1px solid rgba(124,58,237,0.25);
+    background: rgba(250,250,250,0.7);
+    backdrop-filter: blur(4px);
+    padding: 0.35rem 0.85rem;
+    border-radius: 100px;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.5s ease forwards 0.2s;
+  }
+
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #7C3AED;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.75); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ======= TITLE GLITCH — exact Prop 02 ======= */
+  .title-wrapper {
+    position: relative;
+    display: inline-block;
+    line-height: 1.05;
+  }
+
+  .title {
+    font-size: clamp(3.2rem, 6vw, 5.5rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: #111827;
+    position: relative;
+    z-index: 2;
+    opacity: 0;
+  }
+
+  /* Lines slide up from below */
+  .title .line {
+    display: block;
+    overflow: hidden;
+  }
+
+  .title .line-inner {
+    display: block;
+    transform: translateY(110%);
+  }
+
+  .title.revealed {
+    opacity: 1;
+  }
+
+  .title.revealed .line-inner {
+    animation: lineReveal 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .title.revealed .line:nth-child(1) .line-inner { animation-delay: 0.05s; }
+  .title.revealed .line:nth-child(2) .line-inner { animation-delay: 0.2s; }
+  .title.revealed .line:nth-child(3) .line-inner { animation-delay: 0.35s; }
+
+  @keyframes lineReveal {
+    from { transform: translateY(110%); }
+    to   { transform: translateY(0%); }
+  }
+
+  /* Ghost layers — chromatic aberration */
+  .glitch-layer {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0;
+    font-size: clamp(3.2rem, 6vw, 5.5rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    font-family: 'Bricolage Grotesque', sans-serif;
+  }
+
+  .glitch-layer.red  { color: #DB2777; mix-blend-mode: screen; }
+  .glitch-layer.blue { color: #7C3AED; mix-blend-mode: screen; }
+
+  .glitch-layer.red.active  { animation: glitchR 0.35s ease-in-out forwards; }
+  .glitch-layer.blue.active { animation: glitchB 0.35s ease-in-out forwards; }
+
+  @keyframes glitchR {
+    0%   { opacity: 0;    transform: translateX(0px) translateY(0px); }
+    15%  { opacity: 0.55; transform: translateX(-5px) translateY(1px); }
+    30%  { opacity: 0.4;  transform: translateX(4px) translateY(-1px); }
+    50%  { opacity: 0.6;  transform: translateX(-3px) translateY(0px); }
+    70%  { opacity: 0.3;  transform: translateX(2px) translateY(1px); }
+    85%  { opacity: 0.15; transform: translateX(-1px) translateY(0px); }
+    100% { opacity: 0;    transform: translateX(0px); }
+  }
+
+  @keyframes glitchB {
+    0%   { opacity: 0;    transform: translateX(0px) translateY(0px); }
+    15%  { opacity: 0.55; transform: translateX(5px) translateY(-1px); }
+    30%  { opacity: 0.4;  transform: translateX(-4px) translateY(1px); }
+    50%  { opacity: 0.6;  transform: translateX(3px) translateY(0px); }
+    70%  { opacity: 0.3;  transform: translateX(-2px) translateY(-1px); }
+    85%  { opacity: 0.15; transform: translateX(1px) translateY(0px); }
+    100% { opacity: 0;    transform: translateX(0px); }
+  }
+
+  /* Gradient words — shimmer continu */
+  @keyframes shimmer {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .vc-animated {
+    background: linear-gradient(135deg, #7C3AED, #DB2777, #7C3AED);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 4s ease infinite;
+  }
+
+  .ej-animated {
+    background: linear-gradient(135deg, #06B6D4, #38BDF8, #06B6D4);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 4s ease 0.5s infinite;
+  }
+
+  /* Underline sweep sur "vibe code" */
+  .vc-wrap {
+    position: relative;
+    display: inline;
+  }
+
+  .vc-underline {
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    height: 3px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, #7C3AED, #DB2777);
+    width: 0%;
+    transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .vc-underline.drawn { width: 100%; }
+
+  /* Subtitle + CTA */
+  .subtitle {
+    margin-top: 1.5rem;
+    font-size: clamp(1rem, 1.8vw, 1.15rem);
+    color: #6B7280;
+    line-height: 1.6;
+    max-width: 560px;
+    opacity: 0;
+  }
+
+  .cta-group {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 2rem;
+    opacity: 0;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: linear-gradient(135deg, #7C3AED, #DB2777);
+    color: white;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 700;
+    padding: 0.75rem 1.5rem;
+    border-radius: 100px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    box-shadow: 0 4px 20px rgba(124,58,237,0.3);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 28px rgba(124,58,237,0.4);
+  }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(4px);
+    color: #111827;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    border-radius: 100px;
+    border: 1.5px solid #E5E7EB;
+    cursor: pointer;
+    text-decoration: none;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .btn-secondary:hover {
+    border-color: #D1D5DB;
+    transform: translateY(-1px);
+  }
+
+  /* Label */
+  .label {
+    position: fixed;
+    bottom: 1.25rem;
+    right: 1.25rem;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.65rem;
+    color: rgba(0,0,0,0.2);
+    letter-spacing: 0.06em;
+    z-index: 20;
+  }
+
+  .replay {
+    position: fixed;
+    bottom: 1.25rem;
+    left: 1.25rem;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.65rem;
+    color: #7C3AED;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    border: 1px solid rgba(124,58,237,0.3);
+    padding: 0.3rem 0.7rem;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.8);
+    backdrop-filter: blur(4px);
+    z-index: 20;
+  }
+
+  .replay:hover { background: rgba(124,58,237,0.06); }
+</style>
+</head>
+<body>
+
+<!-- Dotted Surface Canvas (Three.js) -->
+<canvas id="dotCanvas"></canvas>
+
+<!-- Radial vignette to blend dots with hero -->
+<div class="dot-vignette"></div>
+<div class="bg-blob"></div>
+
+<!-- Hero Content -->
+<div class="hero-wrapper">
+  <div class="hero">
+
+    <div class="badge">
+      <span class="badge-dot"></span>
+      EXPERT VIBE CODING & DÉVELOPPEMENT IA
+    </div>
+
+    <div class="title-wrapper" id="titleWrapper">
+      <!-- Ghost layers chromatic aberration -->
+      <div class="glitch-layer red" id="ghostRed" aria-hidden="true">
+        Je <span class="vc-animated">vibe code</span><br>
+        votre prochain<br>
+        outil. <span class="ej-animated">En jours.</span>
+      </div>
+      <div class="glitch-layer blue" id="ghostBlue" aria-hidden="true">
+        Je <span class="vc-animated">vibe code</span><br>
+        votre prochain<br>
+        outil. <span class="ej-animated">En jours.</span>
+      </div>
+
+      <!-- Main title -->
+      <h1 class="title" id="title">
+        <span class="line"><span class="line-inner">Je <span class="vc-wrap"><span class="vc-animated">vibe code</span><span class="vc-underline" id="vcUnderline"></span></span></span></span>
+        <span class="line"><span class="line-inner">votre prochain</span></span>
+        <span class="line"><span class="line-inner">outil. <span class="ej-animated">En jours.</span></span></span>
+      </h1>
+    </div>
+
+    <p class="subtitle" id="subtitle">
+      Sites web, dashboards, apps mobiles sur mesure.<br>
+      Ingénieur + 15 ans Product chez Monoprix, TF1, Bouygues — livré 5× plus vite avec les meilleurs outils IA.
+    </p>
+
+    <div class="cta-group" id="cta">
+      <a class="btn-primary" href="#">Discutons de votre projet ✦</a>
+      <a class="btn-secondary" href="#">Voir mes projets ↓</a>
+    </div>
+
+  </div>
+</div>
+
+<div class="label">GLITCH + DOTTED SURFACE — dancohen.fr</div>
+<button class="replay" onclick="startAnimation()">↺ replay</button>
+
+<script>
+// =============================================
+//  DOTTED SURFACE — Three.js (r128)
+//  Inspired by efferd/dotted-surface (21st.dev)
+// =============================================
+
+(function initDottedSurface() {
+  const canvas  = document.getElementById('dotCanvas');
+  const W       = window.innerWidth;
+  const H       = window.innerHeight;
+
+  // --- Scene ---
+  const scene    = new THREE.Scene();
+  const camera   = new THREE.PerspectiveCamera(75, W / H, 1, 10000);
+  camera.position.set(0, 280, 700);
+  camera.lookAt(0, 0, 0);
+
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+  renderer.setSize(W, H);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setClearColor(0x000000, 0);  // transparent bg
+
+  // --- Dot grid parameters ---
+  const SEPARATION = 100;
+  const AMOUNTX    = 72;   // columns
+  const AMOUNTY    = 42;   // rows (depth)
+  const TOTAL      = AMOUNTX * AMOUNTY;
+
+  // Geometry
+  const positions = new Float32Array(TOTAL * 3);
+  const scales    = new Float32Array(TOTAL);
+
+  const geometry  = new THREE.BufferGeometry();
+  geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  geometry.setAttribute('scale',    new THREE.BufferAttribute(scales, 1));
+
+  // Custom shader material — round dots, soft edges, varying size
+  const material = new THREE.ShaderMaterial({
+    uniforms: {
+      color:   { value: new THREE.Color(0x1f1f2e) },
+      opacity: { value: 0.0 },   // fade-in controlled by JS — target: 0.85
+    },
+    vertexShader: `
+      attribute float scale;
+      void main() {
+        vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+        gl_PointSize = scale * (300.0 / -mvPosition.z);
+        gl_Position  = projectionMatrix * mvPosition;
+      }
+    `,
+    fragmentShader: `
+      uniform vec3  color;
+      uniform float opacity;
+      void main() {
+        // Round dot with soft edge
+        float d = length(gl_PointCoord - vec2(0.5));
+        float alpha = 1.0 - smoothstep(0.35, 0.5, d);
+        gl_FragColor = vec4(color, alpha * opacity);
+      }
+    `,
+    transparent: true,
+    depthWrite: false,
+  });
+
+  const particles = new THREE.Points(geometry, material);
+  scene.add(particles);
+
+  // --- Animation ---
+  let count    = 0;
+  let opacity  = 0;
+  let rafId;
+
+  function animate() {
+    rafId = requestAnimationFrame(animate);
+
+    // Fade in dots
+    if (opacity < 1.0) {
+      opacity = Math.min(opacity + 0.008, 1.0);
+      material.uniforms.opacity.value = opacity * 0.85; // max 85% opacity
+    }
+
+    let i = 0, j = 0;
+    for (let ix = 0; ix < AMOUNTX; ix++) {
+      for (let iy = 0; iy < AMOUNTY; iy++) {
+        const x = (ix * SEPARATION) - ((AMOUNTX * SEPARATION) / 2);
+        const z = (iy * SEPARATION) - ((AMOUNTY * SEPARATION) / 2);
+        const y = (Math.sin((ix + count) * 0.3) * 60)
+                + (Math.sin((iy + count) * 0.5) * 60);
+
+        positions[i]     = x;
+        positions[i + 1] = y;
+        positions[i + 2] = z;
+
+        // Scale varies with wave height + distance falloff
+        const waveScale = (Math.sin((ix + count) * 0.3) + 1) * 7
+                        + (Math.sin((iy + count) * 0.5) + 1) * 7;
+        // Distance from center — softer falloff so edges stay visible
+        const dx = ix / AMOUNTX - 0.5;
+        const dz = iy / AMOUNTY - 0.5;
+        const dist = Math.sqrt(dx * dx + dz * dz);
+        const falloff = Math.max(0.15, 1 - dist * 1.2);
+
+        scales[j] = (waveScale + 4) * falloff;
+
+        i += 3;
+        j++;
+      }
+    }
+
+    geometry.attributes.position.needsUpdate = true;
+    geometry.attributes.scale.needsUpdate    = true;
+
+    // Tilt camera gently for 3D feel
+    camera.position.y = 280 + Math.sin(count * 0.05) * 20;
+    camera.lookAt(scene.position);
+
+    count += 0.04;
+    renderer.render(scene, camera);
+  }
+
+  animate();
+
+  // Resize
+  window.addEventListener('resize', () => {
+    const w = window.innerWidth, h = window.innerHeight;
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+    renderer.setSize(w, h);
+  });
+})();
+
+
+// =============================================
+//  GLITCH HERO ANIMATION — identique Prop 02
+// =============================================
+
+function startAnimation() {
+  const title    = document.getElementById('title');
+  const ghostR   = document.getElementById('ghostRed');
+  const ghostB   = document.getElementById('ghostBlue');
+  const vcLine   = document.getElementById('vcUnderline');
+  const subtitle = document.getElementById('subtitle');
+  const cta      = document.getElementById('cta');
+
+  // Reset
+  title.classList.remove('revealed');
+  title.style.opacity = '0';
+  ghostR.classList.remove('active');
+  ghostB.classList.remove('active');
+  ghostR.style.animation = 'none';
+  ghostB.style.animation = 'none';
+  vcLine.classList.remove('drawn');
+  subtitle.style.opacity  = '0';
+  subtitle.style.animation = '';
+  cta.style.opacity       = '0';
+  cta.style.animation     = '';
+
+  // Reset line-inner transforms
+  title.querySelectorAll('.line-inner').forEach(el => {
+    el.style.animation  = 'none';
+    el.style.transform  = 'translateY(110%)';
+  });
+
+  setTimeout(() => {
+    // 1. Ghost glitch burst
+    ghostR.style.animation = '';
+    ghostB.style.animation = '';
+    void ghostR.offsetWidth;
+    ghostR.classList.add('active');
+    ghostB.classList.add('active');
+
+    // 2. Reveal lines from below
+    setTimeout(() => {
+      title.style.opacity = '1';
+      title.classList.add('revealed');
+      title.querySelectorAll('.line-inner').forEach(el => {
+        el.style.animation = '';
+      });
+
+      // Underline "vibe code" après entrée ligne 1
+      setTimeout(() => vcLine.classList.add('drawn'), 600);
+
+      // Glitch périodique
+      setInterval(() => {
+        ghostR.style.animation = 'none';
+        ghostB.style.animation = 'none';
+        void ghostR.offsetWidth;
+        ghostR.classList.add('active');
+        ghostB.classList.add('active');
+        ghostR.style.animation = 'glitchR 0.35s ease-in-out forwards';
+        ghostB.style.animation = 'glitchB 0.35s ease-in-out forwards';
+      }, 3500);
+
+      // Subtitle & CTA
+      setTimeout(() => {
+        subtitle.style.animation = 'fadeUp 0.6s ease forwards';
+        setTimeout(() => {
+          cta.style.animation = 'fadeUp 0.6s ease forwards';
+        }, 200);
+      }, 900);
+
+    }, 200);
+  }, 300);
+}
+
+window.addEventListener('load', () => {
+  setTimeout(startAnimation, 500); // léger délai pour que les dots commencent
+});
+</script>
+</body>
+</html>

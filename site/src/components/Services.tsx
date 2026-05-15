@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, useReducedMotion, easeOut } from 'framer-motion';
+import { motion, useReducedMotion, easeOut } from 'motion/react';
 
 const containerVariants = {
   hidden: { opacity: 0, y: 24 },

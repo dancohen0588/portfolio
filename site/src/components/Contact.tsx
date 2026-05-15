@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { motion, useReducedMotion, easeOut } from 'framer-motion';
+import { motion, useReducedMotion, easeOut } from 'motion/react';
 
 type FormData = {
   prenom: string;

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { motion, useReducedMotion, easeOut } from 'framer-motion';
+import { motion, useReducedMotion, easeOut } from 'motion/react';
 import { ProjectModal, type ProjectForModal, type ProjectModalData } from './ProjectModal';
 
 const containerVariants = {

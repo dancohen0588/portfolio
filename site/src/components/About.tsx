@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, useReducedMotion, easeOut } from 'framer-motion';
+import { motion, useReducedMotion, easeOut } from 'motion/react';
 import Link from 'next/link';
 
 const containerVariants = {

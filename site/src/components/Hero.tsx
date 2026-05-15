@@ -1,6 +1,7 @@
 'use client';
 
-import { useReducedMotion, motion, easeInOut, easeOut } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
+import { useReducedMotion, motion, easeInOut, easeOut } from 'motion/react';
 
 const fadeContainer = {
   hidden: { opacity: 0, y: 24 },
@@ -22,6 +23,84 @@ const fadeItem = {
 
 export function Hero() {
   const shouldReduceMotion = useReducedMotion();
+
+  const ghostRRef = useRef<HTMLSpanElement>(null);
+  const ghostBRef = useRef<HTMLSpanElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const [revealedState, setRevealedState] = useState(false);
+  const [underlineDrawnState, setUnderlineDrawnState] = useState(false);
+
+  const revealed = shouldReduceMotion || revealedState;
+  const underlineDrawn = shouldReduceMotion || underlineDrawnState;
+
+  useEffect(() => {
+    if (shouldReduceMotion) return;
+
+    const timers = new Set<ReturnType<typeof setTimeout>>();
+    let cancelled = false;
+
+    const track = (t: ReturnType<typeof setTimeout>) => {
+      timers.add(t);
+      return t;
+    };
+
+    const triggerGlitch = () => {
+      const r = ghostRRef.current;
+      const b = ghostBRef.current;
+      const h = titleRef.current;
+      if (!r || !b) return;
+      r.classList.remove('active');
+      b.classList.remove('active');
+      if (h) h.classList.remove('shaking');
+      // Force reflow so the re-added class restarts the animation
+      void r.offsetWidth;
+      r.classList.add('active');
+      b.classList.add('active');
+      if (h) h.classList.add('shaking');
+    };
+
+    const scheduleNextGlitch = () => {
+      if (cancelled) return;
+      // Random interval between 1s and 3s — frequent, organic tremor
+      const delay = 1000 + Math.random() * 2000;
+      track(
+        setTimeout(() => {
+          if (cancelled) return;
+          triggerGlitch();
+          // ~20% chance of a quick aftershock 150–280ms later
+          if (Math.random() < 0.2) {
+            track(
+              setTimeout(() => {
+                if (cancelled) return;
+                triggerGlitch();
+                scheduleNextGlitch();
+              }, 150 + Math.random() * 130)
+            );
+          } else {
+            scheduleNextGlitch();
+          }
+        }, delay)
+      );
+    };
+
+    track(
+      setTimeout(() => {
+        triggerGlitch();
+        track(
+          setTimeout(() => {
+            setRevealedState(true);
+            track(setTimeout(() => setUnderlineDrawnState(true), 600));
+            scheduleNextGlitch();
+          }, 200)
+        );
+      }, 300)
+    );
+
+    return () => {
+      cancelled = true;
+      timers.forEach(clearTimeout);
+    };
+  }, [shouldReduceMotion]);
 
   const containerProps = shouldReduceMotion
     ? {}
@@ -92,27 +171,54 @@ export function Hero() {
           Expert Vibe Coding &amp; Développement IA
         </motion.div>
 
-        {/* H1 */}
-        <motion.h1
-          className="mt-8 max-w-[800px] font-cabinet text-[44px] font-extrabold leading-[0.95] tracking-[-0.04em] text-[var(--dark-text)] md:text-[64px] lg:text-[80px]"
-          {...itemAnimationProps}
-        >
-          Je{' '}
+        {/* H1 — Glitch Chromatic animation */}
+        <div className="hero-title-wrap mt-8 max-w-[800px] font-cabinet text-[44px] font-extrabold leading-[0.95] tracking-[-0.04em] text-[var(--dark-text)] md:text-[64px] lg:text-[80px]">
           <span
-            style={{
-              background: 'linear-gradient(135deg, #7C3AED, #DB2777)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-            }}
+            ref={ghostRRef}
+            aria-hidden="true"
+            className="hero-glitch-ghost hero-glitch-r"
           >
-            vibe code
+            Je <span className="hero-vibe-code">vibe code</span>
+            <br />
+            votre prochain
+            <br />
+            outil. <span className="hero-en-jours">En jours.</span>
           </span>
-          <br />
-          votre prochain
-          <br />
-          outil. <span className="text-[#06B6D4]">En jours.</span>
-        </motion.h1>
+          <span
+            ref={ghostBRef}
+            aria-hidden="true"
+            className="hero-glitch-ghost hero-glitch-b"
+          >
+            Je <span className="hero-vibe-code">vibe code</span>
+            <br />
+            votre prochain
+            <br />
+            outil. <span className="hero-en-jours">En jours.</span>
+          </span>
+
+          <h1 ref={titleRef} className={`hero-title ${revealed ? 'revealed' : ''}`}>
+            <span className="hero-line">
+              <span className="hero-line-inner">
+                Je{' '}
+                <span className="hero-vibe-code-wrap">
+                  <span className="hero-vibe-code">vibe code</span>
+                  <span
+                    className={`hero-underline ${underlineDrawn ? 'drawn' : ''}`}
+                    aria-hidden="true"
+                  />
+                </span>
+              </span>
+            </span>
+            <span className="hero-line">
+              <span className="hero-line-inner">votre prochain</span>
+            </span>
+            <span className="hero-line">
+              <span className="hero-line-inner">
+                outil. <span className="hero-en-jours">En jours.</span>
+              </span>
+            </span>
+          </h1>
+        </div>
 
         {/* Sous-titre */}
         <motion.p
