@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { useReducedMotion, motion, easeInOut, easeOut } from 'motion/react';
+import { DottedSurface } from './DottedSurface';
 
 const fadeContainer = {
   hidden: { opacity: 0, y: 24 },
@@ -127,6 +128,9 @@ export function Hero() {
       id="hero"
       className="relative flex min-h-screen flex-col justify-center overflow-hidden bg-[var(--bg)] px-5 pt-[140px] pb-20 md:px-14"
     >
+      {/* Dotted surface 3D background */}
+      <DottedSurface />
+
       {/* Blobs de fond */}
       <motion.div
         className="pointer-events-none absolute -top-[200px] -right-[100px] h-[700px] w-[700px] rounded-full"
