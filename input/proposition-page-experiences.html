@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dan Cohen — Expériences</title>
+  <link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@700,800&f[]=bricolage-grotesque@400,500,600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --purple-deep: #2E0087;
+      --violet: #7C3AED;
+      --magenta: #DB2777;
+      --cyan: rgba(6,182,212,0.8);
+      --bg: #ffffff;
+      --bg-surface: #FAFAFA;
+      --bg-card: #ffffff;
+      --border: rgba(0,0,0,0.08);
+      --border-hover: rgba(124,58,237,0.3);
+      --text-primary: #18181B;
+      --text-secondary: #52525B;
+      --text-tertiary: #A1A1AA;
+      --gradient: linear-gradient(135deg, #2E0087, #7C3AED, #DB2777);
+      --shadow-card: 0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03);
+      --shadow-card-hover: 0 4px 16px rgba(124,58,237,0.08), 0 8px 32px rgba(0,0,0,0.06);
+    }
+
+    body {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      background: var(--bg);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* === NAV (identique au site) === */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 16px 40px;
+      display: flex; justify-content: space-between; align-items: center;
+      background: rgba(255,255,255,0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    nav .logo {
+      font-family: 'Cabinet Grotesk', sans-serif;
+      font-weight: 800; font-size: 20px; letter-spacing: -0.04em;
+      color: var(--text-primary); text-decoration: none;
+    }
+    nav .nav-links { display: flex; gap: 32px; align-items: center; }
+    nav .nav-links a {
+      font-family: 'Fira Code', monospace; font-size: 13px;
+      color: var(--text-tertiary); text-decoration: none;
+      letter-spacing: 0.14em; text-transform: uppercase; transition: color 0.2s;
+    }
+    nav .nav-links a:hover { color: var(--text-primary); }
+    nav .cta-btn {
+      background: var(--gradient); color: #fff;
+      padding: 10px 24px; border-radius: 8px;
+      font-size: 14px; font-weight: 600; text-decoration: none;
+    }
+
+    /* === PAGE CONTENT === */
+    .page { max-width: 1200px; margin: 0 auto; padding: 100px 40px 80px; }
+
+    /* Bouton retour discret */
+    .back-link {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: 'Fira Code', monospace; font-size: 13px;
+      color: var(--text-tertiary); text-decoration: none;
+      letter-spacing: 0.05em; margin-bottom: 40px; transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--violet); }
+
+    /* === KPIs BAR (début de page) === */
+    .stats-bar {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      border: 1px solid var(--border); border-radius: 16px;
+      overflow: hidden; margin-bottom: 48px;
+      background: var(--bg-card);
+      box-shadow: var(--shadow-card);
+    }
+    .stat-item {
+      padding: 36px 24px; text-align: center;
+      border-right: 1px solid var(--border);
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-number {
+      font-family: 'Cabinet Grotesk', sans-serif;
+      font-weight: 800; font-size: 40px;
+      background: var(--gradient);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-label {
+      font-size: 13px; color: var(--text-tertiary);
+      text-transform: uppercase; letter-spacing: 0.1em; margin-top: 6px;
+    }
+
+    /* === FILTRES === */
+    .filter-bar {
+      display: flex; justify-content: center; gap: 10px;
+      margin-bottom: 48px; flex-wrap: wrap;
+    }
+    .filter-btn {
+      font-family: 'Fira Code', monospace; font-size: 12px;
+      letter-spacing: 0.08em; padding: 9px 22px;
+      border: 1px solid var(--border); background: var(--bg-card);
+      color: var(--text-secondary); border-radius: 100px;
+      cursor: pointer; transition: all 0.25s; text-transform: uppercase;
+    }
+    .filter-btn:hover {
+      border-color: var(--violet); color: var(--violet);
+    }
+    .filter-btn.active {
+      background: var(--gradient); border-color: transparent; color: #fff;
+    }
+
+    /* === BLOCS ENTREPRISE === */
+    .company-block { margin-bottom: 56px; }
+    .company-header {
+      display: flex; align-items: center; gap: 16px;
+      margin-bottom: 20px; padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+    .company-period {
+      font-family: 'Fira Code', monospace; font-size: 13px;
+      color: var(--violet); letter-spacing: 0.05em; white-space: nowrap;
+      font-weight: 600;
+    }
+    .company-name {
+      font-family: 'Cabinet Grotesk', sans-serif;
+      font-weight: 800; font-size: 26px; letter-spacing: -0.04em;
+      color: var(--text-primary);
+    }
+    .company-role {
+      font-size: 15px; color: var(--text-secondary); font-style: italic;
+    }
+    .company-sector-tag {
+      font-family: 'Fira Code', monospace; font-size: 11px;
+      letter-spacing: 0.08em; padding: 4px 14px;
+      border: 1px solid var(--border); border-radius: 100px;
+      color: var(--text-tertiary); text-transform: uppercase; white-space: nowrap;
+      margin-left: auto;
+    }
+
+    /* === MISSION CARDS === */
+    .missions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 18px;
+    }
+    .mission-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px; padding: 28px;
+      position: relative; overflow: hidden;
+      transition: all 0.3s ease;
+      box-shadow: var(--shadow-card);
+    }
+    .mission-card::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 3px;
+      background: var(--gradient); opacity: 0; transition: opacity 0.3s;
+    }
+    .mission-card:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-card-hover);
+    }
+    .mission-card:hover::before { opacity: 1; }
+
+    .card-top {
+      display: flex; justify-content: space-between;
+      align-items: flex-start; margin-bottom: 12px;
+    }
+    .card-client {
+      font-family: 'Cabinet Grotesk', sans-serif;
+      font-weight: 700; font-size: 19px; letter-spacing: -0.02em;
+      color: var(--text-primary);
+    }
+    .card-date {
+      font-family: 'Fira Code', monospace; font-size: 12px;
+      color: var(--text-tertiary); white-space: nowrap;
+    }
+    .card-role {
+      font-size: 14px; color: var(--violet);
+      font-weight: 600; margin-bottom: 10px;
+    }
+    .card-description {
+      font-size: 14px; color: var(--text-secondary);
+      line-height: 1.7; margin-bottom: 16px;
+    }
+    .card-missions {
+      list-style: none; padding: 0; margin-bottom: 16px;
+    }
+    .card-missions li {
+      font-size: 13px; color: var(--text-secondary);
+      padding: 4px 0 4px 18px; position: relative; line-height: 1.6;
+    }
+    .card-missions li::before {
+      content: '✦'; position: absolute; left: 0;
+      background: var(--gradient);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      font-size: 10px; top: 7px;
+    }
+    .card-stack { display: flex; flex-wrap: wrap; gap: 6px; }
+    .stack-tag {
+      font-family: 'Fira Code', monospace; font-size: 11px;
+      padding: 4px 12px; border-radius: 100px;
+      background: rgba(124,58,237,0.06);
+      color: var(--violet); border: 1px solid rgba(124,58,237,0.12);
+    }
+
+    /* Context block */
+    .company-context {
+      margin-top: 18px; padding: 20px 24px;
+      background: rgba(124,58,237,0.03);
+      border: 1px solid rgba(124,58,237,0.1);
+      border-radius: 12px; font-size: 14px;
+      color: var(--text-secondary); line-height: 1.7;
+    }
+    .company-context .label {
+      font-family: 'Fira Code', monospace; font-size: 11px;
+      color: var(--violet); letter-spacing: 0.1em;
+      text-transform: uppercase; margin-bottom: 8px;
+    }
+
+    /* === DEMO : Boutons section About === */
+    .about-demo {
+      margin-top: 80px; padding: 40px;
+      background: var(--bg-surface); border: 1px solid var(--border);
+      border-radius: 16px;
+    }
+    .about-demo h3 {
+      font-family: 'Fira Code', monospace; font-size: 12px;
+      color: var(--text-tertiary); letter-spacing: 0.1em;
+      text-transform: uppercase; margin-bottom: 24px;
+    }
+    .btn-group { display: flex; gap: 14px; flex-wrap: wrap; }
+    .btn-cv {
+      padding: 12px 28px; border-radius: 8px;
+      font-size: 15px; font-weight: 600;
+      text-decoration: none; display: inline-flex;
+      align-items: center; gap: 8px; transition: all 0.3s;
+      font-family: 'Bricolage Grotesque', sans-serif;
+    }
+    .btn-cv.primary {
+      background: var(--gradient); color: #fff; border: none;
+    }
+    .btn-cv.secondary {
+      background: transparent; color: var(--text-primary);
+      border: 1px solid var(--border);
+    }
+    .btn-cv.secondary:hover {
+      border-color: var(--violet); color: var(--violet);
+    }
+
+    /* === RESPONSIVE === */
+    @media (max-width: 768px) {
+      nav { padding: 12px 20px; }
+      .page { padding: 90px 20px 60px; }
+      .stats-bar { grid-template-columns: repeat(2, 1fr); }
+      .stat-item:nth-child(2) { border-right: none; }
+      .stat-item:nth-child(1), .stat-item:nth-child(2) { border-bottom: 1px solid var(--border); }
+      .missions-grid { grid-template-columns: 1fr; }
+      .company-header { flex-wrap: wrap; gap: 8px; }
+      .company-sector-tag { margin-left: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV (identique à la home, sans entrée supplémentaire) -->
+  <nav>
+    <a href="https://dancohen.fr" class="logo">Dan Cohen</a>
+    <div class="nav-links">
+      <a href="https://dancohen.fr/#valeur">Valeur</a>
+      <a href="https://dancohen.fr/#projets">Projets</a>
+      <a href="https://dancohen.fr/#process">Process</a>
+      <a href="https://dancohen.fr/#about">À propos</a>
+      <a href="#" class="cta-btn">Discutons ✦</a>
+    </div>
+  </nav>
+
+  <div class="page">
+
+    <!-- Retour discret -->
+    <a href="https://dancohen.fr" class="back-link">← Retour à l'accueil</a>
+
+    <!-- KPIs (début de page) -->
+    <div class="stats-bar">
+      <div class="stat-item">
+        <div class="stat-number">15+</div>
+        <div class="stat-label">Années d'expérience</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">12+</div>
+        <div class="stat-label">Clients grands comptes</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">20+</div>
+        <div class="stat-label">Missions réalisées</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">4</div>
+        <div class="stat-label">Entreprises</div>
+      </div>
+    </div>
+
+    <!-- FILTRES -->
+    <div class="filter-bar">
+      <button class="filter-btn active" data-filter="all">Tout</button>
+      <button class="filter-btn" data-filter="retail">Retail</button>
+      <button class="filter-btn" data-filter="media">Média</button>
+      <button class="filter-btn" data-filter="telecoms">Télécoms</button>
+      <button class="filter-btn" data-filter="industrie">Industrie</button>
+    </div>
+
+    <!-- ============================================ -->
+    <!--              MONOPRIX (RETAIL)               -->
+    <!-- ============================================ -->
+    <div class="company-block" data-sectors="retail">
+      <div class="company-header">
+        <span class="company-period">2022 — Auj.</span>
+        <span class="company-name">Monoprix</span>
+        <span class="company-role">Product Owner E-Commerce / PMO</span>
+        <span class="company-sector-tag">Retail / E-Commerce</span>
+      </div>
+      <div class="missions-grid">
+        <div class="mission-card">
+          <div class="card-top">
+            <span class="card-client">Transformation E-Commerce</span>
+            <span class="card-date">2022 — Auj.</span>
+          </div>
+          <div class="card-role">Product Owner & PMO</div>
+          <div class="card-description">Pilotage du programme de transformation e-commerce. Gouvernance multi-partenaires, coordination COPIL avec les éditeurs et équipes internes.</div>
+          <ul class="card-missions">
+            <li>Refonte site e-commerce avec SFCC — boost CA en ligne</li>
+            <li>Release app mobile M'Monoprix — nouvelles fonctionnalités</li>
+            <li>Intégration PSP Adyen — nouveaux moyens de paiement</li>
+            <li>Refonte parcours connexion (Reach5)</li>
+            <li>Redesign complet espace client web & app</li>
+            <li>Conduite du changement — adoption nouveaux outils</li>
+          </ul>
+          <div class="card-stack">
+            <span class="stack-tag">SFCC</span>
+            <span class="stack-tag">Adyen</span>
+            <span class="stack-tag">Reach5</span>
+            <span class="stack-tag">JIRA</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!--         TAPPTIC / RIPLEE (MULTI)             -->
+    <!-- ============================================ -->
+    <div class="company-block" data-sectors="retail,media">
+      <div class="company-header">
+        <span class="company-period">Oct. 2017 — 2022</span>
+        <span class="company-name">Tapptic / Riplee</span>
+        <span class="company-role">Directeur de Projets Digitaux</span>
+        <span class="company-sector-tag">Agence digitale</span>
+      </div>
+      <div class="missions-grid">
+
+        <!-- MEDIA -->
+        <div class="mission-card" data-sector="media">
+          <div class="card-top">
+            <span class="card-client">📺 Bouygues Telecom</span>
+            <span class="card-date">2017 — 2022</span>
+          </div>
+          <div class="card-role">Project Manager — App B.TV</div>
+          <div class="card-description">Gestion de projet de l'application B.TV (iOS/Android). Animation de workshops, définition roadmap, wireframes, supervision des phases de développement.</div>
+          <div class="card-stack">
+            <span class="stack-tag">iOS</span>
+            <span class="stack-tag">Android</span>
+            <span class="stack-tag">Agile</span>
+          </div>
+        </div>
+
+        <div class="mission-card" data-sector="media">
+          <div class="card-top">
+            <span class="card-client">📺 TF1</span>
+            <span class="card-date">2017 — 2022</span>
+          </div>
+          <div class="card-role">Project Manager — App TFOU</div>
+          <div class="card-description">Pilotage de l'application TFOU (web, app mobile, tablette, Freebox, Apple TV). Gestion en sprints Agile. Optimisation UX multi-plateforme.</div>
+          <div class="card-stack">
+            <span class="stack-tag">Multi-plateforme</span>
+            <span class="stack-tag">Apple TV</span>
+            <span class="stack-tag">Agile</span>
+          </div>
+        </div>
+
+        <div class="mission-card" data-sector="media">
+          <div class="card-top">
+            <span class="card-client">📺 M6</span>
+            <span class="card-date">2017 — 2020</span>
+          </div>
+          <div class="card-role">Project Manager</div>
+          <div class="card-description">Gestion de projets digitaux pour le groupe M6.</div>
+          <div class="card-stack">
+            <span class="stack-tag">Mobile</span>
+            <span class="stack-tag">Web</span>
+          </div>
+        </div>
+
+        <!-- RETAIL -->
+        <div class="mission-card" data-sector="retail">
+          <div class="card-top">
+            <span class="card-client">👟 Sarenza</span>
+            <span class="card-date">2017 — 2020</span>
+          </div>
+          <div class="card-role">Project Manager — App Mobile</div>
+          <div class="card-description">Gestion de l'app mobile Sarenza (iOS/Android). Pilotage des releases, coordination UX et développement.</div>
+          <div class="card-stack">
+            <span class="stack-tag">iOS</span>
+            <span class="stack-tag">Android</span>
+            <span class="stack-tag">E-Commerce</span>
+          </div>
+        </div>
+
+        <div class="mission-card" data-sector="retail">
+          <div class="card-top">
+            <span class="card-client">🛒 Monoprix</span>
+            <span class="card-date">2017 — 2022</span>
+          </div>
+          <div class="card-role">Project Manager — App M'Monoprix</div>
+          <div class="card-description">Gestion de l'app mobile M'Monoprix (iOS/Android) avant la transition en interne comme Product Owner.</div>
+          <div class="card-stack">
+            <span class="stack-tag">iOS</span>
+            <span class="stack-tag">Android</span>
+          </div>
+        </div>
+
+        <div class="mission-card" data-sector="industrie">
+          <div class="card-top">
+            <span class="card-client">📦 La Poste</span>
+            <span class="card-date">2017 — 2019</span>
+          </div>
+          <div class="card-role">Project Manager</div>
+          <div class="card-description">Gestion de projets d'applications mobiles et web pour La Poste.</div>
+          <div class="card-stack">
+            <span class="stack-tag">Mobile</span>
+            <span class="stack-tag">Web</span>
+          </div>
+        </div>
+
+      </div>
+      <div class="company-context">
+        <div class="label">// responsabilités transverses</div>
+        Direction d'un portefeuille de projets digitaux. Management d'équipe jusqu'à 12 personnes (Dev, UX, QA). Mise en place des méthodologies Agile. Développement commercial et avant-vente. Animation de l'écosystème d'innovation (RA, RV, Smart Speaker).
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!--          WAVESTONE (INDUSTRIE)               -->
+    <!-- ============================================ -->
+    <div class="company-block" data-sectors="industrie">
+      <div class="company-header">
+        <span class="company-period">2014 — 2017</span>
+        <span class="company-name">Wavestone</span>
+        <span class="company-role">Consultant Senior — Stratégie SI & IoT</span>
+        <span class="company-sector-tag">Conseil</span>
+      </div>
+      <div class="missions-grid">
+        <div class="mission-card" data-sector="industrie">
+          <div class="card-top">
+            <span class="card-client">🚆 Alstom</span>
+            <span class="card-date">Jan — Oct 2017</span>
+          </div>
+          <div class="card-role">Architecte technique et fonctionnel</div>
+          <div class="card-description">Audit technique d'applications métier dans le cadre d'une migration réseau.</div>
+          <div class="card-stack">
+            <span class="stack-tag">Audit</span>
+            <span class="stack-tag">Migration</span>
+          </div>
+        </div>
+
+        <div class="mission-card" data-sector="industrie">
+          <div class="card-top">
+            <span class="card-client">🔬 Air Liquide</span>
+            <span class="card-date">Mai — Déc 2016</span>
+          </div>
+          <div class="card-role">Consultant IoT — Bouteilles Connectées</div>
+          <div class="card-description">Accompagnement technique et organisationnel du projet IoT « Bouteilles Connectées ». Analyse des besoins, data model, stratégie d'intégration, recette technique, processus de RUN.</div>
+          <div class="card-stack">
+            <span class="stack-tag">IoT</span>
+            <span class="stack-tag">Sigfox</span>
+            <span class="stack-tag">LoRa</span>
+          </div>
+        </div>
+
+        <div class="mission-card" data-sector="industrie">
+          <div class="card-top">
+            <span class="card-client">🚗 PSA Peugeot Citroën</span>
+            <span class="card-date">Jan — Juin 2016</span>
+          </div>
+          <div class="card-role">Consultant Audit — Véhicule Connecté</div>
+          <div class="card-description">Audit stratégique de la plateforme Véhicule Connecté. Audit technique, organisationnel et financier. Animation d'interviews. Plan d'action court/moyen terme.</div>
+          <div class="card-stack">
+            <span class="stack-tag">IoT</span>
+            <span class="stack-tag">Automotive</span>
+            <span class="stack-tag">Audit</span>
+          </div>
+        </div>
+
+        <div class="mission-card" data-sector="industrie">
+          <div class="card-top">
+            <span class="card-client">⚖️ AMF</span>
+            <span class="card-date">Jan — Déc 2015</span>
+          </div>
+          <div class="card-role">Ingénieur Intégration</div>
+          <div class="card-description">Développement et intégration d'une application métier pour les inspecteurs de l'AMF sous socle SharePoint. Gestion des environnements, recette technique, processus de RUN.</div>
+          <div class="card-stack">
+            <span class="stack-tag">SharePoint</span>
+            <span class="stack-tag">Intégration</span>
+          </div>
+        </div>
+
+        <div class="mission-card" data-sector="industrie">
+          <div class="card-top">
+            <span class="card-client">🏦 BNP Paribas</span>
+            <span class="card-date">2014 — 2015</span>
+          </div>
+          <div class="card-role">Consultant SI</div>
+          <div class="card-description">Étude LAN DC (Data Center). Analyse de l'architecture réseau.</div>
+          <div class="card-stack">
+            <span class="stack-tag">Réseau</span>
+            <span class="stack-tag">Data Center</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!--          BEIJAFLORE (TELECOMS)               -->
+    <!-- ============================================ -->
+    <div class="company-block" data-sectors="telecoms">
+      <div class="company-header">
+        <span class="company-period">2012 — 2014</span>
+        <span class="company-name">Beijaflore</span>
+        <span class="company-role">Consultant Senior — Marketing & Innovation</span>
+        <span class="company-sector-tag">Conseil Télécom</span>
+      </div>
+      <div class="missions-grid">
+        <div class="mission-card" data-sector="telecoms">
+          <div class="card-top">
+            <span class="card-client">📡 SFR</span>
+            <span class="card-date">2012 — 2014</span>
+          </div>
+          <div class="card-role">Chef de projet Transformation Télécom</div>
+          <div class="card-description">Pilotage du programme de sécurisation d'architecture réseau. Cadrage, rédaction modes opératoires, gestion stocks/planning/budget. Création d'un outil de rapport de performance des serveurs télécoms.</div>
+          <div class="card-stack">
+            <span class="stack-tag">Télécom</span>
+            <span class="stack-tag">Réseau</span>
+            <span class="stack-tag">Sécurité</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!--   DEMO : CTA dans la section About           -->
+    <!-- ============================================ -->
+    <div class="about-demo">
+      <h3>// Proposition de boutons pour la section « À propos »</h3>
+      <div class="btn-group">
+        <a href="/Dan-COHEN-CV-2026.pdf" class="btn-cv primary">Voir mon CV ↗</a>
+        <a href="/experiences" class="btn-cv secondary">Mes expériences →</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- === FILTRAGE JS === -->
+  <script>
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const filter = btn.dataset.filter;
+
+        // Company blocks
+        document.querySelectorAll('.company-block').forEach(block => {
+          if (filter === 'all') {
+            block.style.display = '';
+            // Show all cards inside
+            block.querySelectorAll('.mission-card').forEach(c => c.style.display = '');
+          } else {
+            const sectors = block.dataset.sectors || '';
+            const cards = block.querySelectorAll('.mission-card[data-sector]');
+            const cardsNoSector = block.querySelectorAll('.mission-card:not([data-sector])');
+
+            if (sectors.includes(filter)) {
+              block.style.display = '';
+              // Show only matching cards
+              cards.forEach(card => {
+                card.style.display = card.dataset.sector === filter ? '' : 'none';
+              });
+              // Cards without data-sector: show if block matches
+              cardsNoSector.forEach(c => c.style.display = '');
+            } else {
+              block.style.display = 'none';
+            }
+          }
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>

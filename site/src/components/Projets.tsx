@@ -36,7 +36,52 @@ type Project = {
 
 const projects: Project[] = [
   {
-    num: '01 / padel',
+    num: '01 / professionnel libéral',
+    emoji: '⚖️',
+    title: 'Cabinet Nakache',
+    tagline: '→ livrée en 3 jours',
+    desc: "Site vitrine institutionnel pour Caroline Nakache, Mandataire Judiciaire à la Protection des Majeurs agréée dans les Yvelines. Présentation des mesures de protection (tutelle, curatelle, sauvegarde de justice), du parcours, du fonctionnement judiciaire et formulaire de contact RGPD-compliant.",
+    stack: 'Cursor · Astro · Tailwind · Vercel',
+    result: '✦ 0€/mois · design sur mesure · SEO optimisé',
+    modal: {
+      badgeType: '01 / Professionnel libéral',
+      badgeDays: 'Livré en 3 jours',
+      siteHref: 'https://www.cabinet-nakache.fr/',
+      heroTitleLine1: 'Une présence en ligne crédible',
+      heroTitleLine2: 'pour une mission de confiance.',
+      lead: "Caroline Nakache, Mandataire Judiciaire à la Protection des Majeurs agréée dans les Yvelines, n'avait aucune présence digitale pour orienter les familles et les partenaires judiciaires. En 3 jours, j'ai livré un site vitrine institutionnel qui rassure, informe et convertit.",
+      contextTitle: 'Une profession sensible, sans relais digital',
+      context:
+        "Le métier de MJPM repose sur la confiance, la pédagogie et la disponibilité. Sans site, impossible d'expliquer en amont les mesures de protection (tutelle, curatelle, sauvegarde de justice), de présenter son parcours ou de proposer un canal de contact sécurisé aux familles, magistrats et travailleurs sociaux.",
+      video: '/media/cabinet-nakache/demo.mp4',
+      videoCaption:
+        '↑ Parcours du site : présentation des mesures, parcours professionnel, fonctionnement judiciaire et contact RGPD',
+      solutionTitle: 'Un site vitrine institutionnel, sobre et conforme',
+      solution:
+        "**Site vitrine institutionnel** conçu pour incarner le sérieux et l'humanité de la mission. Identité visuelle sobre, hiérarchie claire et navigation fluide pour orienter immédiatement chaque visiteur — famille, magistrat ou partenaire — vers l'information dont il a besoin.\n\n**Pédagogie des mesures de protection** : explication accessible des dispositifs (tutelle, curatelle, sauvegarde de justice), du rôle du mandataire et des étapes judiciaires. Le contenu est rédigé pour démystifier une procédure souvent perçue comme opaque.\n\n**Présentation du parcours** de Caroline Nakache, agrément préfectoral, zone d'intervention dans les Yvelines et fonctionnement judiciaire — autant d'éléments de réassurance qui légitiment la prise de contact.\n\n**Formulaire de contact RGPD-compliant** avec mention légale conforme, gestion du consentement et acheminement sécurisé des demandes. Architecture **Astro + Tailwind** pour un site rapide, accessible et zéro coût d'hébergement (déploiement Vercel). **SEO optimisé** sur les requêtes locales pour capter les recherches familles + Yvelines.",
+      screenshots: [
+        '/media/cabinet-nakache/screen-01.png',
+        '/media/cabinet-nakache/screen-02.png',
+        '/media/cabinet-nakache/screen-03.png',
+        '/media/cabinet-nakache/screen-04.png',
+        '/media/cabinet-nakache/screen-05.png',
+      ],
+      stackFull: ['Astro', 'Tailwind CSS', 'Vercel', 'TypeScript'],
+      tools: ['Cursor', 'Claude Sonnet 4.6', 'Claude Opus 4.7'],
+      metrics: [
+        { val: '3j', label: 'de livraison' },
+        { val: '0€', label: 'coût mensuel' },
+        { val: 'SEO', label: 'optimisé local' },
+      ],
+      quote:
+        "« Un site qui me ressemble et qui rassure les familles dès le premier contact. Livré en quelques jours, vraiment au-delà de mes attentes. »",
+      authorName: 'Caroline Nakache',
+      authorRole: 'MJPM · Cabinet Nakache',
+      avatarInitials: 'CN',
+    },
+  },
+  {
+    num: '02 / padel',
     emoji: '🎾',
     title: 'Le Tournoi des Frérots',
     tagline: '→ livrée en 5 jours',
@@ -44,7 +89,7 @@ const projects: Project[] = [
     stack: 'VSCode · Claude Code · Next.js · Neon · Vercel',
     result: '✦ 50+ équipes · 0 gestion manuelle',
     modal: {
-      badgeType: '01 / Padel',
+      badgeType: '02 / Padel',
       badgeDays: 'Livré en 5 jours',
       siteHref: 'https://padel-two-theta.vercel.app/',
       heroTitleLine1: 'Une plateforme complète',
@@ -80,7 +125,7 @@ const projects: Project[] = [
     },
   },
   {
-    num: '02 / fintech',
+    num: '03 / fintech',
     logoText: 'pretx',
     title: 'Pretx',
     tagline: '→ CPO & Associé',
@@ -88,7 +133,7 @@ const projects: Project[] = [
     stack: 'Product Strategy · Roadmap · Agile · Figma',
     result: '✦ CPO · Actionnaire · 2025 — présent',
     modal: {
-      badgeType: '02 / Fintech',
+      badgeType: '03 / Fintech',
       badgeDays: 'CPO & Associé',
       siteHref: 'https://pretx.fr',
       heroTitleLine1: 'La fintech qui simplifie',
@@ -125,7 +170,7 @@ const projects: Project[] = [
     },
   },
   {
-    num: '03 / entreprise',
+    num: '04 / entreprise',
     emoji: '⚽',
     title: "Monop'Foot",
     tagline: '→ livrée en 4 jours',
@@ -133,7 +178,7 @@ const projects: Project[] = [
     stack: 'Cursor · Claude Opus 4.5 · Next.js · Supabase',
     result: '✦ 52 équipes · 0 feuille Excel',
     modal: {
-      badgeType: '03 / Entreprise',
+      badgeType: '04 / Entreprise',
       badgeDays: 'Livré en 4 jours',
       siteHref: 'https://monopfoot-front.onrender.com/',
       heroTitleLine1: '52 équipes Monoprix,',
@@ -169,7 +214,7 @@ const projects: Project[] = [
     },
   },
   {
-    num: '04 / associatif',
+    num: '05 / associatif',
     emoji: '🃏',
     title: 'Club de Belote de Suresnes',
     tagline: '→ livrée en 4 jours',
@@ -177,7 +222,7 @@ const projects: Project[] = [
     stack: 'Bolt.new · Next.js · Supabase · Render',
     result: '✦ 47 membres · 0€/mois',
     modal: {
-      badgeType: '04 / Associatif',
+      badgeType: '05 / Associatif',
       badgeDays: 'Livré en 4 jours',
       siteHref: 'https://belote-front.onrender.com/',
       heroTitleLine1: 'La belote entre amis,',
