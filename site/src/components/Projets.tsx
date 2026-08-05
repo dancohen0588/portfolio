@@ -36,7 +36,47 @@ type Project = {
 
 const projects: Project[] = [
   {
-    num: '01 / professionnel libéral',
+    num: '01 / luxe · ia',
+    emoji: '🏺',
+    title: 'Daum — Cristallerie d’art',
+    tagline: '→ partenariat IA en cours',
+    desc: "Manufacture de luxe française (1878), référence mondiale de la pâte de cristal. IA opérationnelle embarquée : veille commerciale automatisée en production et agent conversationnel branché sur le PIM pour les équipes commerciales.",
+    stack: 'n8n · Mistral · Claude Code · RAG · Supabase',
+    result: '✦ ~70 signaux scorés/semaine · 1 240 produits en langage naturel',
+    modal: {
+      badgeType: '01 / Luxe · IA',
+      badgeDays: 'Mission en cours — depuis juin 2026',
+      heroTitleLine1: "L'IA opérationnelle au service",
+      heroTitleLine2: "d'une manufacture de légende.",
+      lead: "Daum, référence mondiale de la pâte de cristal depuis 1878, ambitionne de doubler son chiffre d'affaires. J'accompagne ses équipes en IA opérationnelle embarquée : je cadre les cas d'usage avec le métier — direction commerciale, ADV, boutiques — et je livre des systèmes qui tournent, pas des slides.",
+      contextTitle: 'Une marque prestigieuse, des opérations manuelles',
+      context:
+        "Des boutiques à Paris, Singapour, Dubaï ou Miami — mais des opérations reposant encore sur Excel, des doubles saisies et une faible digitalisation. Deux chantiers prioritaires ont été cadrés avec les équipes : détecter les signaux d'affaires du luxe avant les concurrents, et donner aux commerciaux un accès instantané à l'information produit en langage naturel.",
+      solutionTitle: 'Deux systèmes IA, menés en parallèle',
+      solution:
+        "**Veille commerciale automatisée (en production)** : pipeline n8n d'une trentaine de nœuds — registre de 29 sources piloté par Google Sheet, 5 flux de veille (hôtellerie de prestige, orfèvrerie, permis de construire de grandes villas, créations d'entreprises déco, showrooms haut de gamme) et veille sociale Instagram/LinkedIn sur les 14 concurrents (Baccarat, Lalique, Saint-Louis…). Scoring et synthèse par LLM avec sorties structurées, pondération par marchés cibles (EAU, Inde, Singapour, US…), newsletter HTML hebdomadaire envoyée automatiquement à l'équipe commerciale et suivi d'opportunités annotable. Fiabilisation production : garde-fous anti-échec silencieux, alertes mail, retries.\n\n**Agent IA conversationnel (démo validée par la direction)** : bot Telegram — bascule WhatsApp Business prévue — orchestré dans n8n, agent Mistral doté de 5 outils : recherche produit, fiches détaillées et photos via l'API du PIM Plytix (~1 240 produits), catalogue local rafraîchi chaque nuit pour les filtres multicritères prix/famille/couleur, et RAG documentaire (Google Drive → embeddings Mistral → Supabase pgvector) avec réponses ancrées citant leurs sources.\n\n**Industrialisation en cours** : spécification fonctionnelle validée de la connexion ERP Sage X3 (lecture seule, verrous anti-hallucination) et architecture cible souveraine — double fournisseur Mistral (UE) + Claude sur Bedrock UE, hébergement chez un partenaire français dans le périmètre VPN du client. Je forme aussi les équipes métier à reprendre la main sur les workflows.",
+      screenshots: [],
+      stackFull: [
+        'n8n',
+        'Mistral',
+        'Gemini',
+        'Claude',
+        'Supabase pgvector',
+        'API Plytix (PIM)',
+        'Sage X3',
+        'Telegram / WhatsApp',
+        'Apify',
+      ],
+      tools: ['Claude Code', 'n8n', 'Mistral', 'Google Workspace'],
+      metrics: [
+        { val: '~70', label: 'signaux scorés / semaine' },
+        { val: '1 240', label: 'produits interrogeables' },
+        { val: '2', label: 'systèmes livrés en ~5 jours' },
+      ],
+    },
+  },
+  {
+    num: '02 / professionnel libéral',
     emoji: '⚖️',
     title: 'Cabinet Nakache',
     tagline: '→ livrée en 3 jours',
@@ -44,7 +84,7 @@ const projects: Project[] = [
     stack: 'Cursor · Astro · Tailwind · Vercel',
     result: '✦ 0€/mois · design sur mesure · SEO optimisé',
     modal: {
-      badgeType: '01 / Professionnel libéral',
+      badgeType: '02 / Professionnel libéral',
       badgeDays: 'Livré en 3 jours',
       siteHref: 'https://www.cabinet-nakache.fr/',
       heroTitleLine1: 'Une présence en ligne crédible',
@@ -81,7 +121,7 @@ const projects: Project[] = [
     },
   },
   {
-    num: '02 / padel',
+    num: '03 / padel',
     emoji: '🎾',
     title: 'Le Tournoi des Frérots',
     tagline: '→ livrée en 5 jours',
@@ -89,7 +129,7 @@ const projects: Project[] = [
     stack: 'VSCode · Claude Code · Next.js · Neon · Vercel',
     result: '✦ 50+ équipes · 0 gestion manuelle',
     modal: {
-      badgeType: '02 / Padel',
+      badgeType: '03 / Padel',
       badgeDays: 'Livré en 5 jours',
       siteHref: 'https://padel-two-theta.vercel.app/',
       heroTitleLine1: 'Une plateforme complète',
@@ -125,7 +165,7 @@ const projects: Project[] = [
     },
   },
   {
-    num: '03 / fintech',
+    num: '04 / fintech',
     logoText: 'pretx',
     title: 'Pretx',
     tagline: '→ CPO & Associé',
@@ -133,7 +173,7 @@ const projects: Project[] = [
     stack: 'Product Strategy · Roadmap · Agile · Figma',
     result: '✦ CPO · Actionnaire · 2025 — présent',
     modal: {
-      badgeType: '03 / Fintech',
+      badgeType: '04 / Fintech',
       badgeDays: 'CPO & Associé',
       siteHref: 'https://pretx.fr',
       heroTitleLine1: 'La fintech qui simplifie',
@@ -170,7 +210,7 @@ const projects: Project[] = [
     },
   },
   {
-    num: '04 / entreprise',
+    num: '05 / entreprise',
     emoji: '⚽',
     title: "Monop'Foot",
     tagline: '→ livrée en 4 jours',
@@ -178,7 +218,7 @@ const projects: Project[] = [
     stack: 'Cursor · Claude Opus 4.5 · Next.js · Supabase',
     result: '✦ 52 équipes · 0 feuille Excel',
     modal: {
-      badgeType: '04 / Entreprise',
+      badgeType: '05 / Entreprise',
       badgeDays: 'Livré en 4 jours',
       siteHref: 'https://monopfoot-front.onrender.com/',
       heroTitleLine1: '52 équipes Monoprix,',
@@ -214,7 +254,7 @@ const projects: Project[] = [
     },
   },
   {
-    num: '05 / associatif',
+    num: '06 / associatif',
     emoji: '🃏',
     title: 'Club de Belote de Suresnes',
     tagline: '→ livrée en 4 jours',
@@ -222,7 +262,7 @@ const projects: Project[] = [
     stack: 'Bolt.new · Next.js · Supabase · Render',
     result: '✦ 47 membres · 0€/mois',
     modal: {
-      badgeType: '05 / Associatif',
+      badgeType: '06 / Associatif',
       badgeDays: 'Livré en 4 jours',
       siteHref: 'https://belote-front.onrender.com/',
       heroTitleLine1: 'La belote entre amis,',

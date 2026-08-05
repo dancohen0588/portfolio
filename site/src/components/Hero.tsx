@@ -325,7 +325,7 @@ export function Hero() {
           <span className="text-[12px] font-medium text-[var(--muted)]">
             Clients &amp; missions :
           </span>
-          {['Monoprix', 'Bouygues Telecom', 'TF1', 'Sarenza'].map((name) => (
+          {['Daum', 'Monoprix', 'Bouygues Telecom', 'TF1', 'Sarenza'].map((name) => (
             <span
               key={name}
               className="font-mono-custom text-[11px] text-[var(--muted)] rounded-full border border-[var(--border)] bg-[var(--white)] px-3 py-1"

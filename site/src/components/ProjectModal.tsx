@@ -7,24 +7,24 @@ import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 export interface ProjectModalData {
   badgeType: string;
   badgeDays: string;
-  siteHref: string;
+  siteHref?: string;
   heroTitleLine1: string;
   heroTitleLine2?: string;
   lead: string;
   contextTitle: string;
   context: string;
-  video: string;
-  videoCaption: string;
+  video?: string;
+  videoCaption?: string;
   solutionTitle: string;
   solution: string;
   screenshots: string[];
   stackFull: string[];
   tools: string[];
   metrics: { val: string; label: string }[];
-  quote: string;
-  authorName: string;
-  authorRole: string;
-  avatarInitials: string;
+  quote?: string;
+  authorName?: string;
+  authorRole?: string;
+  avatarInitials?: string;
 }
 
 export interface ProjectForModal {
@@ -159,16 +159,18 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
                 {project.modal.lead}
               </p>
 
-              {/* CTA */}
-              <a
-                href={project.modal.siteHref}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mb-8 inline-flex items-center gap-2 rounded-full px-5 py-2.5 font-bricolage text-[14px] font-bold text-white transition-transform hover:-translate-y-0.5"
-                style={{ background: 'linear-gradient(135deg, #7C3AED, #DB2777)' }}
-              >
-                Voir le site en ligne ↗
-              </a>
+              {/* CTA — affiché seulement si un site public existe */}
+              {project.modal.siteHref && (
+                <a
+                  href={project.modal.siteHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mb-8 inline-flex items-center gap-2 rounded-full px-5 py-2.5 font-bricolage text-[14px] font-bold text-white transition-transform hover:-translate-y-0.5"
+                  style={{ background: 'linear-gradient(135deg, #7C3AED, #DB2777)' }}
+                >
+                  Voir le site en ligne ↗
+                </a>
+              )}
             </div>
 
             <div className="mx-9 h-px bg-[var(--border)]" />
@@ -186,47 +188,51 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
               </p>
             </div>
 
-            {/* ── VIDEO DÉMO — pleine largeur ───────────────────────── */}
-            <div className="relative bg-[#0D0820]">
-              {/* key forces remount when project changes → video restarts */}
-              <video
-                key={project.modal.video}
-                src={project.modal.video}
-                autoPlay
-                loop
-                muted
-                playsInline
-                className="w-full object-cover"
-                style={{ maxHeight: 320 }}
-              />
-              {/* Gradient overlay bas */}
-              <div
-                className="pointer-events-none absolute inset-x-0 bottom-0 h-16"
-                style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.55), transparent)' }}
-              />
-              {/* Labels */}
-              <div className="absolute bottom-3.5 left-6 flex items-center gap-2">
-                <span
-                  className="h-2 w-2 flex-shrink-0 rounded-full bg-red-500"
-                  style={{
-                    boxShadow: '0 0 6px rgba(239,68,68,0.8)',
-                    animation: 'pulse 1.5s ease-in-out infinite',
-                  }}
-                />
-                <span className="font-mono-custom text-[11px] tracking-[0.06em] text-white/55">
-                  Démo · Parcours utilisateur complet
-                </span>
-              </div>
-              <span className="absolute bottom-3.5 right-6 font-mono-custom text-[10px] tracking-[0.06em] text-white/30">
-                ~15 secondes
-              </span>
-            </div>
-            {/* Caption sous la vidéo */}
-            <div className="border-b border-[var(--border)] bg-[var(--bg)] px-9 py-2.5">
-              <p className="font-mono-custom text-[11px] tracking-[0.04em] text-[var(--muted)]">
-                {project.modal.videoCaption}
-              </p>
-            </div>
+            {/* ── VIDEO DÉMO — pleine largeur (si disponible) ───────── */}
+            {project.modal.video && (
+              <>
+                <div className="relative bg-[#0D0820]">
+                  {/* key forces remount when project changes → video restarts */}
+                  <video
+                    key={project.modal.video}
+                    src={project.modal.video}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="w-full object-cover"
+                    style={{ maxHeight: 320 }}
+                  />
+                  {/* Gradient overlay bas */}
+                  <div
+                    className="pointer-events-none absolute inset-x-0 bottom-0 h-16"
+                    style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.55), transparent)' }}
+                  />
+                  {/* Labels */}
+                  <div className="absolute bottom-3.5 left-6 flex items-center gap-2">
+                    <span
+                      className="h-2 w-2 flex-shrink-0 rounded-full bg-red-500"
+                      style={{
+                        boxShadow: '0 0 6px rgba(239,68,68,0.8)',
+                        animation: 'pulse 1.5s ease-in-out infinite',
+                      }}
+                    />
+                    <span className="font-mono-custom text-[11px] tracking-[0.06em] text-white/55">
+                      Démo · Parcours utilisateur complet
+                    </span>
+                  </div>
+                  <span className="absolute bottom-3.5 right-6 font-mono-custom text-[10px] tracking-[0.06em] text-white/30">
+                    ~15 secondes
+                  </span>
+                </div>
+                {/* Caption sous la vidéo */}
+                <div className="border-b border-[var(--border)] bg-[var(--bg)] px-9 py-2.5">
+                  <p className="font-mono-custom text-[11px] tracking-[0.04em] text-[var(--muted)]">
+                    {project.modal.videoCaption}
+                  </p>
+                </div>
+              </>
+            )}
 
             <div className="mx-9 h-px bg-[var(--border)]" />
 
@@ -367,9 +373,11 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
               </div>
             </div>
 
+            {/* ── SECTION 05: TÉMOIGNAGE (si disponible) ────────────── */}
+            {project.modal.quote && (
+              <>
             <div className="mx-9 h-px bg-[var(--border)]" />
 
-            {/* ── SECTION 05: TÉMOIGNAGE ────────────────────────────── */}
             <div className="px-9 pb-10 pt-7">
               <div className="mb-5 font-mono-custom text-[10px] uppercase tracking-[0.16em] text-[var(--violet)]">
                 // 05 — Témoignage
@@ -408,6 +416,8 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
                 </div>
               </div>
             </div>
+              </>
+            )}
           </motion.article>
         </motion.div>
       )}

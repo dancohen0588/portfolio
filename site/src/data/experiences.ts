@@ -1,4 +1,6 @@
-export type SectorKey = 'all' | 'retail' | 'media' | 'telecoms' | 'industrie' | 'banque';
+export type SectorKey = 'all' | 'luxe' | 'retail' | 'media' | 'telecoms' | 'industrie' | 'banque';
+
+export type Sector = Exclude<SectorKey, 'all'>;
 
 export interface Mission {
   client: string;
@@ -8,7 +10,7 @@ export interface Mission {
   description: string;
   missions?: string[];
   stack: string[];
-  sector?: 'retail' | 'media' | 'telecoms' | 'industrie' | 'banque';
+  sector?: Sector;
 }
 
 export interface Company {
@@ -18,12 +20,42 @@ export interface Company {
   period: string;
   role: string;
   sectorTag: string;
-  sectors: ('retail' | 'media' | 'telecoms' | 'industrie' | 'banque')[];
+  sectors: Sector[];
   missions: Mission[];
   context?: string;
 }
 
 export const companies: Company[] = [
+  {
+    id: 'dco-it',
+    name: 'DCO-IT — Freelance',
+    logo: 'dco-it',
+    period: '2025 — Auj.',
+    role: 'Expert Vibe Coding & Développement IA',
+    sectorTag: 'IA / Vibe Coding',
+    sectors: ['luxe'],
+    missions: [
+      {
+        client: 'Daum',
+        logo: 'daum',
+        date: 'Juin 2026 — Auj.',
+        role: 'Product Owner IA & AI Builder',
+        description:
+          "Partenariat IA avec la cristallerie Daum (luxe, 1878). Cadrage des cas d'usage avec les équipes métier (direction commerciale, ADV, boutiques) et construction des systèmes en direct — agents IA, RAG, automatisations.",
+        missions: [
+          "Veille commerciale automatisée en production — 29 sources, 5 flux + veille sociale sur 14 concurrents, ~70 signaux scorés par semaine en newsletter automatique",
+          "Agent IA conversationnel pour les commerciaux — bot Telegram branché sur le PIM (~1 240 produits), filtres multicritères et RAG documentaire",
+          "Spécification de la connexion ERP Sage X3 (lecture seule) avec verrous anti-hallucination",
+          "Architecture cible souveraine — Mistral (UE) + Claude sur Bedrock UE, hébergement français",
+          "Formation des équipes métier à la reprise en main des workflows",
+        ],
+        stack: ['n8n', 'Mistral', 'Claude', 'Gemini', 'Supabase pgvector', 'Plytix PIM', 'Sage X3'],
+        sector: 'luxe',
+      },
+    ],
+    context:
+      "Missions freelance d'IA opérationnelle embarquée : je cadre les cas d'usage avec le métier et je construis moi-même les workflows, les agents et les prompts — du vibe coding assumé, avec transfert de compétences aux équipes.",
+  },
   {
     id: 'monoprix',
     name: 'Monoprix',
@@ -208,13 +240,14 @@ export const companies: Company[] = [
 
 export const stats = [
   { number: '15+', label: "Années d'expérience" },
-  { number: '12+', label: 'Clients grands comptes' },
+  { number: '13+', label: 'Clients grands comptes' },
   { number: '20+', label: 'Missions réalisées' },
-  { number: '4', label: 'Entreprises' },
+  { number: '5', label: 'Entreprises' },
 ];
 
 export const filters: { key: SectorKey; label: string }[] = [
   { key: 'all', label: 'Tout' },
+  { key: 'luxe', label: 'Luxe' },
   { key: 'retail', label: 'Retail' },
   { key: 'media', label: 'Média' },
   { key: 'telecoms', label: 'Télécoms' },

@@ -178,7 +178,7 @@ export function ExperiencesPage() {
           className="mt-3 max-w-[520px] text-[16px] leading-relaxed"
           style={{ color: '#71717A' }}
         >
-          15 ans de missions grands comptes — des télécoms à l&apos;e-commerce, en passant par l&apos;industrie et les médias.
+          15 ans de missions grands comptes — des télécoms à l&apos;e-commerce, de l&apos;industrie aux médias, jusqu&apos;à l&apos;IA opérationnelle dans le luxe.
         </p>
       </div>
 
@@ -254,7 +254,7 @@ export function ExperiencesPage() {
         {companies.map((company) => {
           const isCompanyVisible =
             activeFilter === 'all' ||
-            company.sectors.includes(activeFilter as 'retail' | 'media' | 'telecoms' | 'industrie' | 'banque');
+            company.sectors.includes(activeFilter as Exclude<SectorKey, 'all'>);
 
           const visibleMissions =
             activeFilter === 'all'
