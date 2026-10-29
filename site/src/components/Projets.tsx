@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { motion, useReducedMotion, easeOut } from 'motion/react';
 import { ProjectModal, type ProjectForModal, type ProjectModalData } from './ProjectModal';
 
@@ -26,6 +27,7 @@ type Project = {
   num: string;
   emoji?: string;
   logoText?: string;
+  logoSrc?: string;
   title: string;
   tagline: string;
   desc: string;
@@ -39,44 +41,87 @@ const projects: Project[] = [
     num: '01 / luxe · ia',
     emoji: '🏺',
     title: 'Daum — Cristallerie d’art',
-    tagline: '→ partenariat IA en cours',
-    desc: "Manufacture de luxe française (1878), référence mondiale de la pâte de cristal. IA opérationnelle embarquée : veille commerciale automatisée en production et agent conversationnel branché sur le PIM pour les équipes commerciales.",
-    stack: 'n8n · Mistral · Claude Code · RAG · Supabase',
-    result: '✦ ~70 signaux scorés/semaine · 1 240 produits en langage naturel',
+    tagline: '→ mission IA en cours',
+    desc: "Manufacture de luxe française (1878), référence mondiale de la pâte de cristal. Product Owner IA embarqué depuis juin 2026 : veille commerciale et veille anti-contrefaçon en production, agent conversationnel branché sur le PIM, et quatre nouveaux chantiers cadrés (devis, patrimoine, production, marketing).",
+    stack: 'n8n · Gemini · Mistral · Vertex AI · Supabase · Claude Code',
+    result: '✦ 4 systèmes en production · 700+ pièces reconnues par image',
     modal: {
       badgeType: '01 / Luxe · IA',
       badgeDays: 'Mission en cours — depuis juin 2026',
       heroTitleLine1: "L'IA opérationnelle au service",
       heroTitleLine2: "d'une manufacture de légende.",
-      lead: "Daum, référence mondiale de la pâte de cristal depuis 1878, ambitionne de doubler son chiffre d'affaires. J'accompagne ses équipes en IA opérationnelle embarquée : je cadre les cas d'usage avec le métier — direction commerciale, ADV, boutiques — et je livre des systèmes qui tournent, pas des slides.",
+      lead: "Daum, référence mondiale de la pâte de cristal depuis 1878, ambitionne de doubler son chiffre d'affaires. J'y interviens comme Product Owner IA embarqué, à raison d'un jour par semaine : je cadre les cas d'usage avec la direction, le commerce, le juridique et la manufacture, et je livre des systèmes qui tournent — pas des slides.",
       contextTitle: 'Une marque prestigieuse, des opérations manuelles',
       context:
-        "Des boutiques à Paris, Singapour, Dubaï ou Miami — mais des opérations reposant encore sur Excel, des doubles saisies et une faible digitalisation. Deux chantiers prioritaires ont été cadrés avec les équipes : détecter les signaux d'affaires du luxe avant les concurrents, et donner aux commerciaux un accès instantané à l'information produit en langage naturel.",
-      solutionTitle: 'Deux systèmes IA, menés en parallèle',
+        "Des boutiques à Paris, Singapour, Dubaï ou Miami — mais des opérations reposant encore sur Excel, des doubles saisies et une faible digitalisation, avec une contrainte forte : aucune IA accessible depuis les postes, donc tout doit tourner côté serveur. Démarrée sur deux quick wins commerciaux, la mission s'est étendue au juridique, puis au patrimoine, à la production et au marketing.",
+      solutionTitle: 'Quatre systèmes en production, quatre chantiers cadrés',
       solution:
-        "**Veille commerciale automatisée (en production)** : pipeline n8n d'une trentaine de nœuds — registre de 29 sources piloté par Google Sheet, 5 flux de veille (hôtellerie de prestige, orfèvrerie, permis de construire de grandes villas, créations d'entreprises déco, showrooms haut de gamme) et veille sociale Instagram/LinkedIn sur les 14 concurrents (Baccarat, Lalique, Saint-Louis…). Scoring et synthèse par LLM avec sorties structurées, pondération par marchés cibles (EAU, Inde, Singapour, US…), newsletter HTML hebdomadaire envoyée automatiquement à l'équipe commerciale et suivi d'opportunités annotable. Fiabilisation production : garde-fous anti-échec silencieux, alertes mail, retries.\n\n**Agent IA conversationnel (démo validée par la direction)** : bot Telegram — bascule WhatsApp Business prévue — orchestré dans n8n, agent Mistral doté de 5 outils : recherche produit, fiches détaillées et photos via l'API du PIM Plytix (~1 240 produits), catalogue local rafraîchi chaque nuit pour les filtres multicritères prix/famille/couleur, et RAG documentaire (Google Drive → embeddings Mistral → Supabase pgvector) avec réponses ancrées citant leurs sources.\n\n**Industrialisation en cours** : spécification fonctionnelle validée de la connexion ERP Sage X3 (lecture seule, verrous anti-hallucination) et architecture cible souveraine — double fournisseur Mistral (UE) + Claude sur Bedrock UE, hébergement chez un partenaire français dans le périmètre VPN du client. Je forme aussi les équipes métier à reprendre la main sur les workflows.",
+        "**Veille commerciale automatisée (en production)** : pipeline n8n, 29 sources pilotées depuis un Google Sheet, 5 flux (hôtellerie de prestige, orfèvrerie, permis de construire, créations d'entreprises déco, showrooms) et veille sociale sur 14 concurrents. Scoring LLM par lots avec sorties structurées, pondération par marchés cibles, newsletter hebdomadaire et digest social bi-hebdomadaire envoyés automatiquement à l'équipe commerciale. ~70 signaux scorés par semaine, 50 € de plateforme par mois.\n\n**Veille anti-contrefaçon (en production, livrée en 3 semaines)** : en complément du prestataire de retrait du client, une chaîne n8n collecte deux fois par semaine les annonces suspectes sur eBay (API officielle), AliExpress, Instagram, Leboncoin et les sites des contrefacteurs connus, puis les score de 0 à 100 (règles métier + LLM). Détection par image : les 703 photos de référence des pièces Daum sont indexées en embeddings multimodaux (Vertex AI) et chaque annonce est rapprochée de la pièce copiée, avec confirmation par un modèle de vision. Le juridique qualifie les verdicts dans un Sheet avec aperçus photo côte à côte ; une newsletter à la charte Daum remonte les niveaux de risque, les revendeurs récurrents et les sites surveillés. Plus de 2 000 annonces analysées dès le premier mois.\n\n**Agent conversationnel (PoC validé par la direction)** : bot Telegram — bascule WhatsApp Business prévue — orchestré dans n8n, agent Mistral à 5 outils : recherche produit, fiches et photos via l'API du PIM Plytix (~1 250 produits), catalogue local rafraîchi chaque nuit pour les filtres prix/famille/couleur, et RAG documentaire (Google Drive → embeddings Mistral → Supabase pgvector) avec réponses ancrées citant leurs sources. Connexion ERP Sage X3 en lecture seule spécifiée et validée.\n\n**Charte graphique Daum (Claude Design)** : design system complet (tokens, typographies, 10 composants) validé et appliqué à toutes les newsletters générées.\n\n**Chantiers cadrés avec la direction** : machine à devis (documents commerciaux générés depuis le PIM et l'ERP), identification des pièces anciennes par photo pour le pôle patrimoine, aide à la formulation couleur pour la manufacture, et accompagnement IA du marketing. Prérequis de souveraineté : POC d'un modèle open source auto-hébergé (Mistral) pour que les données de savoir-faire ne quittent jamais le réseau du client. Je forme en parallèle les équipes à reprendre la main sur les workflows.",
       screenshots: [],
       stackFull: [
         'n8n',
-        'Mistral',
         'Gemini',
-        'Claude',
+        'Mistral',
+        'Vertex AI (embeddings multimodaux)',
         'Supabase pgvector',
         'API Plytix (PIM)',
         'Sage X3',
-        'Telegram / WhatsApp',
+        'eBay Browse API',
         'Apify',
+        'Telegram / WhatsApp',
+        'Claude Design',
       ],
-      tools: ['Claude Code', 'n8n', 'Mistral', 'Google Workspace'],
+      tools: ['Claude Code', 'Claude Design', 'n8n', 'Google Workspace'],
       metrics: [
-        { val: '~70', label: 'signaux scorés / semaine' },
-        { val: '1 240', label: 'produits interrogeables' },
-        { val: '2', label: 'systèmes livrés en ~5 jours' },
+        { val: '4', label: 'systèmes en production' },
+        { val: '703', label: 'pièces reconnues par image' },
+        { val: '~70', label: 'signaux commerciaux / semaine' },
       ],
     },
   },
   {
-    num: '02 / professionnel libéral',
+    num: '02 / retail · aménagement',
+    emoji: '📐',
+    logoSrc: '/logos/quadro.png',
+    title: 'Quadro — Intérieurs sur-mesure',
+    tagline: '→ CRM en cours de livraison',
+    desc: "Enseigne de cuisines et aménagements sur-mesure, 3 showrooms en Provence. CRM de suivi d'affaires conçu pour les gérants et les conceptrices : chaque projet client suivi de l'accueil à la pose, avec ses tâches, ses commandes fournisseurs et ses règlements, sans double saisie avec les outils existants.",
+    stack: 'Claude Code · Next.js · Supabase · Vercel',
+    result: '✦ 3 showrooms · 11 utilisateurs · ~550 ventes/an pilotées',
+    modal: {
+      badgeType: '02 / Retail · Aménagement',
+      badgeDays: 'En cours — démarré en octobre 2026',
+      heroTitleLine1: "Un pilotage d'affaires clair,",
+      heroTitleLine2: "de l'accueil à la pose.",
+      lead: "Quadro conçoit et pose des cuisines et des intérieurs sur-mesure dans trois showrooms. Les gérants avaient un process de suivi complet mais difficile à tenir : rappels manquants, outils dispersés entre tâches libres, WhatsApp et logiciel de gestion. J'ai cadré, maquetté et je développe un CRM de suivi d'affaires qui parle leur langue et s'appuie sur leurs référentiels existants.",
+      contextTitle: 'Des affaires longues, des étapes qui se chevauchent',
+      context:
+        "Une affaire d'aménagement traverse des mois et plusieurs mains : rendez-vous, conception, bon de commande, accusés de réception fournisseurs, bon pour accord, planning de pose, échéancier de règlement. Plusieurs étapes sont ouvertes en même temps, chaque oubli coûte, et les devis comme les documents vivent déjà dans le logiciel de gestion et la GED — le CRM devait orchestrer sans jamais dupliquer.",
+      solutionTitle: 'Un CRM métier sur-mesure, sécurisé par construction',
+      solution:
+        "**Suivi d'affaires multi-étapes** : le process maison (R0 → R4, BDC, ARC, BPA, contremarque) transformé en tâches datées et assignées, étapes parallèles, alertes OK / attention / retard, pipeline et vue consolidée pour la réunion hebdomadaire des gérants. Maquettes validées avec les équipes avant la première ligne de code.\n\n**Règles de gestion versionnées et testées** : chaque règle métier vit dans le code avec son test, chaque seuil est paramétrable par les gérants sans développeur. Montants en centimes, dates en heure de Paris, zéro approximation.\n\n**Référentiels, pas de doublons** : devis et factures restent dans le logiciel de gestion, les documents dans la GED ; le CRM stocke des références. Aucune opération bancaire ni commande fournisseur depuis l'outil — par design.\n\n**Sécurité et qualité** : Supabase avec Row-Level Security sur chaque table, droits testés en pgTAP, migrations rejouées de zéro en CI, tests unitaires et end-to-end ; aucune donnée client réelle dans le dépôt ni dans la démo. Adaptateurs pour l'auth, l'email, les fichiers et le calendrier : le CRM ne dépend d'aucun prestataire.",
+      screenshots: [],
+      stackFull: [
+        'Next.js 16',
+        'React 19',
+        'TypeScript',
+        'Supabase (Postgres, RLS)',
+        'pgTAP',
+        'Tailwind CSS',
+        'Vitest',
+        'Playwright',
+        'Vercel',
+      ],
+      tools: ['Claude Code', 'Claude Design'],
+      metrics: [
+        { val: '3', label: 'showrooms' },
+        { val: '11', label: 'utilisateurs' },
+        { val: '~550', label: 'ventes / an pilotées' },
+      ],
+    },
+  },
+  {
+    num: '03 / professionnel libéral',
     emoji: '⚖️',
     title: 'Cabinet Nakache',
     tagline: '→ livrée en 3 jours',
@@ -84,7 +129,7 @@ const projects: Project[] = [
     stack: 'Cursor · Astro · Tailwind · Vercel',
     result: '✦ 0€/mois · design sur mesure · SEO optimisé',
     modal: {
-      badgeType: '02 / Professionnel libéral',
+      badgeType: '03 / Professionnel libéral',
       badgeDays: 'Livré en 3 jours',
       siteHref: 'https://www.cabinet-nakache.fr/',
       heroTitleLine1: 'Une présence en ligne crédible',
@@ -121,7 +166,7 @@ const projects: Project[] = [
     },
   },
   {
-    num: '03 / padel',
+    num: '04 / padel',
     emoji: '🎾',
     title: 'Le Tournoi des Frérots',
     tagline: '→ livrée en 5 jours',
@@ -129,7 +174,7 @@ const projects: Project[] = [
     stack: 'VSCode · Claude Code · Next.js · Neon · Vercel',
     result: '✦ 50+ équipes · 0 gestion manuelle',
     modal: {
-      badgeType: '03 / Padel',
+      badgeType: '04 / Padel',
       badgeDays: 'Livré en 5 jours',
       siteHref: 'https://padel-two-theta.vercel.app/',
       heroTitleLine1: 'Une plateforme complète',
@@ -165,7 +210,7 @@ const projects: Project[] = [
     },
   },
   {
-    num: '04 / fintech',
+    num: '05 / fintech',
     logoText: 'pretx',
     title: 'Pretx',
     tagline: '→ CPO & Associé',
@@ -173,7 +218,7 @@ const projects: Project[] = [
     stack: 'Product Strategy · Roadmap · Agile · Figma',
     result: '✦ CPO · Actionnaire · 2025 — présent',
     modal: {
-      badgeType: '04 / Fintech',
+      badgeType: '05 / Fintech',
       badgeDays: 'CPO & Associé',
       siteHref: 'https://pretx.fr',
       heroTitleLine1: 'La fintech qui simplifie',
@@ -210,7 +255,7 @@ const projects: Project[] = [
     },
   },
   {
-    num: '05 / entreprise',
+    num: '06 / entreprise',
     emoji: '⚽',
     title: "Monop'Foot",
     tagline: '→ livrée en 4 jours',
@@ -218,7 +263,7 @@ const projects: Project[] = [
     stack: 'Cursor · Claude Opus 4.5 · Next.js · Supabase',
     result: '✦ 52 équipes · 0 feuille Excel',
     modal: {
-      badgeType: '05 / Entreprise',
+      badgeType: '06 / Entreprise',
       badgeDays: 'Livré en 4 jours',
       siteHref: 'https://monopfoot-front.onrender.com/',
       heroTitleLine1: '52 équipes Monoprix,',
@@ -254,7 +299,7 @@ const projects: Project[] = [
     },
   },
   {
-    num: '06 / associatif',
+    num: '07 / associatif',
     emoji: '🃏',
     title: 'Club de Belote de Suresnes',
     tagline: '→ livrée en 4 jours',
@@ -262,7 +307,7 @@ const projects: Project[] = [
     stack: 'Bolt.new · Next.js · Supabase · Render',
     result: '✦ 47 membres · 0€/mois',
     modal: {
-      badgeType: '06 / Associatif',
+      badgeType: '07 / Associatif',
       badgeDays: 'Livré en 4 jours',
       siteHref: 'https://belote-front.onrender.com/',
       heroTitleLine1: 'La belote entre amis,',
@@ -369,7 +414,20 @@ export function Projets() {
                   {project.num}
                 </div>
 
-                {project.logoText ? (
+                {project.logoSrc ? (
+                  <div
+                    className="flex h-[40px] w-fit items-center rounded-[10px] px-3"
+                    style={{ background: '#E8F0EC' }}
+                  >
+                    <Image
+                      src={project.logoSrc}
+                      alt={project.title}
+                      width={110}
+                      height={29}
+                      className="h-[29px] w-auto"
+                    />
+                  </div>
+                ) : project.logoText ? (
                   <div
                     className="flex h-[40px] w-fit items-center justify-center rounded-[10px] px-4"
                     style={{ background: '#0F1C3F' }}
