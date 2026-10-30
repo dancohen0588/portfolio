@@ -78,32 +78,22 @@ export function Contact() {
             className="mb-2 font-mono-custom text-[11px] uppercase tracking-[0.14em] text-[var(--violet)]"
             {...itemProps}
           >
-            // contact
+            Contact
           </motion.div>
 
           <motion.h2
-            className="font-cabinet text-[30px] font-extrabold leading-tight tracking-[-0.04em] text-[var(--dark-text)] md:text-[40px] lg:text-[52px]"
+            className="h-ink font-cabinet text-[30px] font-extrabold leading-[1.02] tracking-[-0.04em] md:text-[40px] lg:text-[52px]"
             {...itemProps}
           >
-            Parlons de votre
-            <br />
-            <span
-              style={{
-                background: 'linear-gradient(135deg, #7C3AED, #DB2777)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-              }}
-            >
-              prochain outil ✦
-            </span>
+            Discutons de <span className="h-accent">votre projet</span> ✦
           </motion.h2>
 
           <motion.p
             className="mb-12 mt-4 font-bricolage text-[17px] text-[var(--muted)]"
             {...itemProps}
           >
-            Premier appel de 30 min gratuit — je vous dis si et comment je peux vous aider.
+            Décrivez votre contexte en quelques lignes. Je réponds sous 24 h ouvrées avec un
+            premier avis et, si c&rsquo;est pertinent, une proposition de diagnostic sur site.
           </motion.p>
 
           {success ? (
@@ -112,7 +102,7 @@ export function Contact() {
               animate={{ opacity: 1, y: 0 }}
               className="rounded-[20px] border border-[rgba(124,58,237,0.2)] bg-[var(--violet-l)] px-8 py-10 font-bricolage text-[17px] font-semibold text-[var(--violet)]"
             >
-              ✦ Message envoyé ! Je reviens vers vous sous 24h.
+              ✦ Message envoyé. Je reviens vers vous sous 24 h ouvrées.
             </motion.div>
           ) : (
             <motion.form
@@ -150,7 +140,7 @@ export function Contact() {
 
               <textarea
                 {...register('message', { required: true })}
-                placeholder="Décrivez votre projet en quelques lignes..."
+                placeholder="Vos outils, vos équipes, ce que vous aimeriez automatiser ou apprendre…"
                 rows={5}
                 className={`${inputBase} resize-y`}
                 style={errors.message ? { borderColor: '#EF4444' } : {}}
@@ -170,7 +160,7 @@ export function Contact() {
           )}
 
           <p className="mt-4 font-bricolage text-[13px] text-[var(--muted)]">
-            ⚡ Réponse sous 24h · Suresnes, Île-de-France
+            Réponse sous 24 h ouvrées · Suresnes, Île-de-France · sur site en IDF, à distance ailleurs
           </p>
         </div>
       </motion.div>

@@ -4,13 +4,13 @@ import { Footer } from '@/components/Footer';
 import { ExperiencesPage } from '@/components/ExperiencesPage';
 
 export const metadata: Metadata = {
-  title: 'Expériences — Dan Cohen',
+  title: 'Parcours — Dan Cohen, Forward Deployed Engineer IA',
   description:
     "15 ans de missions grands comptes — Product Owner, Project Manager et Consultant chez Monoprix, TF1, Bouygues Telecom, Wavestone et Beijaflore.",
   openGraph: {
-    title: 'Expériences — Dan Cohen',
+    title: 'Parcours — Dan Cohen, Forward Deployed Engineer IA',
     description: '15 ans de missions grands comptes en product management.',
-    url: 'https://dancohen.dev/experiences',
+    url: 'https://dancohen.fr/experiences',
     locale: 'fr_FR',
     type: 'website',
   },

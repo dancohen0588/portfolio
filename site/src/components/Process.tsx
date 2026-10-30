@@ -1,104 +1,68 @@
 const steps = [
   {
-    num: 'STEP 01 /',
-    title: 'Brief',
-    time: 'Jour 0 · 1h',
-    desc: 'Un appel pour comprendre votre besoin, vos contraintes et votre délai. Pas de jargon technique.',
+    num: 'ÉTAPE 01',
+    title: 'Diagnostic sur site',
+    desc: "Deux heures avec vos équipes métier et votre DSI : vos outils, vos données, vos irritants. On sort avec trois cas d'usage classés.",
+    deliverable: 'Livrable : liste priorisée',
   },
   {
-    num: 'STEP 02 /',
-    title: 'Prototype',
-    time: 'J+1 à J+2',
-    desc: 'Un premier prototype cliquable pour valider les parcours avant de coder la solution finale.',
+    num: 'ÉTAPE 02',
+    title: "Premier cas d'usage en production",
+    desc: "Je construis le cas le plus rentable directement dans vos systèmes, avec les personnes qui s'en serviront.",
+    deliverable: 'Livrable : un système qui tourne',
   },
   {
-    num: 'STEP 03 /',
-    title: 'Build',
-    time: 'J+3 à J+7',
-    desc: "Construction complète, feature par feature. Partage d'avancement quotidien via message.",
+    num: 'ÉTAPE 03',
+    title: 'Déploiement élargi et formation',
+    desc: "On enchaîne les cas suivants et je forme chaque équipe sur ce qui la concerne : prompts, agents, règles d'usage.",
+    deliverable: 'Livrable : équipes formées',
   },
   {
-    num: 'STEP 04 /',
-    title: 'Livraison',
-    time: 'J+5 à J+10',
-    desc: 'Déploiement en ligne, formation rapide, et 30 jours de support inclus après la mise en production.',
+    num: 'ÉTAPE 04',
+    title: 'Transfert et autonomie',
+    desc: 'Documentation, passation, support. Vos équipes font vivre les workflows sans moi ; je reste disponible en office hours.',
+    deliverable: 'Livrable : autonomie',
   },
 ];
 
 export function Process() {
   return (
-    <section
-      id="process"
-      className="relative overflow-hidden px-5 py-20 md:px-14 md:py-[120px]"
-      style={{ background: 'linear-gradient(135deg, #2E0087, #7C3AED, #DB2777)' }}
-    >
-      {/* SVG pointillé en overlay, opacity 3% */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-        }}
-      />
-
-      <div className="relative z-10 mx-auto max-w-[1100px]">
-        <div
-          className="mb-2.5 font-mono-custom text-[11px] uppercase tracking-[0.14em]"
-          style={{ color: 'rgba(255,255,255,0.5)' }}
-        >
-          // ma méthode
+    <section id="process" className="bg-[var(--bg2)] px-5 py-20 md:px-14 md:py-[120px]">
+      <div className="mx-auto max-w-[1100px]">
+        <div className="font-mono-custom text-[11px] uppercase tracking-[0.14em] text-[var(--violet)]">
+          Méthode
         </div>
 
-        <h2 className="font-cabinet text-[30px] font-extrabold leading-tight tracking-[-0.04em] text-white md:text-[40px] lg:text-[52px]">
-          4 étapes, <span className="text-white">0 surprise</span>
+        <h2 className="h-ink mt-2 max-w-[20ch] font-cabinet text-[30px] font-extrabold leading-[1.02] tracking-[-0.04em] md:text-[40px] lg:text-[52px]">
+          Comment se passe un <span className="h-accent">déploiement embarqué</span>
         </h2>
 
-        <p
-          className="mb-12 mt-3 font-bricolage text-[17px]"
-          style={{ color: 'rgba(255,255,255,0.55)' }}
-        >
-          Une méthode éprouvée pour livrer vite et bien.
+        <p className="mt-4 max-w-[560px] font-bricolage text-[17px] text-[var(--muted)]">
+          Quatre étapes, du diagnostic à l&rsquo;autonomie de vos équipes. Chaque étape produit
+          quelque chose d&rsquo;utilisable.
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-4">
-          {steps.map((step, i) => (
+        <div className="mt-10 grid gap-[18px] sm:grid-cols-2 lg:grid-cols-4">
+          {steps.map((step) => (
             <div
               key={step.num}
-              className={[
-                'px-7 py-9',
-                /* Mobile : bordure bas sauf dernier */
-                i < steps.length - 1 ? 'border-b md:border-b-0' : '',
-                /* Desktop : bordure droite sauf dernier */
-                i < steps.length - 1 ? 'md:border-r' : '',
-              ]
-                .filter(Boolean)
-                .join(' ')}
-              style={{ borderColor: 'rgba(255,255,255,0.1)' }}
+              className="rounded-[20px] border border-[var(--border)] bg-[var(--white)] px-6 py-7"
             >
-              <div
-                className="mb-5 font-mono-custom text-[11px] tracking-[0.1em]"
-                style={{ color: 'rgba(255,255,255,0.4)' }}
-              >
+              <div className="font-mono-custom text-[11px] tracking-[0.1em] text-[var(--violet)]">
                 {step.num}
               </div>
 
-              <div className="mb-1.5 font-cabinet text-[20px] font-extrabold tracking-[-0.02em] text-white">
+              <h3 className="mt-7 font-cabinet text-[19px] font-extrabold leading-[1.15] tracking-[-0.02em] text-[var(--ink)]">
                 {step.title}
-              </div>
+              </h3>
 
-              <div
-                className="mb-3.5 font-mono-custom text-[11px]"
-                style={{ color: 'rgba(6,182,212,0.8)' }}
-              >
-                {step.time}
-              </div>
-
-              <p
-                className="font-bricolage text-[13px] leading-relaxed"
-                style={{ color: 'rgba(255,255,255,0.55)' }}
-              >
+              <p className="mt-2.5 font-bricolage text-[14.5px] leading-[1.6] text-[var(--muted)]">
                 {step.desc}
               </p>
+
+              <div className="mt-4 border-t border-[var(--border)] pt-3 font-mono-custom text-[12px] text-[var(--dark-text)]">
+                {step.deliverable}
+              </div>
             </div>
           ))}
         </div>

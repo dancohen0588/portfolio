@@ -31,8 +31,8 @@ export const companies: Company[] = [
     name: 'DCO-IT — Freelance',
     logo: 'dco-it',
     period: '2025 — Auj.',
-    role: 'Expert Vibe Coding & Développement IA',
-    sectorTag: 'IA / Vibe Coding',
+    role: 'Forward Deployed Engineer IA',
+    sectorTag: 'IA embarquée',
     sectors: ['luxe'],
     missions: [
       {
@@ -41,7 +41,7 @@ export const companies: Company[] = [
         date: 'Juin 2026 — Auj.',
         role: 'Product Owner IA & AI Builder',
         description:
-          "Partenariat IA avec la cristallerie Daum (luxe, 1878). Cadrage des cas d'usage avec les équipes métier (direction commerciale, ADV, boutiques) et construction des systèmes en direct — agents IA, RAG, automatisations.",
+          "Partenariat IA avec la cristallerie Daum (luxe, 1878). Cadrage des cas d'usage avec les équipes métier (direction commerciale, ADV, boutiques) et construction des systèmes en direct — agents IA, RAG, automatisations — un jour par semaine sur site.",
         missions: [
           "Veille commerciale automatisée en production — 29 sources, 5 flux + veille sociale sur 14 concurrents, ~70 signaux scorés par semaine en newsletter automatique",
           "Agent IA conversationnel pour les commerciaux — bot Telegram branché sur le PIM (~1 240 produits), filtres multicritères et RAG documentaire",
@@ -54,7 +54,7 @@ export const companies: Company[] = [
       },
     ],
     context:
-      "Missions freelance d'IA opérationnelle embarquée : je cadre les cas d'usage avec le métier et je construis moi-même les workflows, les agents et les prompts — du vibe coding assumé, avec transfert de compétences aux équipes.",
+      "Missions d'IA opérationnelle embarquée : je cadre les cas d'usage avec le métier, je construis moi-même les workflows, les agents et les prompts, et je forme les équipes à les reprendre en main.",
   },
   {
     id: 'monoprix',

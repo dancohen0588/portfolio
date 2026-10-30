@@ -19,14 +19,15 @@ const itemVariants = {
 
 const skillGroups = [
   {
-    label: 'IA & Vibe Coding',
+    label: 'IA & agents',
     skills: [
       { label: 'Cursor', variant: 'violet' },
       { label: 'OpenAI Codex', variant: 'violet' },
       { label: 'Claude', variant: 'violet' },
-      { label: 'Lovable', variant: 'pink' },
-      { label: 'Bolt.new', variant: 'pink' },
-      { label: 'v0.dev', variant: 'pink' },
+      { label: 'Claude Code', variant: 'violet' },
+      { label: 'n8n', variant: 'pink' },
+      { label: 'Mistral', variant: 'pink' },
+      { label: 'RAG · pgvector', variant: 'pink' },
     ],
   },
   {
@@ -40,7 +41,6 @@ const skillGroups = [
       { label: 'Vercel', variant: 'neutral' },
       { label: 'Figma', variant: 'neutral' },
       { label: 'Framer Motion', variant: 'neutral' },
-      { label: 'n8n', variant: 'neutral' },
     ],
   },
 ] as const;
@@ -91,25 +91,15 @@ export function About() {
           className="mb-2 font-mono-custom text-[11px] uppercase tracking-[0.14em] text-[var(--violet)]"
           {...itemProps}
         >
-          // à propos
+          Qui je suis
         </motion.div>
 
         <motion.h2
-          className="font-cabinet text-[30px] font-extrabold leading-tight tracking-[-0.04em] text-[var(--dark-text)] md:text-[40px] lg:text-[52px]"
+          className="h-ink max-w-[24ch] font-cabinet text-[30px] font-extrabold leading-[1.02] tracking-[-0.04em] md:text-[40px] lg:text-[52px]"
           {...itemProps}
         >
-          Ingénieur + PM
-          <br />+{' '}
-          <span
-            style={{
-              background: 'linear-gradient(135deg, #7C3AED, #DB2777)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-            }}
-          >
-            Vibe Coder
-          </span>
+          J&rsquo;ai passé 15 ans à faire livrer des produits.{' '}
+          <span className="h-accent">Maintenant je les livre moi-même.</span>
         </motion.h2>
 
         <div className="mt-12 grid grid-cols-1 gap-10 md:grid-cols-[3fr_2fr] md:items-start md:gap-16">
@@ -120,29 +110,22 @@ export function About() {
           >
             <p className="mb-5">
               <strong className="text-[var(--dark-text)]">
-                Ingénieur de formation (ISEP, spécialisation IA)
-              </strong>
-              , je passe ma carrière à transformer des idées complexes en produits digitaux qui
-              fonctionnent.
-            </p>
-            <p className="mb-5">
-              Après{' '}
-              <strong className="text-[var(--dark-text)]">
-                15 ans à piloter des apps mobiles
+                Ingénieur ISEP (spécialisation IA) et Université de Sherbrooke.
               </strong>{' '}
-              pour Monoprix, TF1 et Bouygues, j&rsquo;ai adopté les meilleurs outils d&rsquo;IA
-              générative pour livrer des solutions sur mesure 5× plus vite — sans sacrifier la
-              qualité.
+              Conseil SI chez Beijaflore et Wavestone, direction de projets digitaux en agence
+              pour TF1, Bouygues Telecom, Sarenza et M&rsquo;Monoprix, puis Product Owner
+              e-commerce et PMO chez Monoprix.
             </p>
             <p className="mb-5">
-              Le vibe coding n&rsquo;est pas un raccourci. C&rsquo;est une méthode. Et ma formation
-              technique garantit que ce qui est livré est solide, sécurisé et maintenable.
+              Depuis 2025, je travaille en freelance sous DCO-IT comme{' '}
+              <strong className="text-[var(--dark-text)]">ingénieur IA embarqué</strong> : je
+              cadre les cas d&rsquo;usage avec le métier et je construis moi-même les workflows,
+              les agents et les prompts, avec transfert de compétences aux équipes.
             </p>
             <p className="mb-5">
-              Parallèlement, je suis CPO et actionnaire chez{' '}
-              <strong className="text-[var(--dark-text)]">Pretx</strong>, une fintech que je
-              co-pilote sur le volet stratégie produit — un rôle purement produit, distinct de mon
-              activité de développement.
+              Je suis aussi CPO et co-fondateur de{' '}
+              <strong className="text-[var(--dark-text)]">Pretx</strong>, un CRM SaaS pour les
+              intermédiaires en crédit, que je pilote sur le volet produit.
             </p>
             <div className="mt-2 flex flex-wrap gap-3">
               <a

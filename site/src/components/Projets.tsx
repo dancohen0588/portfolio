@@ -38,15 +38,15 @@ type Project = {
 
 const projects: Project[] = [
   {
-    num: '01 / luxe · ia',
+    num: '01 / luxe · ia embarquée',
     emoji: '🏺',
     title: 'Daum — Cristallerie d’art',
-    tagline: '→ mission IA en cours',
+    tagline: '→ déploiement embarqué · 1 j/semaine sur site',
     desc: "Manufacture de luxe française (1878), référence mondiale de la pâte de cristal. Product Owner IA embarqué depuis juin 2026 : veille commerciale et veille anti-contrefaçon en production, agent conversationnel branché sur le PIM, et quatre nouveaux chantiers cadrés (devis, patrimoine, production, marketing).",
     stack: 'n8n · Gemini · Mistral · Vertex AI · Supabase · Claude Code',
     result: '✦ 4 systèmes en production · 700+ pièces reconnues par image',
     modal: {
-      badgeType: '01 / Luxe · IA',
+      badgeType: '01 / Luxe · IA embarquée',
       badgeDays: 'Mission en cours — depuis juin 2026',
       heroTitleLine1: "L'IA opérationnelle au service",
       heroTitleLine2: "d'une manufacture de légende.",
@@ -121,7 +121,52 @@ const projects: Project[] = [
     },
   },
   {
-    num: '03 / professionnel libéral',
+    num: '03 / fintech',
+    logoText: 'pretx',
+    title: 'Pretx',
+    tagline: '→ CPO & Associé',
+    desc: "Co-pilotage de la stratégie produit d'une fintech spécialisée dans le regroupement de crédits. Vision produit, roadmap, priorisation et pilotage agile des cycles de développement.",
+    stack: 'Product Strategy · Roadmap · Agile · Figma',
+    result: '✦ CPO · Actionnaire · 2025 — présent',
+    modal: {
+      badgeType: '03 / Fintech',
+      badgeDays: 'CPO & Associé',
+      siteHref: 'https://pretx.fr',
+      heroTitleLine1: 'La fintech qui simplifie',
+      heroTitleLine2: 'le regroupement de crédits.',
+      lead: "Co-pilotage de la stratégie produit de Pretx, une fintech spécialisée dans le regroupement de crédits et l'accompagnement budgétaire des particuliers. Vision produit, roadmap, priorisation et pilotage agile des cycles de développement.",
+      contextTitle: 'Un marché complexe, une vision produit claire',
+      context:
+        "Le regroupement de crédits est un marché historiquement opaque et peu digitalisé. Pretx ambitionne de simplifier et moderniser l'expérience client grâce à une approche produit centrée sur l'accompagnement et la transparence.",
+      video: '/media/pretx/demo.mp4',
+      videoCaption: '↑ Aperçu de la plateforme Pretx',
+      solutionTitle: 'Vision produit & stratégie',
+      solution:
+        "En tant que CPO et actionnaire, je co-pilote la stratégie produit de Pretx : définition de la vision, construction de la roadmap, priorisation des fonctionnalités et pilotage des cycles de développement en méthode agile.\n\nRôle exclusivement produit et stratégique — non impliqué dans le développement technique ou IA.",
+      screenshots: [
+        '/media/pretx/screen-01.png',
+        '/media/pretx/screen-02.png',
+        '/media/pretx/screen-03.png',
+        '/media/pretx/screen-04.png',
+        '/media/pretx/screen-05.png',
+        '/media/pretx/screen-06.png',
+      ],
+      stackFull: ['Product Strategy', 'Roadmap', 'Agile', 'Figma'],
+      tools: ['Figma', 'Notion', 'Linear'],
+      metrics: [
+        { val: 'CPO', label: 'rôle' },
+        { val: '2025', label: 'depuis' },
+        { val: 'Actionnaire', label: 'statut' },
+      ],
+      quote:
+        "« J'ai fait une demande de rachat de crédit à Pretx — vraiment rien à dire. La personne en charge de mon dossier a été très réactive, à l'écoute, de bon conseil et surtout toujours disponible quand j'avais une question. Un grand merci. »",
+      authorName: 'Nicole',
+      authorRole: 'Cliente Pretx · Trustpilot',
+      avatarInitials: 'N',
+    },
+  },
+  {
+    num: '04 / professionnel libéral',
     emoji: '⚖️',
     title: 'Cabinet Nakache',
     tagline: '→ livrée en 3 jours',
@@ -129,7 +174,7 @@ const projects: Project[] = [
     stack: 'Cursor · Astro · Tailwind · Vercel',
     result: '✦ 0€/mois · design sur mesure · SEO optimisé',
     modal: {
-      badgeType: '03 / Professionnel libéral',
+      badgeType: '04 / Professionnel libéral',
       badgeDays: 'Livré en 3 jours',
       siteHref: 'https://www.cabinet-nakache.fr/',
       heroTitleLine1: 'Une présence en ligne crédible',
@@ -166,7 +211,7 @@ const projects: Project[] = [
     },
   },
   {
-    num: '04 / padel',
+    num: '05 / padel',
     emoji: '🎾',
     title: 'Le Tournoi des Frérots',
     tagline: '→ livrée en 5 jours',
@@ -174,7 +219,7 @@ const projects: Project[] = [
     stack: 'VSCode · Claude Code · Next.js · Neon · Vercel',
     result: '✦ 50+ équipes · 0 gestion manuelle',
     modal: {
-      badgeType: '04 / Padel',
+      badgeType: '05 / Padel',
       badgeDays: 'Livré en 5 jours',
       siteHref: 'https://padel-two-theta.vercel.app/',
       heroTitleLine1: 'Une plateforme complète',
@@ -207,51 +252,6 @@ const projects: Project[] = [
       authorName: 'Jeremie Z.',
       authorRole: 'Organisateur · Le Tournoi des Frérots',
       avatarInitials: 'JZ',
-    },
-  },
-  {
-    num: '05 / fintech',
-    logoText: 'pretx',
-    title: 'Pretx',
-    tagline: '→ CPO & Associé',
-    desc: "Co-pilotage de la stratégie produit d'une fintech spécialisée dans le regroupement de crédits. Vision produit, roadmap, priorisation et pilotage agile des cycles de développement.",
-    stack: 'Product Strategy · Roadmap · Agile · Figma',
-    result: '✦ CPO · Actionnaire · 2025 — présent',
-    modal: {
-      badgeType: '05 / Fintech',
-      badgeDays: 'CPO & Associé',
-      siteHref: 'https://pretx.fr',
-      heroTitleLine1: 'La fintech qui simplifie',
-      heroTitleLine2: 'le regroupement de crédits.',
-      lead: "Co-pilotage de la stratégie produit de Pretx, une fintech spécialisée dans le regroupement de crédits et l'accompagnement budgétaire des particuliers. Vision produit, roadmap, priorisation et pilotage agile des cycles de développement.",
-      contextTitle: 'Un marché complexe, une vision produit claire',
-      context:
-        "Le regroupement de crédits est un marché historiquement opaque et peu digitalisé. Pretx ambitionne de simplifier et moderniser l'expérience client grâce à une approche produit centrée sur l'accompagnement et la transparence.",
-      video: '/media/pretx/demo.mp4',
-      videoCaption: '↑ Aperçu de la plateforme Pretx',
-      solutionTitle: 'Vision produit & stratégie',
-      solution:
-        "En tant que CPO et actionnaire, je co-pilote la stratégie produit de Pretx : définition de la vision, construction de la roadmap, priorisation des fonctionnalités et pilotage des cycles de développement en méthode agile.\n\nRôle exclusivement produit et stratégique — non impliqué dans le développement technique ou IA.",
-      screenshots: [
-        '/media/pretx/screen-01.png',
-        '/media/pretx/screen-02.png',
-        '/media/pretx/screen-03.png',
-        '/media/pretx/screen-04.png',
-        '/media/pretx/screen-05.png',
-        '/media/pretx/screen-06.png',
-      ],
-      stackFull: ['Product Strategy', 'Roadmap', 'Agile', 'Figma'],
-      tools: ['Figma', 'Notion', 'Linear'],
-      metrics: [
-        { val: 'CPO', label: 'rôle' },
-        { val: '2025', label: 'depuis' },
-        { val: 'Actionnaire', label: 'statut' },
-      ],
-      quote:
-        "« J'ai fait une demande de rachat de crédit à Pretx — vraiment rien à dire. La personne en charge de mon dossier a été très réactive, à l'écoute, de bon conseil et surtout toujours disponible quand j'avais une question. Un grand merci. »",
-      authorName: 'Nicole',
-      authorRole: 'Cliente Pretx · Trustpilot',
-      avatarInitials: 'N',
     },
   },
   {
@@ -364,25 +364,14 @@ export function Projets() {
             className="font-mono-custom text-[11px] uppercase tracking-[0.14em] text-[var(--violet)]"
             {...itemProps}
           >
-            // projets récents
+            Références
           </motion.div>
 
           <motion.h2
-            className="mt-2 font-cabinet text-[30px] font-extrabold leading-tight tracking-[-0.04em] text-[var(--dark-text)] md:text-[40px] lg:text-[52px]"
+            className="h-ink mt-2 max-w-[20ch] font-cabinet text-[30px] font-extrabold leading-[1.02] tracking-[-0.04em] md:text-[40px] lg:text-[52px]"
             {...itemProps}
           >
-            Des outils,
-            <br />
-            <span
-              style={{
-                background: 'linear-gradient(135deg, #7C3AED, #DB2777)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-              }}
-            >
-              des délais tenus
-            </span>
+            Des systèmes qui <span className="h-accent">tournent</span> chez mes clients
           </motion.h2>
 
           <motion.p
@@ -390,7 +379,7 @@ export function Projets() {
             style={{ marginBottom: 48 }}
             {...itemProps}
           >
-            Des livrables réels, pour de vraies organisations.
+            Daum et Quadro en déploiement embarqué, Pretx en production, et quatre builds express livrés en moins d'une semaine.
           </motion.p>
 
           <motion.div className="grid gap-5 md:grid-cols-2" {...itemProps}>
@@ -440,7 +429,7 @@ export function Projets() {
                   <div className="text-[36px] leading-none">{project.emoji}</div>
                 )}
 
-                <div className="font-cabinet text-[20px] font-extrabold leading-snug tracking-[-0.02em] text-[var(--dark-text)]">
+                <div className="font-cabinet text-[20px] font-extrabold leading-snug tracking-[-0.02em] text-[var(--ink)]">
                   {project.title}
                 </div>
 

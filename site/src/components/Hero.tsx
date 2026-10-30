@@ -1,340 +1,102 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import { useReducedMotion, motion, easeInOut, easeOut } from 'motion/react';
-import { DottedSurface } from './DottedSurface';
+import { PrismBackground } from './PrismBackground';
 
-const fadeContainer = {
-  hidden: { opacity: 0, y: 24 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.5,
-      ease: easeOut,
-      staggerChildren: 0.1,
-    },
-  },
-};
-
-const fadeItem = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0 },
-};
+const stats = [
+  { value: '15 ans', label: 'de Product grands comptes' },
+  { value: '~70', label: 'signaux IA scorés par semaine chez Daum' },
+  { value: '4', label: 'systèmes IA en production chez Daum' },
+];
 
 export function Hero() {
-  const shouldReduceMotion = useReducedMotion();
-
-  const ghostRRef = useRef<HTMLSpanElement>(null);
-  const ghostBRef = useRef<HTMLSpanElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const [revealedState, setRevealedState] = useState(false);
-  const [underlineDrawnState, setUnderlineDrawnState] = useState(false);
-
-  const revealed = shouldReduceMotion || revealedState;
-  const underlineDrawn = shouldReduceMotion || underlineDrawnState;
-
-  useEffect(() => {
-    if (shouldReduceMotion) return;
-
-    const timers = new Set<ReturnType<typeof setTimeout>>();
-    let cancelled = false;
-
-    const track = (t: ReturnType<typeof setTimeout>) => {
-      timers.add(t);
-      return t;
-    };
-
-    const triggerGlitch = () => {
-      const r = ghostRRef.current;
-      const b = ghostBRef.current;
-      const h = titleRef.current;
-      if (!r || !b) return;
-      r.classList.remove('active');
-      b.classList.remove('active');
-      if (h) h.classList.remove('shaking');
-      // Force reflow so the re-added class restarts the animation
-      void r.offsetWidth;
-      r.classList.add('active');
-      b.classList.add('active');
-      if (h) h.classList.add('shaking');
-    };
-
-    const scheduleNextGlitch = () => {
-      if (cancelled) return;
-      // Random interval between 1s and 3s — frequent, organic tremor
-      const delay = 1000 + Math.random() * 2000;
-      track(
-        setTimeout(() => {
-          if (cancelled) return;
-          triggerGlitch();
-          // ~20% chance of a quick aftershock 150–280ms later
-          if (Math.random() < 0.2) {
-            track(
-              setTimeout(() => {
-                if (cancelled) return;
-                triggerGlitch();
-                scheduleNextGlitch();
-              }, 150 + Math.random() * 130)
-            );
-          } else {
-            scheduleNextGlitch();
-          }
-        }, delay)
-      );
-    };
-
-    track(
-      setTimeout(() => {
-        triggerGlitch();
-        track(
-          setTimeout(() => {
-            setRevealedState(true);
-            track(setTimeout(() => setUnderlineDrawnState(true), 600));
-            scheduleNextGlitch();
-          }, 200)
-        );
-      }, 300)
-    );
-
-    return () => {
-      cancelled = true;
-      timers.forEach(clearTimeout);
-    };
-  }, [shouldReduceMotion]);
-
-  const containerProps = shouldReduceMotion
-    ? {}
-    : { initial: 'hidden' as const, whileInView: 'visible' as const, viewport: { once: true } };
-
-  const itemAnimationProps = shouldReduceMotion ? {} : { variants: fadeItem };
-
-  const blobAnimationProps = shouldReduceMotion
-    ? {}
-    : {
-        animate: { y: [0, -20, 0], scale: [1, 1.05, 1] },
-        transition: { duration: 8, repeat: Infinity, ease: easeInOut },
-      };
-
-  const dotAnimationProps = shouldReduceMotion
-    ? {}
-    : {
-        animate: { opacity: [1, 0.3, 1] },
-        transition: { duration: 2, repeat: Infinity },
-      };
-
   return (
     <section
       id="hero"
-      className="relative flex min-h-screen flex-col justify-center overflow-hidden bg-[var(--bg)] px-5 pt-[140px] pb-20 md:px-14"
+      className="relative overflow-hidden px-5 pb-16 pt-[140px] md:px-14 md:pb-24 md:pt-[180px]"
+      style={{ background: '#18181B', color: '#ffffff' }}
     >
-      {/* Dotted surface 3D background */}
-      <DottedSurface />
+      <PrismBackground />
 
-      {/* Blobs de fond */}
-      <motion.div
-        className="pointer-events-none absolute -top-[200px] -right-[100px] h-[700px] w-[700px] rounded-full"
+      {/* Veil: keeps the text column legible, lets the spectrum breathe on the right */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0"
         style={{
           background:
-            'radial-gradient(ellipse at center, rgba(124,58,237,0.08) 0%, transparent 70%)',
+            'linear-gradient(90deg, rgba(24,24,27,0.94) 0%, rgba(24,24,27,0.78) 45%, rgba(24,24,27,0.12) 100%)',
         }}
-        {...blobAnimationProps}
       />
 
-      <motion.div
-        className="pointer-events-none absolute -bottom-[100px] -left-[150px] h-[500px] w-[500px] rounded-full"
-        style={{
-          background:
-            'radial-gradient(ellipse at center, rgba(219,39,119,0.06) 0%, transparent 70%)',
-        }}
-        {...blobAnimationProps}
-      />
-
-      <motion.div
-        className="relative mx-auto max-w-[1100px] text-left"
-        variants={fadeContainer}
-        {...containerProps}
-      >
-        {/* Badge */}
-        <motion.div
-          className="inline-flex w-fit items-center gap-2 px-4 py-1.5 text-[12px] font-mono-custom uppercase tracking-[0.06em]"
-          style={{
-            background: '#F5F3FF',
-            border: '1px solid rgba(124,58,237,0.2)',
-            borderRadius: 100,
-            color: '#7C3AED',
-            fontWeight: 700,
-          }}
-          {...itemAnimationProps}
+      <div className="relative mx-auto max-w-[1100px]">
+        <div
+          className="hero-fade font-mono-custom text-[12px] tracking-[0.02em]"
+          style={{ color: '#C4B5FD' }}
         >
-          <motion.span
-            className="h-1.5 w-1.5 rounded-full"
-            style={{ background: '#7C3AED' }}
-            {...dotAnimationProps}
-          />
-          Expert Vibe Coding &amp; Développement IA
-        </motion.div>
-
-        {/* H1 — Glitch Chromatic animation */}
-        <div className="hero-title-wrap mt-8 max-w-[800px] font-cabinet text-[44px] font-extrabold leading-[0.95] tracking-[-0.04em] text-[var(--dark-text)] md:text-[64px] lg:text-[80px]">
-          <span
-            ref={ghostRRef}
-            aria-hidden="true"
-            className="hero-glitch-ghost hero-glitch-r"
-          >
-            Je <span className="hero-vibe-code">vibe code</span>
-            <br />
-            votre prochain
-            <br />
-            outil. <span className="hero-en-jours">En jours.</span>
-          </span>
-          <span
-            ref={ghostBRef}
-            aria-hidden="true"
-            className="hero-glitch-ghost hero-glitch-b"
-          >
-            Je <span className="hero-vibe-code">vibe code</span>
-            <br />
-            votre prochain
-            <br />
-            outil. <span className="hero-en-jours">En jours.</span>
-          </span>
-
-          <h1 ref={titleRef} className={`hero-title ${revealed ? 'revealed' : ''}`}>
-            <span className="hero-line">
-              <span className="hero-line-inner">
-                Je{' '}
-                <span className="hero-vibe-code-wrap">
-                  <span className="hero-vibe-code">vibe code</span>
-                  <span
-                    className={`hero-underline ${underlineDrawn ? 'drawn' : ''}`}
-                    aria-hidden="true"
-                  />
-                </span>
-              </span>
-            </span>
-            <span className="hero-line">
-              <span className="hero-line-inner">votre prochain</span>
-            </span>
-            <span className="hero-line">
-              <span className="hero-line-inner">
-                outil. <span className="hero-en-jours">En jours.</span>
-              </span>
-            </span>
-          </h1>
+          Forward Deployed Engineer IA · DCO-IT
         </div>
 
-        {/* Sous-titre */}
-        <motion.p
-          className="mt-8 max-w-[520px] text-[15px] font-bricolage text-[var(--muted)] md:text-[18px]"
-          {...itemAnimationProps}
-        >
-          Sites web, dashboards, apps mobiles sur mesure. Ingénieur + 15 ans Product chez
-          Monoprix, TF1, Bouygues — livré 5× plus vite avec les meilleurs outils IA.
-        </motion.p>
+        <h1 className="mt-5 max-w-[13ch] font-cabinet text-[40px] font-extrabold leading-[0.95] tracking-[-0.04em] text-white md:text-[64px] lg:text-[80px]">
+          <span className="hero-line">
+            <span className="hero-line-inner">Vos ambitions IA,</span>
+          </span>
+          <span className="hero-line">
+            <span className="hero-line-inner">transformées en résultats.</span>
+          </span>
+        </h1>
 
-        {/* CTAs */}
-        <motion.div
-          className="mt-10 flex flex-wrap items-center justify-start gap-4"
-          {...itemAnimationProps}
+        <div
+          aria-hidden="true"
+          className="hero-fade hero-fade-2 mt-8 h-[3px] w-[72px] rounded-[2px]"
+          style={{ background: 'linear-gradient(135deg, #7C3AED, #DB2777)' }}
+        />
+
+        <p
+          className="hero-fade hero-fade-2 mt-7 max-w-[52ch] font-bricolage text-[15px] leading-[1.55] md:text-[18px]"
+          style={{ color: '#D4D4D8' }}
         >
+          Déploiement IA dans vos outils et formation de vos équipes, par un Ingénieur IA
+          embarqué chez vous pour vos cas d&rsquo;usage en production.{' '}
+          <strong className="font-semibold text-white">
+            15 ans de Product chez Monoprix, TF1, Bouygues.
+          </strong>
+        </p>
+
+        <div className="hero-fade hero-fade-3 mt-9 flex flex-wrap items-center gap-4">
           <button
             type="button"
             onClick={() =>
               document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })
             }
-            className="inline-flex items-center gap-2 text-[15px] font-bricolage font-bold text-white shadow-[0_12px_36px_rgba(124,58,237,0.30)] transition-transform hover:-translate-y-0.5"
-            style={{
-              background: 'linear-gradient(135deg, #7C3AED, #DB2777)',
-              borderRadius: 100,
-              padding: '15px 36px',
-            }}
+            className="inline-flex items-center gap-2 rounded-[100px] px-9 py-[15px] font-bricolage text-[15px] font-bold text-white transition-transform hover:-translate-y-0.5"
+            style={{ background: 'linear-gradient(135deg, #7C3AED, #DB2777)' }}
           >
             Discutons de votre projet ✦
           </button>
-
           <button
             type="button"
             onClick={() =>
               document.getElementById('projets')?.scrollIntoView({ behavior: 'smooth' })
             }
-            className="inline-flex items-center rounded-full border-2 border-[var(--border)] bg-[var(--white)] px-7 py-3 text-[15px] font-bricolage font-semibold text-[var(--mid)] transition-colors hover:border-[var(--violet)] hover:text-[var(--violet)]"
+            className="inline-flex items-center rounded-[100px] border-2 px-7 py-3 font-bricolage text-[15px] font-semibold transition-colors hover:border-[var(--violet)] hover:text-white"
+            style={{ borderColor: '#52525B', color: '#E4E4E7' }}
           >
-            Voir mes projets ↓
+            Voir les références
           </button>
-        </motion.div>
+        </div>
 
-        {/* Métriques */}
-        <motion.div
-          className="mt-16 grid grid-cols-2 gap-6 sm:flex sm:flex-wrap sm:gap-10"
-          {...itemAnimationProps}
-        >
-          <div className="flex flex-col">
-            <div
-              className="font-cabinet text-4xl font-extrabold leading-none tracking-[-0.04em]"
-              style={{
-                background: 'linear-gradient(135deg, #7C3AED, #DB2777)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-              }}
-            >
-              5×
+        <div className="hero-fade hero-fade-3 mt-14 flex flex-wrap gap-x-11 gap-y-5">
+          {stats.map((s) => (
+            <div key={s.value}>
+              <div className="font-cabinet text-[34px] font-extrabold leading-none tracking-[-0.04em] text-white">
+                {s.value}
+              </div>
+              <div className="mt-1.5 max-w-[18ch] text-[12.5px]" style={{ color: '#A1A1AA' }}>
+                {s.label}
+              </div>
             </div>
-            <div className="mt-1 text-xs text-[var(--muted)]">
-              plus rapide qu&apos;un dev classique
-            </div>
-          </div>
-
-          <div className="flex flex-col">
-            <div
-              className="font-cabinet text-4xl font-extrabold leading-none tracking-[-0.04em]"
-              style={{
-                background: 'linear-gradient(135deg, #7C3AED, #DB2777)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-              }}
-            >
-              15
-            </div>
-            <div className="mt-1 text-xs text-[var(--muted)]">ans en Product Management</div>
-          </div>
-
-          <div className="flex flex-col">
-            <div
-              className="font-cabinet text-4xl font-extrabold leading-none tracking-[-0.04em]"
-              style={{
-                background: 'linear-gradient(135deg, #7C3AED, #DB2777)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-              }}
-            >
-              3j
-            </div>
-            <div className="mt-1 text-xs text-[var(--muted)]">délai moyen de livraison</div>
-          </div>
-        </motion.div>
-
-        {/* Logos clients */}
-        <motion.div
-          className="mt-14 flex flex-wrap items-center gap-3"
-          {...itemAnimationProps}
-        >
-          <span className="text-[12px] font-medium text-[var(--muted)]">
-            Clients &amp; missions :
-          </span>
-          {['Daum', 'Monoprix', 'Bouygues Telecom', 'TF1', 'Sarenza'].map((name) => (
-            <span
-              key={name}
-              className="font-mono-custom text-[11px] text-[var(--muted)] rounded-full border border-[var(--border)] bg-[var(--white)] px-3 py-1"
-            >
-              {name}
-            </span>
           ))}
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
     </section>
   );
 }

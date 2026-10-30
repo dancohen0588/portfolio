@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { companies, stats, filters, SectorKey, Mission } from '@/data/experiences';
+import { PrismBackground } from './PrismBackground';
 
 function MissionCard({ mission }: { mission: Mission }) {
   return (
@@ -131,57 +132,47 @@ export function ExperiencesPage() {
   const [activeFilter, setActiveFilter] = useState<SectorKey>('all');
 
   return (
-    <main
-      style={{
-        maxWidth: 1200,
-        margin: '0 auto',
-        padding: '100px 40px 80px',
-      }}
-      className="px-5 md:px-10"
-    >
-      {/* Back link */}
-      <Link
-        href="/"
-        className="font-mono-custom mb-10 inline-flex items-center gap-2 text-[13px] tracking-[0.05em] transition-colors duration-200"
-        style={{ color: '#A1A1AA', textDecoration: 'none' }}
-        onMouseEnter={(e) => (e.currentTarget.style.color = '#7C3AED')}
-        onMouseLeave={(e) => (e.currentTarget.style.color = '#A1A1AA')}
+    <>
+      {/* Dark header band, same prism as the home hero */}
+      <section
+        id="hero"
+        className="relative overflow-hidden px-5 pb-14 pt-[130px] md:px-14 md:pb-20 md:pt-[160px]"
+        style={{ background: '#18181B', color: '#ffffff' }}
       >
-        ← Retour à l&apos;accueil
-      </Link>
-
-      {/* Page title */}
-      <div className="mb-10">
+        <PrismBackground />
         <div
-          className="font-mono-custom mb-2 text-[11px] uppercase tracking-[0.14em]"
-          style={{ color: '#7C3AED' }}
-        >
-          // expériences
-        </div>
-        <h1
-          className="font-cabinet text-[32px] font-extrabold leading-tight tracking-[-0.04em] md:text-[48px]"
-          style={{ color: '#18181B' }}
-        >
-          Missions &{' '}
-          <span
-            style={{
-              background: 'linear-gradient(135deg, #2E0087, #7C3AED, #DB2777)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-            }}
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              'linear-gradient(90deg, rgba(24,24,27,0.95) 0%, rgba(24,24,27,0.8) 50%, rgba(24,24,27,0.3) 100%)',
+          }}
+        />
+        <div className="relative mx-auto max-w-[1100px]">
+          <Link
+            href="/"
+            className="font-mono-custom inline-flex items-center gap-2 text-[13px] tracking-[0.05em] transition-colors duration-200 hover:text-white"
+            style={{ color: '#A1A1AA', textDecoration: 'none' }}
           >
+            ← Retour à l&apos;accueil
+          </Link>
+          <div className="font-mono-custom mt-8 text-[12px]" style={{ color: '#C4B5FD' }}>
             Parcours
-          </span>
-        </h1>
-        <p
-          className="mt-3 max-w-[520px] text-[16px] leading-relaxed"
-          style={{ color: '#71717A' }}
-        >
-          15 ans de missions grands comptes — des télécoms à l&apos;e-commerce, de l&apos;industrie aux médias, jusqu&apos;à l&apos;IA opérationnelle dans le luxe.
-        </p>
-      </div>
+          </div>
+          <h1 className="mt-3 max-w-[16ch] font-cabinet text-[34px] font-extrabold leading-[0.98] tracking-[-0.04em] text-white md:text-[56px] lg:text-[64px]">
+            15 ans entre le métier et la technique
+          </h1>
+          <p className="mt-4 max-w-[520px] text-[16px] leading-relaxed" style={{ color: '#A1A1AA' }}>
+            Des télécoms à l&apos;e-commerce, de l&apos;industrie aux médias, jusqu&apos;à
+            l&apos;IA opérationnelle embarquée dans le luxe.
+          </p>
+        </div>
+      </section>
 
+      <main
+        style={{ maxWidth: 1200, margin: '0 auto', padding: '56px 40px 80px' }}
+        className="px-5 md:px-10"
+      >
       {/* KPIs bar */}
       <div
         className="mb-12 grid grid-cols-2 overflow-hidden rounded-2xl border md:grid-cols-4"
@@ -294,7 +285,7 @@ export function ExperiencesPage() {
                 </span>
                 <span
                   className="font-cabinet text-[26px] font-extrabold tracking-[-0.04em]"
-                  style={{ color: '#18181B' }}
+                  style={{ color: '#2E1065' }}
                 >
                   {company.name}
                 </span>
@@ -351,6 +342,7 @@ export function ExperiencesPage() {
           );
         })}
       </div>
-    </main>
+      </main>
+    </>
   );
 }

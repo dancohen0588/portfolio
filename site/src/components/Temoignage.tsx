@@ -43,45 +43,44 @@ export function Temoignage() {
   const itemProps = shouldReduceMotion ? {} : { variants: itemVariants };
 
   return (
-    <section
-      id="testimonial"
-      className="px-5 py-[100px] md:px-14"
-      style={{ background: '#18181B' }}
-    >
-      <motion.div
-        className="mx-auto max-w-[1100px]"
-        variants={containerVariants}
-        {...sectionProps}
-      >
-        <motion.div className="mb-10 text-center" {...itemProps}>
-          <div
-            className="inline-block rounded-[100px] px-4 py-1.5 font-mono-custom text-[11px] tracking-[0.1em]"
-            style={{
-              background: 'rgba(6,182,212,0.15)',
-              color: 'var(--cyan)',
-              border: '1px solid rgba(6,182,212,0.2)',
-            }}
-          >
-            // testimonial
-          </div>
+    <section id="testimonial" className="bg-[var(--bg)] px-5 py-20 md:px-14 md:py-[120px]">
+      <motion.div className="mx-auto max-w-[1100px]" variants={containerVariants} {...sectionProps}>
+        <motion.div
+          className="font-mono-custom text-[11px] uppercase tracking-[0.14em] text-[var(--violet)]"
+          {...itemProps}
+        >
+          Ils en parlent
         </motion.div>
 
-        <div className="grid gap-6 md:grid-cols-2">
+        <motion.h2
+          className="h-ink mt-2 font-cabinet text-[30px] font-extrabold leading-[1.02] tracking-[-0.04em] md:text-[40px] lg:text-[52px]"
+          {...itemProps}
+        >
+          Ce que disent <span className="h-accent">les clients</span>
+        </motion.h2>
+
+        <div className="mt-10 grid gap-[18px] md:grid-cols-2">
           {testimonials.map((t) => (
             <motion.div
               key={t.name}
-              className="flex flex-col gap-6 rounded-[20px] p-8"
-              style={{
-                background: 'rgba(255,255,255,0.04)',
-                border: '1px solid rgba(255,255,255,0.08)',
-              }}
+              className="flex flex-col gap-5 rounded-[20px] border border-[var(--border)] bg-[var(--white)] p-7"
               {...itemProps}
             >
-              <blockquote
-                className="flex-1 font-cabinet font-bold leading-snug tracking-[-0.02em] text-white"
-                style={{ fontSize: 'clamp(17px, 2vw, 22px)' }}
+              <div
+                className="w-fit font-cabinet text-[40px] leading-[0.6]"
+                style={{
+                  background: 'linear-gradient(135deg, #7C3AED, #DB2777)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                }}
+                aria-hidden="true"
               >
-                &ldquo;{t.quote}&rdquo;
+                &ldquo;
+              </div>
+
+              <blockquote className="flex-1 font-bricolage text-[16px] leading-[1.6] text-[var(--mid)]">
+                {t.quote}
               </blockquote>
 
               <div className="flex items-center gap-3.5">
@@ -92,10 +91,8 @@ export function Temoignage() {
                   {t.initial}
                 </div>
                 <div className="text-left">
-                  <div className="text-[14px] font-bold text-white">{t.name}</div>
-                  <div className="text-[13px]" style={{ color: 'rgba(255,255,255,0.4)' }}>
-                    {t.role}
-                  </div>
+                  <div className="text-[14px] font-bold text-[var(--ink)]">{t.name}</div>
+                  <div className="text-[13px] text-[var(--muted)]">{t.role}</div>
                 </div>
               </div>
             </motion.div>

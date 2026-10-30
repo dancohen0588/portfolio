@@ -17,14 +17,22 @@ const firaCode = Fira_Code({
 });
 
 export const metadata: Metadata = {
-  title: "Dan Cohen — Expert Vibe Coding & Développement IA",
+  title: "Dan Cohen — Forward Deployed Engineer IA · Déploiement & formation IA en entreprise",
   description:
-    "Je vibe code votre prochain outil digital en quelques jours. Sites web, dashboards, apps mobiles sur mesure. Ingénieur ISEP + 15 ans Product chez Monoprix, TF1, Bouygues.",
-  keywords: ["vibe coding", "développement IA", "freelance", "Next.js", "Cursor", "MALT"],
+    "Ingénieur IA embarqué chez vous : je mets vos cas d'usage IA en production dans vos outils et je forme vos équipes. Ingénieur ISEP, 15 ans de Product chez Monoprix, TF1, Bouygues.",
+  keywords: [
+    "forward deployed engineer",
+    "déploiement IA entreprise",
+    "formation IA équipes",
+    "développement IA",
+    "agents IA",
+    "n8n",
+    "freelance IA",
+  ],
   openGraph: {
-    title: "Dan Cohen — Expert Vibe Coding",
-    description: "Je vibe code votre prochain outil. En jours.",
-    url: "https://dancohen.dev",
+    title: "Dan Cohen — Forward Deployed Engineer IA",
+    description: "Vos ambitions IA, transformées en résultats.",
+    url: "https://dancohen.fr",
     locale: "fr_FR",
     type: "website",
   },

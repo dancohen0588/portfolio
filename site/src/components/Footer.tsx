@@ -1,24 +1,25 @@
+import Link from 'next/link';
+
 export function Footer() {
   return (
-    <footer
-      className="px-14 py-8 text-center font-bricolage text-[13px]"
-      style={{ background: '#18181B', color: 'rgba(255,255,255,0.35)' }}
-    >
-      <strong style={{ color: 'rgba(255,255,255,0.65)' }}>Dan Cohen</strong>
-      {' · '}
-      <span
-        style={{
-          background: 'linear-gradient(135deg, #7C3AED, #DB2777)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          backgroundClip: 'text',
-          fontWeight: 700,
-        }}
-      >
-        Expert Vibe Coding
-      </span>
-      {' · '}
-      Suresnes, France
+    <footer className="border-t border-[var(--border)] bg-[var(--bg2)] px-5 py-8 font-bricolage text-[13px] text-[var(--muted)] md:px-14">
+      <div className="mx-auto flex max-w-[1100px] flex-wrap items-center justify-between gap-x-8 gap-y-3">
+        <span>
+          <strong className="font-semibold text-[var(--ink)]">Dan Cohen</strong> · DCO-IT ·
+          Forward Deployed Engineer IA · Suresnes, France
+        </span>
+        <span className="flex gap-5">
+          <Link href="/" className="transition-colors hover:text-[var(--violet)]">
+            Accueil
+          </Link>
+          <Link href="/experiences" className="transition-colors hover:text-[var(--violet)]">
+            Parcours
+          </Link>
+          <Link href="/#contact" className="transition-colors hover:text-[var(--violet)]">
+            Contact
+          </Link>
+        </span>
+      </div>
     </footer>
   );
 }

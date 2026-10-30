@@ -20,6 +20,24 @@ const itemVariants = {
   visible: { opacity: 1, y: 0 },
 };
 
+const cards = [
+  {
+    mark: '{ }',
+    title: 'Je code dans vos systèmes',
+    body: 'Agents, RAG sur vos données, workflows n8n, intégrations API et ERP. Pas un POC sur un laptop : un système branché sur votre PIM, votre CRM, vos mails.',
+  },
+  {
+    mark: '>_',
+    title: 'Je forme vos équipes sur leurs vrais cas',
+    body: "Ateliers par métier, charte d'usage, prompts et agents prêts à l'emploi. Vos équipes reprennent la main sur ce que j'ai construit.",
+  },
+  {
+    mark: '15',
+    title: 'Je parle métier',
+    body: '15 ans de Product Owner et de direction de projets chez Monoprix, TF1, Bouygues Telecom. Je cadre avec la direction commerciale, pas avec un data lab.',
+  },
+];
+
 export function Valeur() {
   const shouldReduceMotion = useReducedMotion();
 
@@ -30,72 +48,34 @@ export function Valeur() {
   const itemProps = shouldReduceMotion ? {} : { variants: itemVariants };
 
   return (
-    <section
-      id="valeur"
-      className="bg-[var(--white)] px-5 py-20 md:px-14 md:py-[120px]"
-    >
-      <motion.div
-        className="mx-auto max-w-[1100px]"
-        variants={containerVariants}
-        {...sectionProps}
-      >
+    <section id="valeur" className="bg-[var(--white)] px-5 py-20 md:px-14 md:py-[120px]">
+      <motion.div className="mx-auto max-w-[1100px]" variants={containerVariants} {...sectionProps}>
         <motion.div
           className="font-mono-custom text-[11px] uppercase tracking-[0.14em] text-[var(--violet)]"
           {...itemProps}
         >
-          // pourquoi moi
+          Le problème
         </motion.div>
 
         <motion.h2
-          className="mt-2 font-cabinet text-[30px] font-extrabold leading-tight tracking-[-0.04em] text-[var(--dark-text)] md:text-[40px] lg:text-[52px]"
+          className="h-ink mt-2 max-w-[20ch] font-cabinet text-[30px] font-extrabold leading-[1.02] tracking-[-0.04em] md:text-[40px] lg:text-[52px]"
           {...itemProps}
         >
-          Un dev IA,
-          <br />
-          pas juste{' '}
-          <span
-            style={{
-              background: 'linear-gradient(135deg, #7C3AED, #DB2777)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-            }}
-          >
-            un dev
-          </span>
+          Pourquoi vos projets IA n&rsquo;arrivent pas{' '}
+          <span className="h-accent">en production</span>
         </motion.h2>
 
         <motion.p
-          className="mt-4 max-w-[480px] font-bricolage text-[17px] text-[var(--muted)]"
+          className="mt-4 max-w-[560px] font-bricolage text-[17px] text-[var(--muted)]"
           {...itemProps}
         >
-          Trois avantages concrets qui font la différence pour vos projets.
+          77 % des ETI françaises utilisent l&rsquo;IA générative, 17 % en tirent un gain de temps
+          (Bpifrance, 2026). Entre les deux, il manque quelqu&rsquo;un qui code, déploie et forme,
+          dans vos outils et avec vos équipes.
         </motion.p>
 
-        <motion.div
-          className="mt-10 grid gap-5 md:grid-cols-3"
-          {...itemProps}
-        >
-          {[
-            {
-              icon: '⚡',
-              title: 'Livraison express',
-              metric: '→ 5× plus rapide',
-              body: "J'utilise les meilleurs outils IA du marché — Cursor, Codex, Claude — pour coder en jours ce qu'un dev classique prend des semaines à livrer.",
-            },
-            {
-              icon: '🎯',
-              title: 'Compréhension métier',
-              metric: '→ 15 ans Product',
-              body: 'PM chez Monoprix, TF1, Bouygues — je transforme des besoins complexes en produits qui marchent, sans réunion inutile ni spécifications interminables.',
-            },
-            {
-              icon: '🔒',
-              title: 'Rigueur ingénieur',
-              metric: '→ ISEP · IA Sherbrooke',
-              body: 'Formation ingénieur + spécialisation IA : chaque ligne est validée pour la sécurité, la performance et la maintenabilité à long terme.',
-            },
-          ].map((card) => (
+        <motion.div className="mt-10 grid gap-5 md:grid-cols-3" {...itemProps}>
+          {cards.map((card) => (
             <motion.div
               key={card.title}
               className="rounded-[20px] border border-[var(--border)] bg-[var(--bg)] p-7"
@@ -111,22 +91,13 @@ export function Valeur() {
               }
               {...itemProps}
             >
-              <div className="mb-5 flex h-[52px] w-[52px] items-center justify-center rounded-[14px]"
-                style={{
-                  background:
-                    'linear-gradient(135deg, #F5F3FF, rgba(219,39,119,0.06))',
-                }}
-              >
-                <span className="text-[24px]">{card.icon}</span>
+              <div className="mb-5 flex h-[48px] w-[48px] items-center justify-center rounded-[14px] bg-[var(--violet-l)] font-mono-custom text-[13px] text-[var(--violet)]">
+                {card.mark}
               </div>
 
-              <h3 className="font-cabinet text-[19px] font-extrabold tracking-[-0.02em] text-[var(--dark-text)]">
+              <h3 className="font-cabinet text-[19px] font-extrabold leading-[1.15] tracking-[-0.02em] text-[var(--ink)]">
                 {card.title}
               </h3>
-
-              <div className="mt-1 font-mono-custom text-[11px] text-[var(--violet)]">
-                {card.metric}
-              </div>
 
               <p className="mt-3 font-bricolage text-[14px] leading-relaxed text-[var(--muted)]">
                 {card.body}
